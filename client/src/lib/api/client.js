@@ -26,5 +26,13 @@ if (import.meta.env.PROD && !import.meta.env.VITE_API_URL) {
 export const api = axios.create({
   baseURL,
   headers: { "Content-Type": "application/json" },
-  timeout: 15000,
+  // TEMPORARY: bumped from 15s to 60s to diagnose a production timeout.
+  // Render's free tier spins the backend down after inactivity — the first
+  // request after a cold spell can take 30-50s just to boot the dyno
+  // before Express even starts handling requests, which a 15s client
+  // timeout can't survive. Once cold starts are confirmed as the cause
+  // (see server-side timing logs) and/or a keep-alive ping is set up on
+  // Render, this should come back down — 60s is a diagnostic safety net,
+  // not a permanent UX target.
+  timeout: 60000,
 });

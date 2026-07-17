@@ -29,6 +29,14 @@ function getTransporter() {
     port: Number(SMTP_PORT),
     secure: String(process.env.SMTP_SECURE).trim().toLowerCase() === "true",
     auth: { user: SMTP_USER, pass: SMTP_PASS },
+    // Explicit timeouts so a bad SMTP host/port/firewall can never hang the
+    // request indefinitely — nodemailer's defaults exist but aren't tight
+    // enough for an API request a visitor is sitting in front of. Each
+    // stage gets its own cap; total worst case is bounded well under the
+    // client's request timeout.
+    connectionTimeout: 10000, // time to establish the TCP connection
+    greetingTimeout: 10000, // time to receive the SMTP greeting after connecting
+    socketTimeout: 15000, // time allowed for the socket to be idle mid-transaction
   });
 
   return transporter;

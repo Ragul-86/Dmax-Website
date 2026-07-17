@@ -16,7 +16,15 @@ export async function connectDB() {
   mongoose.set("strictQuery", true);
 
   try {
-    await mongoose.connect(uri);
+    await mongoose.connect(uri, {
+      // Bound how long a query can wait for a usable connection (e.g. right
+      // after a Render cold start, or if Atlas is briefly unreachable)
+      // instead of the driver's default of buffering it indefinitely —
+      // this is what keeps a Mongo hiccup from silently stalling the
+      // contact-form request past the client's timeout.
+      serverSelectionTimeoutMS: 10000,
+      socketTimeoutMS: 20000,
+    });
     console.log("[db] MongoDB connected");
   } catch (err) {
     console.error("[db] MongoDB connection failed:", err.message);
