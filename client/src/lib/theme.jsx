@@ -6,13 +6,16 @@ const STORAGE_KEY = "dmax-theme";
 export function ThemeProvider({ children }) {
   const [theme, setThemeState] = useState("light");
 
-  // Initial read (client-only)
+  // Initial read (client-only). Default theme is Light Mode: a returning
+  // visitor's saved choice (localStorage) is always respected, but a
+  // first-time visitor now always lands on light, regardless of their
+  // OS/browser dark-mode preference — previously this fell back to
+  // `prefers-color-scheme`, so anyone with system dark mode on saw the
+  // dark theme by default.
   useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
-      const initial = stored || (prefersDark ? "dark" : "light");
-      setThemeState(initial);
+      setThemeState(stored || "light");
     } catch {
       /* noop */
     }

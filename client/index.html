@@ -17,12 +17,14 @@
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary" />
     <script>
-      // Inline theme-init script — applies saved/system theme before paint to avoid flash.
+      // Inline theme-init script — applies saved theme before paint to avoid
+      // flash. Default is Light Mode: a saved choice is always respected,
+      // but with no saved choice this no longer falls back to the OS/browser
+      // prefers-color-scheme — every first-time visitor now starts light.
       (function () {
         try {
           var s = localStorage.getItem("dmax-theme");
-          var m = window.matchMedia("(prefers-color-scheme: dark)").matches;
-          var t = s || (m ? "dark" : "light");
+          var t = s || "light";
           if (t === "dark") {
             document.documentElement.classList.add("dark");
           }
