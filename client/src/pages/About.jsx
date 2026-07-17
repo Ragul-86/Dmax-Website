@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Navbar } from "@/components/dmax/Navbar";
 import { Process } from "@/components/dmax/Process";
-import { Portfolio } from "@/components/dmax/Portfolio";
 import { TrustedBrands } from "@/components/dmax/TrustedBrands";
 import { HomeFinalCTA } from "@/components/dmax/HomeFinalCTA";
 import { Footer } from "@/components/dmax/Footer";
@@ -228,7 +227,6 @@ export default function About() {
           <ProofCarousel />
         </Reveal>
       </section>
-      <Portfolio />
 
       {/* 7. Who We Work With */}
       <TrustedBrands

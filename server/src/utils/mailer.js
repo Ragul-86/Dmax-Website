@@ -11,7 +11,15 @@ let transporter = null;
 function getTransporter() {
   if (transporter) return transporter;
 
-  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
+  // .trim() guards against a trailing newline/space sneaking in when SMTP
+  // credentials are pasted into a dashboard env var field (Render, Vercel,
+  // etc.) — a blank-looking but whitespace-only value would otherwise pass
+  // the falsy check below and then fail auth in a confusing way.
+  const SMTP_HOST = process.env.SMTP_HOST?.trim();
+  const SMTP_PORT = process.env.SMTP_PORT?.trim();
+  const SMTP_USER = process.env.SMTP_USER?.trim();
+  const SMTP_PASS = process.env.SMTP_PASS?.trim();
+
   if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS) {
     return null;
   }
@@ -19,7 +27,7 @@ function getTransporter() {
   transporter = nodemailer.createTransport({
     host: SMTP_HOST,
     port: Number(SMTP_PORT),
-    secure: String(process.env.SMTP_SECURE).toLowerCase() === "true",
+    secure: String(process.env.SMTP_SECURE).trim().toLowerCase() === "true",
     auth: { user: SMTP_USER, pass: SMTP_PASS },
   });
 

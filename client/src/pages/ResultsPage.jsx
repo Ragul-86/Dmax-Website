@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { Navbar } from "@/components/dmax/Navbar";
-import { Portfolio } from "@/components/dmax/Portfolio";
 import { Results } from "@/components/dmax/Results";
 import { CTA } from "@/components/dmax/CTA";
 import { Footer } from "@/components/dmax/Footer";
@@ -33,7 +32,6 @@ export default function ResultsPage() {
         </p>
       </header>
 
-      <Portfolio />
       <Results
         eyebrow={null}
         title={<>Every strategy is measured by business outcomes—not vanity metrics.</>}

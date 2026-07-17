@@ -39,6 +39,22 @@ export async function submitContact(data) {
     const res = await api.post("/contact", data);
     return res.data;
   } catch (err) {
+    // err.response exists whenever the backend actually answered (validation
+    // error, 500, etc.) — use its message when present. When err.response is
+    // undefined, the request never got a usable response at all: wrong API
+    // base URL, backend not running, a network/DNS failure, or the browser
+    // silently blocking the response because of a CORS mismatch. That case
+    // is logged to the console (safe — visible only to whoever opens
+    // devtools) so it's diagnosable, while the visitor still sees one clean,
+    // non-technical message.
+    if (!err?.response) {
+      console.error(
+        "[contact] Request never reached the API (network/CORS/base-URL issue). " +
+          `Configured base URL: "${api.defaults.baseURL}". Raw error:`,
+        err,
+      );
+    }
+
     const message =
       err?.response?.data?.message ||
       err?.response?.data?.errors?.[0]?.msg ||

@@ -18,16 +18,25 @@ export function createApp() {
   app.use(express.json({ limit: "100kb" }));
   app.use(express.urlencoded({ extended: true, limit: "100kb" }));
 
+  // Trim trailing slashes on both sides so "https://foo.vercel.app/" (a
+  // common copy-paste mistake in dashboard env vars) still matches the
+  // browser's actual Origin header, which never has a trailing slash.
+  const stripTrailingSlash = (s) => s.replace(/\/+$/, "");
   const allowedOrigins = (process.env.CLIENT_ORIGIN || "http://localhost:5173")
     .split(",")
-    .map((o) => o.trim())
+    .map((o) => stripTrailingSlash(o.trim()))
     .filter(Boolean);
 
   app.use(
     cors({
       origin(origin, callback) {
         // Allow non-browser tools (no origin) and configured origins.
-        if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+        if (!origin || allowedOrigins.includes(stripTrailingSlash(origin))) {
+          return callback(null, true);
+        }
+        console.warn(
+          `[cors] Blocked request from origin "${origin}". Allowed origins: ${allowedOrigins.join(", ") || "(none configured)"}`,
+        );
         return callback(new Error(`Origin ${origin} not allowed by CORS`));
       },
       credentials: true,

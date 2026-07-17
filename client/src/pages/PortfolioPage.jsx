@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { Navbar } from "@/components/dmax/Navbar";
-import { Portfolio } from "@/components/dmax/Portfolio";
 import { Results } from "@/components/dmax/Results";
 import { Testimonials } from "@/components/dmax/Testimonials";
 import { CTA } from "@/components/dmax/CTA";
@@ -20,7 +19,6 @@ export default function PortfolioPage() {
           Work that <span className="text-accent">compounds</span>.
         </h1>
       </header>
-      <Portfolio />
       <Results />
       <Testimonials />
       <CTA />

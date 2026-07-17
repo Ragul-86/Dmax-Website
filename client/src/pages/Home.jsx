@@ -7,7 +7,6 @@ import { Hero } from "@/components/dmax/Hero";
 import { TrustedBrands } from "@/components/dmax/TrustedBrands";
 import { SystemShowcase } from "@/components/dmax/SystemShowcase";
 import { Process } from "@/components/dmax/Process";
-import { Portfolio } from "@/components/dmax/Portfolio";
 import { Results } from "@/components/dmax/Results";
 import { WhyChooseDMAX } from "@/components/dmax/WhyChooseDMAX";
 import { HomeFinalCTA } from "@/components/dmax/HomeFinalCTA";
@@ -205,9 +204,6 @@ export default function Home() {
           </div>
         </Reveal>
       </section>
-
-      {/* 7. Case Studies */}
-      <Portfolio />
 
       {/* 8. Our Method */}
       <Process
