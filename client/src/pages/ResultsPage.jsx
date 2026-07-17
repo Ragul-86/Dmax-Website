@@ -1,0 +1,46 @@
+import { useEffect } from "react";
+import { Navbar } from "@/components/dmax/Navbar";
+import { Portfolio } from "@/components/dmax/Portfolio";
+import { Results } from "@/components/dmax/Results";
+import { CTA } from "@/components/dmax/CTA";
+import { Footer } from "@/components/dmax/Footer";
+
+// "The Numbers" — measured by business outcomes, not vanity metrics
+const impactMetrics = [
+  { value: "10L", label: "₹ Pipeline Influenced" },
+  { value: "100+", label: "Qualified Business Conversations" },
+  { value: "150+", label: "Decision-Maker Engagement" },
+  { value: "280+", label: "Sales Opportunities Created" },
+  { value: "5+", label: "Countries Reached" },
+  { value: "26%", label: "Meeting Rate" },
+];
+
+export default function ResultsPage() {
+  useEffect(() => {
+    document.title = "Results — DMAX";
+  }, []);
+
+  return (
+    <main className="bg-background text-foreground">
+      <Navbar />
+      <header className="pt-40 pb-4 container-x">
+        <p className="eyebrow">Results</p>
+        <h1 className="mt-4 h1-page text-balance max-w-4xl">
+          Real Business Stories. Real Growth. <span className="text-accent">Real Revenue.</span>
+        </h1>
+        <p className="mt-6 max-w-2xl text-lg text-muted-foreground leading-relaxed">
+          Every strategy is measured by business outcomes—not vanity metrics.
+        </p>
+      </header>
+
+      <Portfolio />
+      <Results
+        eyebrow={null}
+        title={<>Every strategy is measured by business outcomes—not vanity metrics.</>}
+        metrics={impactMetrics}
+      />
+      <CTA />
+      <Footer />
+    </main>
+  );
+}

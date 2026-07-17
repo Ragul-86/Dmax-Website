@@ -1,0 +1,13 @@
+Save the 8 approved astronaut PNGs into this folder using these exact names:
+
+strategic-positioning.png   (astronaut with Knowledge Hub)
+founder-authority.png       (astronaut observing global market)
+thought-leadership.png      (astronaut planting the DMAX flag)
+linkedin-presence.png       (astronaut using LinkedIn dashboard)
+relationship-building.png   (two astronauts shaking hands)
+strategic-outreach.png      (DMAX satellite connecting Earth)
+ai-automation.png           (AI robot assistant)
+revenue-tracking.png        (holographic analytics dashboard)
+
+Once these 8 files are here, let Claude know and it will wire them into the
+Home page cards. This text file can be deleted afterward.

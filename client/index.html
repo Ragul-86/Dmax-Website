@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DMAX — Become the First Choice in Your Market.</title>
+    <meta
+      name="description"
+      content="Build a predictable client acquisition system that creates trust before the first sales conversation."
+    />
+    <meta name="author" content="DMAX" />
+    <meta property="og:title" content="DMAX — Become the First Choice in Your Market." />
+    <meta
+      property="og:description"
+      content="Build a predictable client acquisition system that creates trust before the first sales conversation."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <script>
+      // Inline theme-init script — applies saved/system theme before paint to avoid flash.
+      (function () {
+        try {
+          var s = localStorage.getItem("dmax-theme");
+          var m = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          var t = s || (m ? "dark" : "light");
+          if (t === "dark") {
+            document.documentElement.classList.add("dark");
+          }
+          document.documentElement.style.colorScheme = t;
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

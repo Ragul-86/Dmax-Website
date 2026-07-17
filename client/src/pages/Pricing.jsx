@@ -1,0 +1,173 @@
+import { useEffect } from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { ArrowRight, Globe, GraduationCap, TrendingUp } from "lucide-react";
+import { Navbar } from "@/components/dmax/Navbar";
+import { TrustedBrands } from "@/components/dmax/TrustedBrands";
+import { CTA } from "@/components/dmax/CTA";
+import { Footer } from "@/components/dmax/Footer";
+import { Reveal } from "@/components/dmax/Reveal";
+
+// DMAX Solution doc — "Choose Your Path" — three full solutions
+const solutions = [
+  {
+    icon: Globe,
+    title: "Expand into Global Markets.",
+    audience: "For Manufacturing & Export Businesses",
+    intro:
+      "New markets don't begin with trade shows. They begin with trust. Build meaningful relationships with distributors, importers, procurement leaders, and strategic partners—before your competitors do.",
+    builtFor: "Manufacturers • Exporters • Industrial Suppliers • Engineering Companies",
+    achieve: [
+      "Build credibility in new markets",
+      "Connect with qualified international decision-makers",
+      "Generate export opportunities",
+      "Reduce dependence on trade fairs and referrals",
+      "Create a repeatable international business development system",
+    ],
+    cta: "Explore Global Markets",
+  },
+  {
+    icon: GraduationCap,
+    title: "Grow Your Coaching Practice.",
+    audience: "For Business Coaches",
+    intro:
+      "The right clients aren't looking for more coaches. They're looking for someone they can trust. Build authority that earns attention, starts conversations, and fills your calendar with qualified opportunities.",
+    builtFor: "Business Coaches • Executive Coaches • Leadership Coaches • Consultants • Fitness Coaches • Life Coaching • Sales Coaching",
+    achieve: [
+      "Attract qualified discovery calls",
+      "Build authority in your niche",
+      "Create consistent demand for your coaching programs",
+      "Shorten the trust-building process",
+      "Grow without relying solely on referrals",
+    ],
+    cta: "Grow Your Practice",
+  },
+  {
+    icon: TrendingUp,
+    title: "Build a Predictable Revenue Pipeline.",
+    audience: "For B2B Service Businesses",
+    intro:
+      "Referrals are valuable. Predictability is better. Create a system that consistently attracts decision-makers, starts qualified conversations, and generates new business opportunities.",
+    builtFor: "B2B Service Businesses • Agencies • Professional Services • SaaS Companies",
+    achieve: [
+      "Generate qualified business conversations",
+      "Build authority with decision-makers",
+      "Reduce dependence on referrals",
+      "Create a consistent pipeline of opportunities",
+      "Scale business development with confidence",
+    ],
+    cta: "Build Your Pipeline",
+  },
+];
+
+export default function Pricing() {
+  useEffect(() => {
+    document.title = "Solutions — DMAX";
+  }, []);
+
+  return (
+    <main className="bg-background text-foreground">
+      <Navbar />
+
+      {/* 1. Hero */}
+      <header className="pt-40 pb-4 container-x">
+        <p className="eyebrow">Solutions</p>
+        <h1 className="mt-4 h1-page text-balance max-w-4xl">
+          One System. <span className="text-accent">Three Ways to Grow.</span>
+        </h1>
+        <div className="mt-8 max-w-2xl space-y-3 text-lg text-muted-foreground leading-relaxed">
+          <p>Every business is different.</p>
+          <p>The way people choose isn't.</p>
+          <p>Decision-makers trust businesses they know before they need them.</p>
+          <p>
+            That's why every DMAX solution is built on the same foundation—helping your business
+            become the obvious choice before the first conversation.
+          </p>
+          <p className="text-foreground font-semibold">
+            Choose the path that matches where you want to grow.
+          </p>
+        </div>
+      </header>
+
+      {/* 2–4. Expand into Global Markets / Grow Your Coaching Practice / Build a Predictable Revenue Pipeline */}
+      <section className="py-16 md:py-20 lg:py-28">
+        <div className="container-x">
+          <div className="grid lg:grid-cols-3 gap-5 items-stretch">
+            {solutions.map((s, i) => (
+              <motion.div
+                key={s.title}
+                initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-10%" }}
+                transition={{ duration: 0.7, delay: i * 0.12, ease: [0.2, 0.7, 0.2, 1] }}
+                className="group card-lift flex flex-col rounded-3xl border border-border bg-card p-8 md:p-10 shadow-card"
+              >
+                <div className="inline-flex size-12 items-center justify-center rounded-2xl bg-foreground text-background transition-all duration-300 group-hover:bg-accent group-hover:text-accent-foreground group-hover:scale-110 group-hover:-rotate-3">
+                  <s.icon className="size-5" />
+                </div>
+                <div className="mt-6 text-xs uppercase tracking-widest text-accent">{s.audience}</div>
+                <h3 className="mt-2 text-xl font-semibold">{s.title}</h3>
+                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.intro}</p>
+                <div className="mt-5 text-xs uppercase tracking-widest text-muted-foreground">Built for</div>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.builtFor}</p>
+                <div className="mt-5 text-xs uppercase tracking-widest text-muted-foreground">What You'll Achieve</div>
+                <ul className="mt-3 space-y-1.5 flex-1">
+                  {s.achieve.map((a) => (
+                    <li key={a} className="text-sm text-muted-foreground leading-relaxed flex items-start gap-2">
+                      <span className="mt-2 size-1 rounded-full bg-accent shrink-0" />
+                      {a}
+                    </li>
+                  ))}
+                </ul>
+                <Link to="/contact" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-accent hover:brightness-110">
+                  {s.cta}
+                  <ArrowRight className="size-4" />
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. Why It Works */}
+      <section className="py-16 md:py-20 lg:py-28">
+        <Reveal className="container-x max-w-3xl">
+          <h2 className="h2-section text-balance">Trust comes before business.</h2>
+          <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">
+            <p>Long before someone schedules a meeting…</p>
+            <p>They search.</p>
+            <p>They compare.</p>
+            <p>They read.</p>
+            <p>They observe.</p>
+            <p className="text-foreground font-semibold">
+              The businesses that earn trust first are usually the businesses that win.
+            </p>
+            <p>DMAX helps you become one of them.</p>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* 6. One Framework */}
+      <TrustedBrands
+        title="One Framework. Adapted to your business."
+        items={[
+          "Positioning.",
+          "Authority.",
+          "Thought Leadership.",
+          "Strategic Relationships.",
+          "Meaningful Conversations.",
+          "Sustainable Growth.",
+        ]}
+        closing="Every solution is powered by the Founder Acquisition System™. Not separate services. One integrated system designed to help your business become the obvious choice."
+      />
+
+      {/* 7. Final CTA */}
+      <CTA
+        title={<>Not Sure Where to Start?</>}
+        paragraph="Every business begins from a different place. The destination is the same. Predictable growth built on trust. Let's identify the right path together."
+        buttonLabel="Book Your Strategy Session"
+      />
+      <Footer />
+    </main>
+  );
+}

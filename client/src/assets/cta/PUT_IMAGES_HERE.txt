@@ -1,0 +1,14 @@
+Save the 4 approved CTA scene assets into this folder using these exact names:
+
+cta-background.png     (stars + green nebula only, no earth/astronaut — full section background)
+earth.png               (transparent PNG, rotating Earth)
+earth-glow.png          (transparent PNG, atmospheric glow, sits behind earth.png)
+cta-astronaut-standing.png   (transparent PNG, standing astronaut)
+
+Note: the "astronaut.png" name from the request was renamed to
+cta-astronaut-standing.png here because client/src/assets/astronaut.png
+already exists and is used elsewhere on the site (the default shared CTA
+component) — using the same name would have silently overwritten it.
+
+Once these 4 files are here, let Claude know and it will wire them into
+the Home page Final CTA. This text file can be deleted afterward.

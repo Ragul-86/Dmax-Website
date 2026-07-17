@@ -1,0 +1,43 @@
+Save 5 astronaut PNGs into this folder using these exact filenames, one
+per "Explore by Topic" card on the Insights page:
+
+1. topic-market-position-leader.png
+   Theme: "Leader" astronaut — commanding stance, confident posture,
+   suggests leadership/positioning at the front of a formation.
+
+2. topic-market-visibility-scanner.png
+   Theme: "Scanner / Explorer" astronaut — reaching toward or looking
+   through a scanning/visor HUD, suggests discovery and visibility.
+
+3. topic-market-trust-shield.png
+   Theme: "Shield / Protection" astronaut — holding or generating a
+   glowing energy shield, suggests trust and protection.
+
+4. topic-qualified-conversations-holographic.png
+   Theme: "Holographic communication" astronaut — projecting or
+   interacting with a holographic comms display, suggests conversation.
+
+5. topic-predictable-revenue-analytics.png
+   Theme: "Growth analytics" astronaut — viewing/interacting with a
+   holographic upward growth chart, suggests measurable revenue.
+
+Shared requirements for all 5:
+- Ultra-realistic, cinematic, premium quality (Apple / Interstellar / NASA
+  reference level) — matching the site's existing space/astronaut visual
+  language.
+- White futuristic space suit with DMAX green accent lighting/details.
+- Transparent PNG background (no background, no ground, no props/text/
+  watermarks/logos baked in).
+- All 5 images should share the same canvas size and the astronaut's scale
+  within the frame should be consistent across all 5, so they align
+  identically inside the fixed 48px card badges without any one looking
+  bigger/smaller or off-center relative to the others.
+- Each of the 5 must be visually distinct from every astronaut image
+  already used elsewhere on the site (the Final CTA astronaut and the 8
+  "Decision-Maker Acquisition System" astronauts in
+  client/src/assets/system/) — no reused pose/render.
+
+Once these 5 files are here, let Claude know and it will:
+- uncomment the 5 imports in client/src/pages/FaqPage.jsx
+- swap each topic's `icon:` line for the matching `image:` line
+This text file can be deleted afterward.

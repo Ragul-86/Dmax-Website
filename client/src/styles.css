@@ -1,0 +1,597 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * DMAX — Premium Light Design System
+ * White canvas, Graphite (#18181B), DMAX Green (#38E000)
+ * Apple × SpaceX × Modern AI startup
+ */
+
+@theme inline {
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-2xl: 28px;
+  --radius-3xl: 36px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-brand: var(--brand);
+  --color-brand-glow: var(--brand-glow);
+  --color-ink: var(--ink);
+  --color-graphite: var(--graphite);
+  --color-mist: var(--mist);
+
+  --font-display: "SF Pro Display", "Inter", "Helvetica Neue", system-ui, sans-serif;
+  --font-sans: "SF Pro Display", "Inter", "Helvetica Neue", system-ui, sans-serif;
+}
+
+:root {
+  /* Light premium canvas */
+  --background: oklch(1 0 0);                       /* #FFFFFF */
+  --foreground: oklch(0.18 0.005 270);              /* graphite ink */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.005 270);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.005 270);
+
+  --primary: oklch(0 0 0);                          /* black for primary button */
+  --primary-foreground: oklch(1 0 0);
+
+  --secondary: oklch(0.97 0 0);                     /* light gray #F5F5F5 */
+  --secondary-foreground: oklch(0.18 0.005 270);
+
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.45 0.005 270);
+
+  --accent: oklch(0.82 0.27 142);                   /* DMAX green */
+  --accent-foreground: oklch(0 0 0);
+
+  --destructive: oklch(0.62 0.24 27);
+  --destructive-foreground: oklch(1 0 0);
+
+  --border: oklch(0.92 0.002 270);                  /* subtle gray border */
+  --input: oklch(0.92 0.002 270);
+  --ring: oklch(0.82 0.27 142 / 60%);
+
+  --brand: oklch(0.82 0.27 142);                    /* #38E000 */
+  --brand-glow: oklch(0.82 0.27 142 / 0.45);
+  --ink: oklch(0.09 0.005 270);                     /* #000 */
+  --graphite: oklch(0.18 0.005 270);                /* #18181B */
+  --mist: oklch(0.97 0 0);
+
+  /* Gradients */
+  --gradient-hero: radial-gradient(ellipse 70% 60% at 80% 20%, oklch(0.82 0.27 142 / 0.07), transparent 60%),
+                   linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+  --gradient-brand: linear-gradient(135deg, #38E000 0%, #66FF33 100%);
+  --gradient-ink: linear-gradient(180deg, #18181B 0%, #000 100%);
+
+  /* Shadows */
+  --shadow-card: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px -8px rgba(15,15,20,0.08);
+  --shadow-card-hover: 0 1px 2px rgba(0,0,0,0.04), 0 24px 60px -20px rgba(15,15,20,0.18);
+  --shadow-glow: 0 0 0 1px rgba(56,224,0,0.25), 0 20px 60px -20px rgba(56,224,0,0.45);
+  --shadow-elevation: 0 30px 60px -30px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.04);
+
+  --radius: 20px;
+}
+
+.dark {
+  /* Cinematic graphite — premium, not gaming */
+  --background: oklch(0.13 0.008 270);              /* deep graphite #0d0e12 */
+  --foreground: oklch(0.97 0.003 270);              /* off-white */
+  --card: oklch(0.16 0.008 270);                    /* #14161c */
+  --card-foreground: oklch(0.97 0.003 270);
+  --popover: oklch(0.16 0.008 270);
+  --popover-foreground: oklch(0.97 0.003 270);
+
+  --primary: oklch(0.97 0.003 270);                 /* white primary in dark */
+  --primary-foreground: oklch(0.13 0.008 270);
+
+  --secondary: oklch(0.20 0.008 270);               /* #1c1f27 */
+  --secondary-foreground: oklch(0.97 0.003 270);
+
+  --muted: oklch(0.20 0.008 270);
+  --muted-foreground: oklch(0.65 0.008 270);
+
+  --accent: oklch(0.82 0.27 142);
+  --accent-foreground: oklch(0.09 0.005 270);
+
+  --border: oklch(0.27 0.008 270 / 60%);
+  --input: oklch(0.27 0.008 270 / 60%);
+  --ring: oklch(0.82 0.27 142 / 60%);
+
+  --brand: oklch(0.82 0.27 142);
+  --brand-glow: oklch(0.82 0.27 142 / 0.55);
+  --ink: oklch(0.09 0.005 270);
+  --graphite: oklch(0.18 0.005 270);
+  --mist: oklch(0.20 0.008 270);
+
+  --gradient-hero: radial-gradient(ellipse 70% 60% at 80% 20%, oklch(0.82 0.27 142 / 0.10), transparent 60%),
+                   linear-gradient(180deg, #0a0b10 0%, #11131a 100%);
+  --gradient-ink: linear-gradient(180deg, #000 0%, #0a0b10 100%);
+
+  --shadow-card: 0 1px 2px rgba(0,0,0,0.4), 0 8px 24px -8px rgba(0,0,0,0.6);
+  --shadow-card-hover: 0 1px 2px rgba(0,0,0,0.4), 0 24px 60px -20px rgba(0,0,0,0.8);
+  --shadow-elevation: 0 30px 60px -30px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04);
+}
+
+/* Smooth theme transition */
+html { transition: background-color 0.4s ease, color 0.4s ease; }
+body { transition: background-color 0.4s ease, color 0.4s ease; }
+
+.dark .glass {
+  background: rgba(20, 22, 28, 0.55);
+  border-color: rgba(255,255,255,0.06);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--brand); color: #000; }
+  h1, h2, h3 { letter-spacing: -0.025em; }
+
+  /* Accessible, on-brand focus ring for every keyboard-focusable element */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .bg-hero { background: var(--gradient-hero); }
+  .bg-ink { background: var(--gradient-ink); }
+  .bg-brand-grad { background: var(--gradient-brand); }
+  .shadow-card { box-shadow: var(--shadow-card); }
+  .shadow-card-hover:hover { box-shadow: var(--shadow-card-hover); }
+  .shadow-elevation { box-shadow: var(--shadow-elevation); }
+  .glow-brand { box-shadow: var(--shadow-glow); }
+
+  /* Premium card lift — used on every card across the site.
+     Subtler than before (-6px / 1.012 scale) so a grid of cards feels
+     calm and controlled on hover rather than bouncy. */
+  .card-lift {
+    transition:
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.35s ease;
+    will-change: transform;
+  }
+  .card-lift:hover {
+    transform: translateY(-6px) scale(1.012);
+    box-shadow: var(--shadow-card-hover);
+    border-color: rgba(15,15,20,0.14);
+  }
+  .dark .card-lift:hover { border-color: rgba(255,255,255,0.16); }
+
+  /* ============================================================
+     Card variant system — three named variants sharing one base
+     (radius, border, padding, shadow) but with distinct hover
+     choreography, per the interaction spec:
+     - .card-service : icon nudges up, arrow nudges right, accent border
+     - .card-metric   : minimal motion, number is the hero element
+     - .card-process  : connecting-line / active-step emphasis
+     Timing: 250-450ms interactions, cubic-bezier(0.22, 1, 0.36, 1).
+     ============================================================ */
+  .card-service,
+  .card-metric,
+  .card-process {
+    border-radius: 22px;
+    border: 1px solid var(--color-border);
+    background: var(--color-card);
+    box-shadow: var(--shadow-card);
+    padding: 28px;
+    transition:
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s ease;
+  }
+  @media (min-width: 768px) {
+    .card-service, .card-metric, .card-process { padding: 32px; }
+  }
+
+  .card-service:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-card-hover);
+    border-color: var(--color-accent);
+  }
+  .card-service .card-icon {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .card-service:hover .card-icon { transform: translateY(-3px); }
+  .card-service .card-arrow {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .card-service:hover .card-arrow { transform: translateX(4px); }
+
+  /* Image-led variant of .card-service — used only by the Insights
+     "Explore by Topic" cards (see components/dmax/Services.jsx). Overrides
+     the base hover lift/shadow with the premium spec's own numbers (8px
+     lift, deeper shadow, 550ms) without touching plain icon-based cards
+     that still use .card-service alone. */
+  .card-service-image {
+    transition:
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s ease;
+  }
+  .card-service-image:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px -14px rgba(0,0,0,0.2), 0 0 44px -10px rgba(56,224,0,0.4);
+    border-color: var(--color-accent);
+  }
+
+  /* ============================================================
+     "Mission" cards — the "Introducing the Decision-Maker Acquisition
+     System™" grid (components/dmax/SystemShowcase.jsx). Large Apple-
+     product-page-style editorial cards: full-bleed image, dark gradient,
+     content overlaid bottom-left. Deliberately its OWN class pair
+     (not .system-card/.card-service-image, which the "Explore by Topic"
+     cards still use) so this section's bigger/slower hover choreography
+     never leaks into any other card grid on the site. The card is
+     intentionally dark regardless of site theme — like Apple's product
+     cards, the photography + gradient carries the surface, so it doesn't
+     need a light/dark variant. */
+  .mission-card {
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 20px 50px -22px rgba(0,0,0,0.45), 0 2px 10px rgba(0,0,0,0.12);
+    transition:
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.35s ease;
+    will-change: transform;
+  }
+  .mission-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 40px 80px -20px rgba(0,0,0,0.55), 0 0 48px -10px rgba(56,224,0,0.35);
+    border-color: rgba(56,224,0,0.55);
+  }
+  .mission-card-img {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .mission-card:hover .mission-card-img {
+    transform: scale(1.03);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mission-card, .mission-card-img { transition: none !important; }
+    .mission-card:hover { transform: none !important; }
+    .mission-card:hover .mission-card-img { transform: none !important; }
+  }
+
+  .card-metric {
+    transition:
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .card-metric:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .card-process {
+    position: relative;
+  }
+  .card-process:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+    border-color: var(--color-accent);
+  }
+  .card-process.is-active {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card-service, .card-metric, .card-process,
+    .card-service .card-icon, .card-service .card-arrow {
+      transition: none !important;
+    }
+    .card-service:hover, .card-metric:hover, .card-process:hover {
+      transform: none !important;
+    }
+  }
+
+  /* ============================================================
+     Shared design-system primitives — one source of truth for
+     eyebrow labels, page/section headings, and CTA buttons so
+     typography and interaction states stay perfectly consistent
+     across every page.
+     ============================================================ */
+
+  /* Small-caps eyebrow label used above every section/page heading */
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+
+  /* Page-level H1 (About/Results/Process/Services/Contact headers).
+     Fluid clamp() scales smoothly between breakpoints instead of
+     jumping at a single md: step. */
+  .h1-page {
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 1.02;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+
+  /* Section H2 used throughout Home/About/Results/Process/Services etc. */
+  .h2-section {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1.08;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  /* Primary pill CTA — solid foreground, used for the main action */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    background: var(--color-foreground);
+    color: var(--color-background);
+    padding: 1rem 1.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: background-color 0.25s ease, transform 0.25s cubic-bezier(0.2,0.7,0.2,1), box-shadow 0.25s ease;
+  }
+  .btn-primary:hover {
+    background: color-mix(in srgb, var(--color-foreground) 90%, var(--color-background));
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -8px rgba(15,15,20,0.35);
+  }
+  .dark .btn-primary:hover { box-shadow: 0 12px 24px -8px rgba(0,0,0,0.6); }
+  .btn-primary:active { transform: translateY(0) scale(0.98); box-shadow: none; }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  /* Secondary pill CTA — outlined, used for lower-emphasis actions */
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(15,15,20,0.15);
+    background: color-mix(in srgb, var(--color-background) 60%, transparent);
+    backdrop-filter: blur(12px);
+    color: var(--color-foreground);
+    padding: 1rem 1.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: border-color 0.25s ease, transform 0.25s cubic-bezier(0.2,0.7,0.2,1);
+  }
+  .dark .btn-secondary { border-color: rgba(255,255,255,0.15); }
+  .btn-secondary:hover {
+    border-color: rgba(15,15,20,0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px -10px rgba(15,15,20,0.25);
+  }
+  .dark .btn-secondary:hover {
+    border-color: rgba(255,255,255,0.4);
+    box-shadow: 0 10px 22px -10px rgba(0,0,0,0.5);
+  }
+  .btn-secondary:active { transform: translateY(0) scale(0.98); box-shadow: none; }
+
+  /* Accent pill CTA — brand green, reserved for the dark CTA banner */
+  .btn-accent {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    background: var(--color-accent);
+    color: var(--color-accent-foreground);
+    padding: 1rem 1.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: filter 0.25s ease, transform 0.25s cubic-bezier(0.2,0.7,0.2,1);
+  }
+  .btn-accent:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px -10px rgba(56,224,0,0.45);
+  }
+  .btn-accent:active { transform: translateY(0) scale(0.98); box-shadow: none; }
+
+  /* Soft accent-green breathing glow on primary CTAs */
+  .pulse-glow {
+    animation: pulse-glow 2.8s ease-in-out infinite;
+  }
+
+  .glass {
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(32px) saturate(200%);
+    -webkit-backdrop-filter: blur(32px) saturate(200%);
+    border: 1px solid rgba(15,15,20,0.06);
+  }
+  .glass-dark {
+    background: rgba(15,15,20,0.6);
+    backdrop-filter: blur(32px) saturate(200%);
+    -webkit-backdrop-filter: blur(32px) saturate(200%);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* Global container — one master grid every section aligns to.
+     1200px content width, 20/32/48px gutters at mobile/tablet/desktop. */
+  .container-x { max-width: 1200px; margin-inline: auto; padding-inline: 20px; }
+  @media (min-width: 768px)  { .container-x { padding-inline: 32px; } }
+  @media (min-width: 1024px) { .container-x { padding-inline: 48px; } }
+
+  /* Hero scene — light, airy daylight atmosphere by default */
+  .scene {
+    background:
+      radial-gradient(ellipse 55% 45% at 80% 20%, rgba(56,224,0,0.08), transparent 60%),
+      radial-gradient(ellipse 70% 55% at 20% 90%, rgba(180,195,220,0.18), transparent 65%),
+      linear-gradient(180deg, #fbfcfe 0%, #f3f5f9 60%, #eaeef5 100%);
+    transition: background 0.8s ease;
+  }
+  .dark .scene {
+    background:
+      radial-gradient(ellipse 60% 50% at 75% 25%, rgba(56,224,0,0.14), transparent 60%),
+      radial-gradient(ellipse 80% 60% at 25% 85%, rgba(80,110,160,0.22), transparent 60%),
+      linear-gradient(180deg, #05060a 0%, #0a0c12 55%, #11141c 100%);
+  }
+
+  /* .scene-dark and .scene-light are declared at top level via @utility (below)
+     so Tailwind variants like `dark:scene-light` are generated correctly. */
+
+
+  /* Force the twinkling stars layer to be visible regardless of theme */
+  .stars-force::before { opacity: 0.55 !important; }
+  .stars-force::after  { opacity: 0.3  !important; }
+
+  /* Stars — hidden in light, visible in dark; drift right → left */
+  .stars::before, .stars::after {
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, #fff, transparent),
+      radial-gradient(1px 1px at 70% 80%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 40% 60%, #fff, transparent),
+      radial-gradient(1px 1px at 90% 20%, #fff, transparent),
+      radial-gradient(1px 1px at 10% 90%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 55% 15%, #fff, transparent),
+      radial-gradient(1px 1px at 85% 55%, #fff, transparent),
+      radial-gradient(1px 1px at 30% 75%, #fff, transparent);
+    background-size: 600px 600px;
+    opacity: 0;
+    animation: stars-drift 120s linear infinite, twinkle 7s ease-in-out infinite;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+  }
+  .stars::after {
+    background-size: 900px 900px;
+    animation: stars-drift 180s linear infinite, twinkle 9s ease-in-out infinite;
+    animation-delay: -3.5s, -3.5s;
+  }
+  .dark .stars::before { opacity: 0.55; }
+  .dark .stars::after  { opacity: 0.3; }
+
+  .float-slow   { animation: float 12s ease-in-out infinite; }
+  .float-slower { animation: float 18s ease-in-out infinite; }
+  .spin-slow    { animation: spin 140s linear infinite; }
+  .moon-float   { animation: moon-bob 14s ease-in-out infinite; }
+
+  /* Continuous cinematic travel — astronaut & rocket */
+  .astro-travel  { animation: astro-travel 16s ease-in-out infinite; will-change: transform; }
+  .rocket-travel { animation: rocket-travel 18s ease-in-out infinite; will-change: transform, opacity; }
+
+  /* Stars overlay PNG — hidden in light, visible in dark, drifts right → left */
+  .stars-overlay {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    animation: stars-pan 200s linear infinite;
+    will-change: transform;
+    mix-blend-mode: screen;
+  }
+  .dark .stars-overlay { opacity: 0.42; }
+  .dark .moon-float img { filter: brightness(1.08); }
+}
+
+/* Always-dark scene — used on CTA box so it stays cinematic in light mode */
+@utility scene-dark {
+  background:
+    radial-gradient(ellipse 60% 50% at 75% 25%, rgba(56,224,0,0.14), transparent 60%),
+    radial-gradient(ellipse 80% 60% at 25% 85%, rgba(80,110,160,0.22), transparent 60%),
+    linear-gradient(180deg, #05060a 0%, #0a0c12 55%, #11141c 100%);
+}
+
+/* Always-light scene — used on CTA box in dark mode so it inverts to daylight */
+@utility scene-light {
+  background:
+    radial-gradient(ellipse 55% 45% at 80% 20%, rgba(56,224,0,0.08), transparent 60%),
+    radial-gradient(ellipse 70% 55% at 20% 90%, rgba(180,195,220,0.18), transparent 65%),
+    linear-gradient(180deg, #fbfcfe 0%, #f3f5f9 60%, #eaeef5 100%);
+}
+
+
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(56,224,0,0); }
+  50%      { box-shadow: 0 0 40px 4px rgba(56,224,0,0.35); }
+}
+
+@keyframes stars-pan {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-12%, 0, 0); }
+}
+
+@keyframes twinkle {
+  0%, 100% { filter: brightness(0.85); }
+  50%      { filter: brightness(1.15); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-18px) rotate(1.5deg); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes moon-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+@keyframes stars-drift {
+  from { background-position: 0 0, 0 0; }
+  to   { background-position: -600px 0, -900px 0; }
+}
+/* Astronaut travels bottom-left → top-right with weightless drift + subtle rotation */
+@keyframes astro-travel {
+  0%   { transform: translate(0vw, 0vh)     rotate(-6deg); }
+  25%  { transform: translate(18vw, -8vh)   rotate(2deg); }
+  50%  { transform: translate(38vw, -16vh)  rotate(-3deg); }
+  75%  { transform: translate(58vw, -24vh)  rotate(4deg); }
+  100% { transform: translate(82vw, -34vh)  rotate(-6deg); }
+}
+/* Rocket trails astronaut along same diagonal, fades in/out at edges */
+@keyframes rocket-travel {
+  0%   { transform: translate(-10vw, 6vh)   rotate(-32deg); opacity: 0; }
+  10%  { opacity: 0.95; }
+  50%  { transform: translate(38vw, -18vh)  rotate(-32deg); opacity: 1; }
+  90%  { opacity: 0.9; }
+  100% { transform: translate(92vw, -42vh)  rotate(-32deg); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .astro-travel, .rocket-travel, .moon-float, .spin-slow, .float-slow, .float-slower, .stars-overlay {
+    animation: none !important;
+  }
+  .stars::before, .stars::after { animation: none !important; }
+}
