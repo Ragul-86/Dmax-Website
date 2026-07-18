@@ -178,7 +178,7 @@ export function Hero() {
             + mouse parallax shift, both on the same middle layer. */}
         <motion.div
           style={{ y: moonY }}
-          className="absolute -top-16 -right-16 sm:-top-20 sm:-right-20 w-[36rem] sm:w-[48rem] lg:w-[56rem]"
+          className="absolute -top-16 -right-16 sm:-top-20 sm:-right-20 w-[36rem] sm:w-[48rem] lg:w-[56rem] aspect-square"
         >
           <motion.div
             initial={runActivation ? { opacity: 0, scale: 0.96 } : false}
@@ -194,15 +194,19 @@ export function Hero() {
                 ? { duration: 0 }
                 : { duration: 45, repeat: Infinity, ease: "linear", delay: idleStart },
             }}
-            className="relative"
+            className="relative h-full"
           >
-            <motion.div style={{ x: moonPX, y: moonPY }} className="relative">
+            {/* h-full cascades a definite box down to the <img> BEFORE it
+                loads (this wrapper's own size is fixed by the aspect-square
+                + explicit width above it, not by the image), so nothing
+                resizes/jumps once the moon PNG finishes downloading. */}
+            <motion.div style={{ x: moonPX, y: moonPY }} className="relative h-full">
               <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.35),transparent_65%)] blur-2xl dark:bg-[radial-gradient(circle_at_35%_35%,rgba(180,200,255,0.45),transparent_65%)]" />
               <img
                 src={moon}
                 alt=""
                 loading="lazy"
-                className="relative w-full moon-float opacity-90 drop-shadow-[0_30px_60px_rgba(0,0,0,0.25)]"
+                className="relative w-full h-full object-contain moon-float opacity-90 drop-shadow-[0_30px_60px_rgba(0,0,0,0.25)]"
               />
             </motion.div>
           </motion.div>
@@ -216,7 +220,7 @@ export function Hero() {
             overlay effects (innermost). */}
         <motion.div
           style={{ y: astroY, scale: astroScale, opacity: astroOpacity }}
-          className="absolute bottom-[8%] left-[3%] w-[26rem] sm:w-[36rem] lg:w-[52rem]"
+          className="absolute bottom-[8%] left-[3%] w-[26rem] sm:w-[36rem] lg:w-[52rem] aspect-[3/2]"
         >
           <motion.div
             initial={runActivation ? { opacity: 0, scale: 0.94 } : false}
@@ -236,14 +240,24 @@ export function Hero() {
                 ? { duration: 0 }
                 : { duration: 8, repeat: Infinity, ease: "easeInOut", delay: idleStart },
             }}
-            className="relative"
+            className="relative h-full"
           >
-            <motion.div style={{ rotate: astroRotate, y: astroPY }} className="relative">
+            {/* aspect-[3/2] above matches hero-astronaut.png's actual
+                ~1536x1024 canvas exactly, and h-full cascades a definite
+                box down to the <img> before it loads, so the astronaut
+                never resizes/jumps once the PNG finishes downloading — and
+                because the ratio is exact (not approximate), object-contain
+                fills the box edge-to-edge with zero letterboxing, so the
+                percentage-positioned LED/visor overlays below stay
+                pixel-aligned to the pose exactly as before. */}
+            <motion.div style={{ rotate: astroRotate, y: astroPY }} className="relative h-full">
               <img
                 src={astronaut}
                 alt=""
                 loading="eager"
-                className="w-full drop-shadow-[0_30px_60px_rgba(0,0,0,0.35)]"
+                width={1536}
+                height={1024}
+                className="w-full h-full object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.35)]"
               />
 
               {/* ===== DMAX AI Suit Activation — overlay effects =====

@@ -18,6 +18,17 @@ export function SmoothScroll() {
       smoothWheel: true,
     });
 
+    // Pin Lenis's own internal scroll target to exactly 0 the instant it's
+    // constructed, synchronously, before its raf loop starts. Lenis reads
+    // whatever the native scroll position happens to be at construction
+    // time to seed itself — on first load that can briefly disagree with
+    // where the page visually is (native scroll restoration, or
+    // ScrollToTop's separate effect not having run yet), and Framer
+    // Motion's scroll-linked Hero transforms would then animate from that
+    // stale seed to the corrected one a frame later, reading as a jump.
+    lenis.scrollTo(0, { immediate: true });
+    window.scrollTo(0, 0);
+
     // Expose the instance so route-change scroll resets (see ScrollToTop.jsx)
     // can tell Lenis to jump too — calling window.scrollTo(0,0) alone would
     // be overwritten on the next animation frame by Lenis's own remembered
