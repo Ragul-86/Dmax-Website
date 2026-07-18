@@ -45,57 +45,71 @@ export default function About() {
       </header>
 
       {/* 1b. Founder — new standalone section, separate from the hero above.
-          Desktop: large portrait left, story right. Mobile: portrait first,
-          then name/role, then story (natural DOM order, no grid reordering
-          needed). Portrait uses the same soft radial-mask treatment as
-          before to dissolve the photo's flat studio backdrop into the
-          page's white rather than sitting in a card/frame. DMAX green is
-          used once, subtly, on the role label only.
-
-          NOTE — placeholder copy: no real founder name, title, or story
-          was available, and none has been invented. Every bracketed
-          [placeholder] below should be replaced with the real copy —
-          nothing else in this section needs to change when you do. */}
+          Desktop: large framed portrait card left (42%), story right (58%),
+          vertically centered against each other for an Apple-editorial
+          balance. Mobile: portrait card first, then name/role, then story
+          (natural DOM order, no grid reordering needed). Portrait keeps the
+          same soft radial-mask treatment to dissolve the photo's flat
+          studio backdrop, now set inside a neutral card frame. DMAX green
+          is used once, subtly, on the role label only. */}
       <section className="py-16 md:py-20 lg:py-28">
-        <div className="container-x grid lg:grid-cols-12 gap-x-16 gap-y-10 items-start">
-          <Reveal className="lg:col-span-5">
-            <img
-              src={founderPortrait}
-              alt="[Founder Name], Founder of DMAX"
-              className="w-full max-w-[440px] h-auto object-contain"
-              style={{
-                WebkitMaskImage:
-                  "radial-gradient(ellipse 82% 90% at 50% 40%, black 62%, transparent 100%)",
-                maskImage:
-                  "radial-gradient(ellipse 82% 90% at 50% 40%, black 62%, transparent 100%)",
-              }}
-            />
-            <div className="mt-6">
-              <p className="text-lg font-semibold text-foreground">[Founder Name]</p>
+        <div className="container-x grid grid-cols-1 lg:grid-cols-[42%_58%] gap-x-16 gap-y-14 lg:items-center">
+          <Reveal className="flex flex-col items-center lg:items-start">
+            <div className="w-full max-w-[560px] aspect-[560/700] rounded-3xl border border-border bg-card p-6 shadow-card">
+              <img
+                src={founderPortrait}
+                alt="Manoj, Founder of DMAX"
+                className="h-full w-full object-contain"
+                style={{
+                  objectPosition: "bottom center",
+                  WebkitMaskImage:
+                    "radial-gradient(ellipse 82% 90% at 50% 40%, black 62%, transparent 100%)",
+                  maskImage:
+                    "radial-gradient(ellipse 82% 90% at 50% 40%, black 62%, transparent 100%)",
+                }}
+              />
+            </div>
+            <div className="mt-6 text-center lg:text-left">
+              <p className="text-lg font-semibold text-foreground">Manoj</p>
               <p
                 className="mt-1 text-xs font-semibold uppercase tracking-widest"
                 style={{ color: "#39E600" }}
               >
-                [Founder Role / Title]
+                Founder & CEO
               </p>
             </div>
           </Reveal>
 
-          <Reveal delay={0.1} className="lg:col-span-7 lg:pt-4">
-            <p className="eyebrow">Founder</p>
-            <h2 className="mt-4 h2-section text-balance">[Placeholder founder story headline]</h2>
-            <div className="mt-8 space-y-4 text-lg text-muted-foreground leading-relaxed">
-              <p>
-                [Placeholder — replace with the founder's real story: what they were doing
-                before DMAX, and the moment they realized something in B2B growth was broken.]
-              </p>
-              <p>
-                [Placeholder — why DMAX exists: the belief or experience that shaped the DMAX
-                Method™ and the kind of businesses it was built to help.]
-              </p>
-              <p className="text-foreground font-semibold">
-                [Placeholder — a short, personal closing line in the founder's own voice.]
-              </p>
+          <Reveal delay={0.1}>
+            <div className="max-w-2xl">
+              <p className="eyebrow">The person behind the system</p>
+              <h2 className="mt-4 h2-section text-balance">
+                Built from running the system, not guessing at it.
+              </h2>
+              <div className="mt-8 space-y-6 text-lg text-muted-foreground leading-8">
+                <p>Before DMAX, I spent three years as PA to an international family business coach.</p>
+                <p>
+                  Client follow-ups. Client coordination. Strategy planning for the companies he
+                  advised. Tracking every client on dashboards and trackers, so nothing slipped.
+                  Pulling new strategies from global companies and applying them to our
+                  clients, testing what actually worked.
+                </p>
+                <p>
+                  I watched an expert with real results struggle to be found by the right people.
+                  Not because he lacked skill. Because nobody was running the system behind him.
+                </p>
+                <p>
+                  If that sounds familiar, it should. Most coaches and consultants I talk to are
+                  exactly there. Good at the work. Invisible to the people who should be hiring
+                  them.
+                </p>
+                <p className="text-foreground font-semibold">That's the gap DMAX exists to close.</p>
+                <p>
+                  When I started DMAX in Tirupur, I didn't have a big-city network. Or investors.
+                  I had three years of running that system for someone else, and the conviction
+                  to build it for people like you.
+                </p>
+              </div>
             </div>
           </Reveal>
         </div>
