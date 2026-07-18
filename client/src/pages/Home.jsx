@@ -12,6 +12,7 @@ import { WhyChooseDMAX } from "@/components/dmax/WhyChooseDMAX";
 import { HomeFinalCTA } from "@/components/dmax/HomeFinalCTA";
 import { Footer } from "@/components/dmax/Footer";
 import { Reveal } from "@/components/dmax/Reveal";
+import { ProofCarousel } from "@/components/dmax/ProofCarousel";
 
 // Section 4 — "Introducing the Decision-Maker Acquisition System™" — 8 elements
 import strategicPositioningImg from "@/assets/system/strategic-positioning.png";
@@ -219,6 +220,29 @@ export default function Home() {
         title={<>Every strategy is measured by business outcomes—not vanity metrics.</>}
         metrics={numbers}
       />
+
+      {/* 9b. Results — proof carousel, moved here from the About page's
+          Proof section so it exists in exactly one place on the site.
+          Sits directly under the Numbers section so the story reads as
+          Numbers → Proof → (Why DMAX / client validation) in one
+          continuous flow. Same shell (bg-secondary/40 border-y, heading
+          treatment) as the rest of the homepage's banded sections; the
+          carousel itself breaks out to full viewport width on its own
+          (see ProofCarousel.jsx), so its wrapper is deliberately NOT
+          container-x. */}
+      <section className="py-16 md:py-20 lg:py-28 bg-secondary/40 border-y border-border">
+        <Reveal className="container-x max-w-3xl">
+          <p className="eyebrow">Results</p>
+          <h2 className="mt-4 h2-section text-balance">Proof Behind Every Number</h2>
+          <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
+            Every metric above is backed by real conversations, real opportunities, and real
+            business outcomes.
+          </p>
+        </Reveal>
+        <Reveal delay={0.15} className="mt-12">
+          <ProofCarousel />
+        </Reveal>
+      </section>
 
       {/* 10. Why DMAX */}
       <WhyChooseDMAX

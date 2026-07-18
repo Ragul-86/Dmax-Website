@@ -5,7 +5,6 @@ import { TrustedBrands } from "@/components/dmax/TrustedBrands";
 import { HomeFinalCTA } from "@/components/dmax/HomeFinalCTA";
 import { Footer } from "@/components/dmax/Footer";
 import { Reveal } from "@/components/dmax/Reveal";
-import { ProofCarousel } from "@/components/dmax/ProofCarousel";
 import founderPortrait from "@/assets/founder-portrait.png";
 
 // About DMAX doc — "The DMAX Method™" — five growth stages
@@ -207,12 +206,11 @@ export default function About() {
         </p>
       </Reveal>
 
-      {/* 6. Proof — heading/copy unchanged; screenshot carousel added
-          directly below, inside the same section (same bg-secondary/40
-          background, no new section chrome). Note: the existing
-          background here is bg-secondary/40 (a light grey tint), not
-          pure white — left as-is per "do not change colors", even
-          though the carousel spec assumed a white background. */}
+      {/* 6. Proof — heading/copy unchanged. The screenshot carousel that
+          used to live here has moved to the Home page's new "Results"
+          section (directly under the homepage's Numbers/metrics section),
+          per the storytelling-flow reorg — it exists in exactly one place
+          on the site now, not duplicated. */}
       <section className="py-16 md:py-20 lg:py-28 bg-secondary/40 border-y border-border">
         <Reveal className="container-x max-w-3xl">
           <p className="eyebrow">Proof</p>
@@ -233,12 +231,6 @@ export default function About() {
               stage of the DMAX Method™.
             </p>
           </div>
-        </Reveal>
-        {/* Deliberately NOT container-x here — the carousel breaks out to
-            full viewport width on its own (see ProofCarousel.jsx), so
-            this wrapper must not cap/center it. */}
-        <Reveal delay={0.15} className="mt-12">
-          <ProofCarousel />
         </Reveal>
       </section>
 
