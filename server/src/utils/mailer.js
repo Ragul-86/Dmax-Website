@@ -25,12 +25,14 @@ export async function sendContactNotification(enquiry) {
   const to = process.env.MAIL_TO?.trim() || "dmaxworldwide@gmail.com";
   // Resend only allows sending from an address on a domain you've verified
   // in the Resend dashboard. Until a real domain is verified there,
-  // "onboarding@resend.com" is Resend's built-in sandbox sender and works
+  // "onboarding@resend.dev" is Resend's built-in sandbox sender and works
   // out of the box (in sandbox mode it can only deliver to the email the
-  // Resend account was signed up with). Once dmaxnow.com (or similar) is
-  // verified in Resend, set MAIL_FROM to something like
+  // Resend account was signed up with). Note: it's resend.DEV, not
+  // resend.com — resend.com is Resend's own company site, not a domain
+  // you're allowed to send from, and using it 403s. Once dmaxnow.com (or
+  // similar) is verified in Resend, set MAIL_FROM to something like
   // "DMAX <hello@dmaxnow.com>" to send from your own domain instead.
-  const from = process.env.MAIL_FROM?.trim() || "DMAX Website <onboarding@resend.com>";
+  const from = process.env.MAIL_FROM?.trim() || "DMAX Website <onboarding@resend.dev>";
 
   const text = [
     `New contact enquiry from the DMAX website`,
