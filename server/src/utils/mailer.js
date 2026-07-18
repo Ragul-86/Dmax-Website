@@ -1,61 +1,36 @@
-import nodemailer from "nodemailer";
+// Sends the contact-form notification email via the Resend API
+// (https://resend.com) using plain fetch — no SDK dependency needed since
+// Node 18+ ships fetch and AbortSignal.timeout() natively, so nothing new
+// has to be installed on Render.
+//
+// Switched from Gmail SMTP because sending FROM and TO the same Gmail
+// address (self-relay) was being silently filed into Spam/Sent by Gmail
+// even though the SMTP server accepted the message — Resend sends via a
+// proper transactional mail API instead, which doesn't have that problem.
 
-let transporter = null;
-
-/**
- * Lazily builds a Nodemailer transporter from SMTP_* env vars.
- * Returns null (instead of throwing) when SMTP isn't configured yet,
- * so the contact form still works (saves to MongoDB) in environments
- * where email hasn't been set up.
- */
-function getTransporter() {
-  if (transporter) return transporter;
-
-  // .trim() guards against a trailing newline/space sneaking in when SMTP
-  // credentials are pasted into a dashboard env var field (Render, Vercel,
-  // etc.) — a blank-looking but whitespace-only value would otherwise pass
-  // the falsy check below and then fail auth in a confusing way.
-  const SMTP_HOST = process.env.SMTP_HOST?.trim();
-  const SMTP_PORT = process.env.SMTP_PORT?.trim();
-  const SMTP_USER = process.env.SMTP_USER?.trim();
-  const SMTP_PASS = process.env.SMTP_PASS?.trim();
-
-  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS) {
-    return null;
-  }
-
-  transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: Number(SMTP_PORT),
-    secure: String(process.env.SMTP_SECURE).trim().toLowerCase() === "true",
-    auth: { user: SMTP_USER, pass: SMTP_PASS },
-    // Explicit timeouts so a bad SMTP host/port/firewall can never hang the
-    // request indefinitely — nodemailer's defaults exist but aren't tight
-    // enough for an API request a visitor is sitting in front of. Each
-    // stage gets its own cap; total worst case is bounded well under the
-    // client's request timeout.
-    connectionTimeout: 10000, // time to establish the TCP connection
-    greetingTimeout: 10000, // time to receive the SMTP greeting after connecting
-    socketTimeout: 15000, // time allowed for the socket to be idle mid-transaction
-  });
-
-  return transporter;
-}
+const RESEND_API_URL = "https://api.resend.com/emails";
 
 /**
- * Sends a notification email for a new contact enquiry.
+ * Sends a notification email for a new contact enquiry via Resend.
  * Never throws — logs and returns false on failure so a mail outage
  * never blocks the enquiry from being saved/returned to the user.
  */
 export async function sendContactNotification(enquiry) {
-  const t = getTransporter();
-  if (!t) {
-    console.warn("[mailer] SMTP not configured — skipping email notification");
+  const apiKey = process.env.RESEND_API_KEY?.trim();
+  if (!apiKey) {
+    console.warn("[mailer] RESEND_API_KEY not configured — skipping email notification");
     return false;
   }
 
-  const to = process.env.MAIL_TO || "dmaxworldwide@gmail.com";
-  const from = process.env.MAIL_FROM || process.env.SMTP_USER;
+  const to = process.env.MAIL_TO?.trim() || "dmaxworldwide@gmail.com";
+  // Resend only allows sending from an address on a domain you've verified
+  // in the Resend dashboard. Until a real domain is verified there,
+  // "onboarding@resend.com" is Resend's built-in sandbox sender and works
+  // out of the box (in sandbox mode it can only deliver to the email the
+  // Resend account was signed up with). Once dmaxnow.com (or similar) is
+  // verified in Resend, set MAIL_FROM to something like
+  // "DMAX <hello@dmaxnow.com>" to send from your own domain instead.
+  const from = process.env.MAIL_FROM?.trim() || "DMAX Website <onboarding@resend.com>";
 
   const text = [
     `New contact enquiry from the DMAX website`,
@@ -82,17 +57,34 @@ export async function sendContactNotification(enquiry) {
   `;
 
   try {
-    await t.sendMail({
-      from,
-      to,
-      replyTo: enquiry.email,
-      subject: `New DMAX enquiry from ${enquiry.name}`,
-      text,
-      html,
+    const res = await fetch(RESEND_API_URL, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from,
+        to: [to],
+        reply_to: enquiry.email,
+        subject: `New DMAX enquiry from ${enquiry.name}`,
+        text,
+        html,
+      }),
+      // Bounded so a Resend outage can never hang the contact-form request
+      // indefinitely — mirrors the same protection the old SMTP timeouts gave.
+      signal: AbortSignal.timeout(15000),
     });
+
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      console.error(`[mailer] Resend API responded ${res.status}: ${body}`);
+      return false;
+    }
+
     return true;
   } catch (err) {
-    console.error("[mailer] Failed to send notification email:", err.message);
+    console.error("[mailer] Failed to send notification email via Resend:", err.message);
     return false;
   }
 }
