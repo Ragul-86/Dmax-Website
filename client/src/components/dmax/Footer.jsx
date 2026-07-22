@@ -4,7 +4,7 @@ import logo from "@/assets/dmax-logo-dark.png";
 
 export function Footer() {
   return (
-    <footer className="relative bg-ink text-white">
+    <footer className="relative bg-pure-black text-white">
       <div className="container-x py-20 grid md:grid-cols-12 gap-10">
         <div className="md:col-span-5">
           <img src={logo} alt="DMAX" className="h-10 w-auto" />

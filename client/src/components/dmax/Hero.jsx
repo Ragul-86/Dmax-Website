@@ -57,7 +57,7 @@ export function Hero() {
       };
 
   return (
-    <section className="relative overflow-hidden bg-background pt-36 pb-20 lg:pt-40 lg:pb-24">
+    <section className="relative overflow-hidden bg-surface-warm pt-36 pb-20 lg:pt-40 lg:pb-24">
       {/* grid-cols uses fr, not %, so the 48/52 split is computed on the
           space actually remaining after the column gap — percentage tracks
           would sum to 100% of the container *plus* the gap on top, silently

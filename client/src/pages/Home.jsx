@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Globe, GraduationCap, TrendingUp, Target, Clock, TrendingDown, Users } from "lucide-react";
 import { Navbar } from "@/components/dmax/Navbar";
 import { Hero } from "@/components/dmax/Hero";
 import { TrustedBrands } from "@/components/dmax/TrustedBrands";
@@ -12,7 +12,7 @@ import { WhyChooseDMAX } from "@/components/dmax/WhyChooseDMAX";
 import { HomeFinalCTA } from "@/components/dmax/HomeFinalCTA";
 import { Footer } from "@/components/dmax/Footer";
 import { Reveal } from "@/components/dmax/Reveal";
-import { ProofShowcase } from "@/components/dmax/ProofCarousel";
+import { ProofCarousel } from "@/components/dmax/ProofCarousel";
 
 // Section 4 — "Introducing the Decision-Maker Acquisition System™" — 8 elements
 import strategicPositioningImg from "@/assets/system/strategic-positioning.png";
@@ -46,26 +46,43 @@ const solutionElements = [
   { title: "Revenue Tracking", image: revenueTrackingImg, focal: "40% 10%" },
 ];
 
-// Section 5 — "Choose Your Path" — three solutions
+// Section 5 — "Choose Your Path" — three solutions. `icon` reuses the
+// exact same icon already assigned to each of these three solutions on
+// the Services page (Globe / GraduationCap / TrendingUp) — not a new
+// icon set, just the established mapping, so the card can lead with an
+// icon per the Apple feature-card hierarchy without inventing anything.
 const paths = [
   {
+    icon: Globe,
     title: "Expand into Global Markets",
     audience: "For manufacturers and exporters.",
     desc: "Build relationships with international distributors, procurement leaders, importers, and decision-makers—without opening overseas offices.",
     cta: "Explore Global Expansion",
   },
   {
+    icon: GraduationCap,
     title: "Grow Your Coaching Practice",
     audience: "For business coaches.",
     desc: "Position your expertise to attract qualified decision-makers who are actively looking for guidance and transformation.",
     cta: "Explore Coaching Growth",
   },
   {
+    icon: TrendingUp,
     title: "Build a Predictable Revenue Pipeline",
     audience: "For B2B founders and service businesses.",
     desc: "Create a repeatable system that consistently starts conversations with qualified decision-makers instead of relying on referrals.",
     cta: "Explore B2B Growth",
   },
+];
+
+// Section 3 — "The Hidden Cost of an Invisible Business" — same four risk
+// phrases as before (verbatim, previously a bullet list), each now paired
+// with a simple illustrative icon for the card grid.
+const risks = [
+  { icon: Target, title: "Missed business opportunities" },
+  { icon: Clock, title: "Longer sales cycles" },
+  { icon: TrendingDown, title: "Lower pricing power" },
+  { icon: Users, title: "Competitors becoming the obvious choice" },
 ];
 
 // Section 8 — "Our Method" — condensed 4-step homepage teaser
@@ -99,6 +116,10 @@ export default function Home() {
     document.title = "DMAX — Become the First Choice in Your Market.";
   }, []);
 
+  // "Choose Your Path" — one active card at a time, defaulting to the
+  // center card (index 1) exactly as it was emphasized before.
+  const [activePath, setActivePath] = useState(1);
+
   return (
     <main className="relative bg-background text-foreground">
       <Navbar />
@@ -106,61 +127,85 @@ export default function Home() {
       {/* 1. Hero — headline, supporting text, primary + secondary CTA */}
       <Hero />
 
-      {/* 2. The Reality — Tony Robbins-style editorial section: a single
-          centered column (headline, short punchy lines, then the section's
-          existing closing line as a centered pull-quote panel below) —
-          rebalanced from the previous left-aligned 7/5 split since neither
-          block actually requires a side-by-side pairing. No new copy or
-          imagery, just recomposed. First band after the Hero: Warm White
-          step of the sitewide background rhythm. */}
-      <section className="py-20 md:py-28 lg:py-36 bg-surface-warm border-y border-border">
+      {/* 2. The Reality — premium editorial two-column composition: a
+          60/40 split with the headline/copy on the left (natural
+          left-to-right reading flow) and the existing black statement
+          card on the right, vertically centered against the left
+          content. Stacks to a single column (text, then card) on tablet
+          and mobile. Text and card content/design unchanged. First of
+          three stacked sections (this one, "Hidden Cost", and the
+          Decision-Maker Acquisition grid below) sharing one continuous
+          Light Gray band — the "Decision Maker" step of the locked
+          sitewide background rhythm, right after the Warm White Hero. */}
+      <section className="py-20 md:py-28 lg:py-36 bg-surface-gray">
         <div className="container-narrow">
-          <Reveal className="mx-auto max-w-3xl text-center">
-            <h2 className="h2-section text-balance">Decision-Makers Have Changed.</h2>
-            <div className="mx-auto mt-8 max-w-xl space-y-3 text-lg text-muted-foreground leading-relaxed">
-              <p>Your future clients don't make decisions after one sales call.</p>
-              <p>They research.</p>
-              <p>They compare.</p>
-              <p>They observe.</p>
-              <p>They build trust long before they respond to your email or schedule a meeting.</p>
-            </div>
-          </Reveal>
+          <div className="grid grid-cols-1 lg:grid-cols-[60%_40%] items-center gap-y-12 lg:gap-x-20 xl:gap-x-24">
+            <Reveal>
+              <h2 className="h2-section text-balance">Decision-Makers Have Changed.</h2>
+              <div className="mt-8 max-w-xl space-y-3 text-lg text-muted-foreground leading-relaxed">
+                <p>Your future clients don't make decisions after one sales call.</p>
+                <p>They research.</p>
+                <p>They compare.</p>
+                <p>They observe.</p>
+                <p>They build trust long before they respond to your email or schedule a meeting.</p>
+              </div>
+            </Reveal>
 
-          <Reveal delay={0.1} className="mx-auto mt-12 max-w-2xl">
-            <div className="rounded-3xl bg-foreground p-10 md:p-12 text-center shadow-elevation">
-              <p className="text-2xl md:text-[1.75rem] font-bold leading-[1.25] tracking-tight text-balance text-background">
-                If you're invisible during that process, you're{" "}
-                <span style={{ color: "var(--accent)" }}>already losing opportunities.</span>
-              </p>
-            </div>
-          </Reveal>
+            <Reveal delay={0.1}>
+              <div className="rounded-3xl bg-foreground p-10 md:p-12 shadow-elevation">
+                <p className="text-2xl md:text-[1.75rem] font-bold leading-[1.25] tracking-tight text-balance text-background">
+                  If you're invisible during that process, you're{" "}
+                  <span style={{ color: "var(--accent)" }}>already losing opportunities.</span>
+                </p>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
 
-      {/* 3. The Cost of Doing Nothing — White step */}
-      <section className="py-20 md:py-28 lg:py-36">
-        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
-          <h2 className="h2-section text-balance">The Hidden Cost of an Invisible Business</h2>
-          <p className="mt-8 text-lg text-muted-foreground leading-relaxed">
-            Every month you rely only on referrals or random outreach, you risk:
-          </p>
-          <ul className="mx-auto mt-6 max-w-md space-y-3 text-left text-lg">
-            {[
-              "Missed business opportunities",
-              "Longer sales cycles",
-              "Lower pricing power",
-              "Competitors becoming the obvious choice",
-            ].map((line) => (
-              <li key={line} className="flex items-start gap-3">
-                <span className="mt-2.5 size-1.5 rounded-full bg-accent shrink-0" />
-                {line}
-              </li>
+      {/* 3. The Cost of Doing Nothing — continues the Light Gray
+          "Decision Maker" band from section 2 above (no seam between
+          them). Title/typography/spacing above untouched. Cards: a single
+          4-wide row on desktop (1440px+) instead of the taller 2×2 grid,
+          to cut vertical space; 2-up on tablet, 1-up on mobile. Still the
+          site's existing .card-service system (24px radius, soft border,
+          shadow-card, lift + accent-border on hover) — same visual
+          language as the Services grids elsewhere, not a new style. Grid's
+          default align-items: stretch keeps all four cards equal height
+          per row automatically, regardless of title line-wrap. */}
+      <section className="py-20 md:py-28 lg:py-36 bg-surface-gray">
+        <div className="container-narrow">
+          <Reveal className="mx-auto max-w-3xl text-center">
+            <h2 className="h2-section text-balance">The Hidden Cost of an Invisible Business</h2>
+            <p className="mt-8 text-lg text-muted-foreground leading-relaxed">
+              Every month you rely only on referrals or random outreach, you risk:
+            </p>
+          </Reveal>
+
+          <div className="mt-10 md:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 items-stretch gap-6 md:gap-7 lg:gap-8">
+            {risks.map((r, i) => (
+              <motion.div
+                key={r.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-10%" }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                className="group card-service"
+              >
+                <div className="card-icon inline-flex size-12 items-center justify-center overflow-hidden rounded-2xl bg-foreground text-background transition-all duration-300 group-hover:bg-accent group-hover:text-accent-foreground group-hover:scale-110 group-hover:-rotate-3">
+                  <r.icon className="size-5" />
+                </div>
+                <h3 className="mt-6 text-xl font-semibold">{r.title}</h3>
+              </motion.div>
             ))}
-          </ul>
-          <p className="mt-8 text-xl font-semibold text-foreground">
-            The cost isn't just fewer leads—it's lost revenue and lost market position.
-          </p>
-        </Reveal>
+          </div>
+
+          <Reveal className="mx-auto mt-10 md:mt-12 max-w-3xl text-center">
+            <p className="text-xl font-semibold text-foreground">
+              The cost isn't just fewer leads—it's lost revenue and lost market position.
+            </p>
+          </Reveal>
+        </div>
       </section>
 
       {/* 4. The Solution — clean content section, no illustration */}
@@ -172,43 +217,67 @@ export default function Home() {
         closing="Every element works together to create predictable business growth."
       />
 
-      {/* 5. Choose Your Path — Apple product-selection-card composition:
-          spacious equal-height cards, strong title, one card (the middle
-          one) subtly emphasized via a black/white inversion rather than
-          an extra color, so it reads as "recommended" without breaking
-          the restrained palette. Gray step of the background rhythm. */}
-      <section className="py-20 md:py-28 lg:py-36 bg-surface-gray border-y border-border">
+      {/* 5. Choose Your Path — Apple product-selection-card composition,
+          now interactive: exactly one card is "active" at a time (black
+          background, white type, 1.03 scale, soft elevated shadow),
+          defaulting to the center card exactly as before. Clicking any
+          other card smoothly activates it and returns the previous one to
+          white — a 400ms ease-in-out color/scale transition. Content and
+          order unchanged; each card's internal layout is now top-left:
+          icon → audience label → title → description → CTA. Pure White
+          step of the locked background rhythm — a clean break from the
+          Light Gray "Decision Maker" band above, right before the dark
+          full-bleed Trust section below. */}
+      <section className="py-20 md:py-28 lg:py-36 bg-background">
         <div className="container-narrow">
           <Reveal className="mx-auto max-w-3xl text-center">
             <p className="eyebrow">Solutions</p>
             <h2 className="mt-4 h2-section text-balance">Choose Your Path.</h2>
           </Reveal>
 
-          <div className="mt-16 grid md:grid-cols-3 gap-6 md:gap-8 items-stretch">
+          <div className="mt-20 lg:mt-24 grid md:grid-cols-3 gap-6 md:gap-8 items-stretch">
             {paths.map((p, i) => {
-              const emphasized = i === 1;
+              const emphasized = activePath === i;
               return (
                 <motion.div
                   key={p.title}
-                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-10%" }}
                   transition={{ duration: 0.7, delay: i * 0.12, ease: [0.2, 0.7, 0.2, 1] }}
-                  className={`card-lift flex flex-col rounded-3xl p-10 md:p-12 ${
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setActivePath(i)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setActivePath(i);
+                    }
+                  }}
+                  aria-pressed={emphasized}
+                  className={`flex cursor-pointer flex-col rounded-3xl p-10 md:p-12 text-left transition-all duration-[400ms] ease-in-out ${
                     emphasized
-                      ? "bg-foreground text-background shadow-elevation md:-translate-y-2"
-                      : "border border-border bg-card shadow-card"
+                      ? "bg-foreground text-background shadow-elevation scale-[1.03]"
+                      : "border border-border bg-card shadow-card scale-100"
                   }`}
                 >
                   <div
-                    className={`text-xs uppercase tracking-widest ${
+                    className={`inline-flex size-12 items-center justify-center rounded-2xl transition-colors duration-[400ms] ease-in-out ${
+                      emphasized ? "bg-background/10 text-background" : "bg-foreground text-background"
+                    }`}
+                  >
+                    <p.icon className="size-5" />
+                  </div>
+
+                  <div
+                    className={`mt-6 text-xs uppercase tracking-widest ${
                       emphasized ? "" : "text-accent"
                     }`}
                     style={emphasized ? { color: "var(--accent)" } : undefined}
                   >
                     {p.audience}
                   </div>
-                  <h3 className="mt-4 text-2xl md:text-[28px] font-bold tracking-tight leading-tight">
+                  <h3 className="mt-2.5 text-2xl md:text-[28px] font-bold tracking-tight leading-tight">
                     {p.title}
                   </h3>
                   <p
@@ -220,6 +289,7 @@ export default function Home() {
                   </p>
                   <Link
                     to="/services"
+                    onClick={(e) => e.stopPropagation()}
                     className={`mt-8 pt-6 inline-flex items-center gap-2 text-sm font-semibold border-t hover:brightness-110 ${
                       emphasized ? "border-background/15" : "border-border text-accent"
                     }`}
@@ -235,29 +305,91 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. Why It Works — White step */}
-      <section className="py-20 md:py-28 lg:py-36">
-        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
-          <h2 className="h2-section text-balance">Modern Decision-Makers Trust Before They Buy.</h2>
-          <div className="mx-auto mt-8 max-w-2xl space-y-3 text-lg text-muted-foreground leading-relaxed">
-            <p>Trust isn't built during the sales meeting. It comes from repeated exposure.</p>
-            <p>
+      {/* 6. Why It Works — full-bleed cinematic editorial section
+          (Tony Robbins-inspired). No card, no bordered container behind
+          the copy — the typography sits directly on the background photo
+          over a dark overlay. All text is unchanged, verbatim.
+
+          Background image: intentionally referenced as a plain CSS
+          background (a `public/` path, not a Vite `import`), so the
+          section renders correctly today — with a dark neutral fallback
+          — and picks up the real photo the instant it's dropped in, with
+          zero code changes. To wire up the real photo (a premium
+          executive strategy meeting / boardroom shot), add it at:
+            client/public/images/trust-executive-meeting.jpg
+          (create the `public/images/` folder if it doesn't exist yet). */}
+      <section className="relative overflow-hidden">
+        <motion.div
+          aria-hidden
+          className="absolute inset-0 bg-neutral-900"
+          style={{
+            backgroundImage: "url(/images/trust-executive-meeting.jpg)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+          initial={{ scale: 1 }}
+          whileInView={{ scale: 1.05 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        />
+        {/* Dark overlay — 55%, within the requested 50–60% band */}
+        <div aria-hidden className="absolute inset-0 bg-black/55" />
+
+        <motion.div
+          className="relative py-28 md:py-36 lg:py-44"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-15%" }}
+          variants={{ hidden: {}, show: { transition: { staggerChildren: 0.14 } } }}
+        >
+          <div className="mx-auto max-w-2xl px-6 text-center">
+            <motion.h2
+              variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0 } }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="text-3xl md:text-4xl lg:text-[2.75rem] font-bold tracking-tight text-balance text-white"
+            >
+              Modern Decision-Makers Trust Before They Buy.
+            </motion.h2>
+
+            <motion.p
+              variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-8 text-lg leading-relaxed"
+              style={{ color: "rgba(255,255,255,0.82)" }}
+            >
+              Trust isn't built during the sales meeting. It comes from repeated exposure.
+            </motion.p>
+            <motion.p
+              variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-4 text-lg leading-relaxed"
+              style={{ color: "rgba(255,255,255,0.82)" }}
+            >
               It's built through consistent visibility, valuable insights, and meaningful
               interactions long before the first conversation.
-            </p>
-            <p className="text-foreground font-semibold">
+            </motion.p>
+            <motion.p
+              variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-8 text-xl font-semibold text-white"
+            >
               That's why we build systems instead of isolated marketing campaigns.
-            </p>
+            </motion.p>
           </div>
-        </Reveal>
+        </motion.div>
       </section>
 
-      {/* 8. Our Method */}
+      {/* 8. Our Method — Deep Black step of the locked background rhythm
+          (Apple-keynote feel). `dark` is scoped to this call site only —
+          About.jsx's and ProcessPage.jsx's <Process /> usages are
+          untouched and stay on the default light styling. */}
       <Process
         eyebrow={null}
         title={<>Our Method.</>}
         subtitle="System that builds for Consistent Growth."
         steps={methodSteps}
+        dark
       />
 
       {/* 9. The Numbers */}
@@ -267,16 +399,17 @@ export default function Home() {
         metrics={numbers}
       />
 
-      {/* 9b. Results — "Selected Work" showcase (see ProofShowcase in
-          ProofCarousel.jsx), moved here from the About page's Proof
-          section so it exists in exactly one place on the site. Sits
-          directly under the Numbers section so the story reads as
-          Numbers → Proof → (Why DMAX / client validation) in one
-          continuous flow. Apple-style featured-project + supporting-cards
-          layout, built from the same real screenshots as before — no
-          invented client names, challenges, or outcomes, since none
-          exist for these. Gray step of the background rhythm. */}
-      <section className="py-20 md:py-28 lg:py-36 bg-surface-gray border-y border-border">
+      {/* 9b. Results — premium infinite proof carousel (see
+          <ProofCarousel /> in ProofCarousel.jsx), moved here from the
+          About page's Proof section so it exists in exactly one place on
+          the site. Sits directly under the Numbers section so the story
+          reads as Numbers → Proof → (Why DMAX / client validation) in one
+          continuous flow. Same real screenshots and lightbox as before —
+          title/subtitle copy unchanged. Warm White step of the locked
+          background rhythm — matches the Numbers section directly above
+          so "Results/Proof" reads as one continuous band, no border
+          seam between them. */}
+      <section className="py-20 md:py-28 lg:py-36 bg-surface-warm">
         <Reveal className="container-narrow mx-auto max-w-3xl text-center">
           <p className="eyebrow">Results</p>
           <h2 className="mt-4 h2-section text-balance">Proof Behind Every Number</h2>
@@ -286,7 +419,7 @@ export default function Home() {
           </p>
         </Reveal>
         <Reveal delay={0.15} className="container-narrow mt-12">
-          <ProofShowcase />
+          <ProofCarousel />
         </Reveal>
       </section>
 

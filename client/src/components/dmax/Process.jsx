@@ -19,6 +19,14 @@ export function Process({
   ),
   subtitle,
   steps = defaultSteps,
+  // Opt-in only — used exclusively by Home.jsx's "Our Method" instance to
+  // satisfy the locked background-rhythm's "Method = Deep Black" step
+  // (Apple-keynote-style dark section). About.jsx and ProcessPage.jsx both
+  // call <Process /> without this prop, so their light styling is
+  // completely unaffected. Inline styles (not classes) are used for every
+  // color override below so they always win regardless of the shared
+  // .card-process / .eyebrow / .h2-section rule order.
+  dark = false,
 }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -39,17 +47,40 @@ export function Process({
         : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4";
 
   return (
-    <section id="process" className="py-20 md:py-28 lg:py-36 scroll-mt-24">
+    <section
+      id="process"
+      className={`py-20 md:py-28 lg:py-36 scroll-mt-24 ${dark ? "bg-deep-black" : ""}`}
+    >
       <div className="container-narrow">
         <div className="mx-auto max-w-3xl text-center">
-          {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-          {title && <h2 className="mt-4 h2-section text-balance">{title}</h2>}
-          {subtitle && <p className="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">{subtitle}</p>}
+          {eyebrow && (
+            <p className="eyebrow" style={dark ? { color: "rgba(255,255,255,0.55)" } : undefined}>
+              {eyebrow}
+            </p>
+          )}
+          {title && (
+            <h2
+              className="mt-4 h2-section text-balance"
+              style={dark ? { color: "#FFFFFF" } : undefined}
+            >
+              {title}
+            </h2>
+          )}
+          {subtitle && (
+            <p
+              className={`mx-auto mt-5 max-w-2xl text-lg ${dark ? "" : "text-muted-foreground"}`}
+              style={dark ? { color: "rgba(255,255,255,0.72)" } : undefined}
+            >
+              {subtitle}
+            </p>
+          )}
         </div>
 
         <div ref={ref} className="relative mt-16">
           {/* Progress line — vertical on mobile, horizontal from lg */}
-          <div className="absolute lg:top-6 lg:left-0 lg:right-0 lg:h-[2px] left-6 top-0 bottom-0 w-[2px] lg:w-auto bg-border" />
+          <div
+            className={`absolute lg:top-6 lg:left-0 lg:right-0 lg:h-[2px] left-6 top-0 bottom-0 w-[2px] lg:w-auto ${dark ? "bg-white/15" : "bg-border"}`}
+          />
           <motion.div
             style={{ scaleX: lineScale, scaleY: lineScale }}
             className="absolute lg:top-6 lg:left-0 lg:right-0 lg:h-[2px] lg:origin-left left-6 top-0 bottom-0 w-[2px] lg:w-auto bg-accent origin-top lg:scale-y-100"
@@ -59,7 +90,9 @@ export function Process({
             {steps.map((s, i) => {
               const start = i / steps.length;
               const end = (i + 0.5) / steps.length;
-              return <Step key={s.n} s={s} i={i} start={start} end={end} progress={scrollYProgress} />;
+              return (
+                <Step key={s.n} s={s} i={i} start={start} end={end} progress={scrollYProgress} dark={dark} />
+              );
             })}
           </ol>
         </div>
@@ -68,13 +101,21 @@ export function Process({
   );
 }
 
-function Step({ s, i, start, end, progress }) {
+function Step({ s, i, start, end, progress, dark }) {
   const opacity = useTransform(progress, [start, end], [0.4, 1]);
   const dotOpacity = useTransform(progress, [start, end], [0, 1]);
 
   return (
     <motion.li
-      style={{ opacity }}
+      style={{
+        opacity,
+        // .card-process's background/border come from a plain CSS rule
+        // (var(--color-card) / var(--color-border)), tuned for the site's
+        // light theme. Inline styles override that unconditionally without
+        // touching the shared class — so About/ProcessPage's usages (dark
+        // never passed) are byte-for-byte unaffected.
+        ...(dark && { background: "var(--charcoal)", borderColor: "rgba(255,255,255,0.1)" }),
+      }}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10%" }}
@@ -83,15 +124,26 @@ function Step({ s, i, start, end, progress }) {
     >
       {/* Step dot — fills with accent as progress crosses it, visually
           reinforcing the connecting line drawn between steps above. */}
-      <span className="absolute -left-[3.25rem] top-8 lg:left-1/2 lg:-top-[1.85rem] lg:-translate-x-1/2 size-4 rounded-full ring-4 ring-background border border-border bg-muted overflow-hidden">
+      <span
+        className={`absolute -left-[3.25rem] top-8 lg:left-1/2 lg:-top-[1.85rem] lg:-translate-x-1/2 size-4 rounded-full ring-4 overflow-hidden ${
+          dark ? "ring-deep-black border border-white/15 bg-white/10" : "ring-background border border-border bg-muted"
+        }`}
+      >
         <motion.span
           style={{ opacity: dotOpacity }}
           className="absolute inset-0 bg-accent rounded-full"
         />
       </span>
       <div className="text-xs font-semibold text-accent">{s.n}</div>
-      <div className="mt-3 text-2xl font-semibold">{s.t}</div>
-      <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.d}</p>
+      <div className="mt-3 text-2xl font-semibold" style={dark ? { color: "#FFFFFF" } : undefined}>
+        {s.t}
+      </div>
+      <p
+        className={`mt-3 text-sm leading-relaxed ${dark ? "" : "text-muted-foreground"}`}
+        style={dark ? { color: "rgba(255,255,255,0.68)" } : undefined}
+      >
+        {s.d}
+      </p>
     </motion.li>
   );
 }

@@ -47,6 +47,15 @@
   --color-surface-warm: var(--surface-warm);
   --color-surface-gray: var(--surface-gray);
 
+  /* Fixed brand-black steps of the locked background rhythm — always
+     these exact hex values regardless of the site's light/dark theme
+     toggle (same pattern as --ink/scene-dark, which are already
+     theme-invariant), since these back the Method, Final CTA, and
+     Footer sections that must stay dark no matter what. */
+  --color-deep-black: var(--deep-black);
+  --color-pure-black: var(--pure-black);
+  --color-charcoal: var(--charcoal);
+
   --font-display: "SF Pro Display", "Inter", "Helvetica Neue", system-ui, sans-serif;
   --font-sans: "SF Pro Display", "Inter", "Helvetica Neue", system-ui, sans-serif;
 
@@ -115,8 +124,15 @@
      are deliberately subtle — the transition between any two adjacent
      steps should be almost unnoticeable, only felt in aggregate as the
      page scrolls. */
-  --surface-warm: oklch(0.995 0.004 85);
-  --surface-gray: oklch(0.965 0.002 270);
+  --surface-warm: #FCFCFA;
+  --surface-gray: #F5F5F5;
+
+  /* Locked-rhythm fixed darks — identical in both :root and .dark below,
+     on purpose: these back sections (Method, Final CTA, Footer) that are
+     always dark regardless of the site's own light/dark theme toggle. */
+  --deep-black: #0D0D0F;
+  --pure-black: #080808;
+  --charcoal: #1A1A1D;
 }
 
 .dark {
@@ -341,12 +357,46 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
     box-shadow: var(--shadow-card-hover);
   }
 
+  /* Metrics section — six equal-importance stat columns inside one
+     rounded/bordered container (hairline dividers painted via the grid's
+     own background — see Results.jsx). Hover lifts only the hovered
+     column (translateY only, never scale, never touches neighbors) with
+     a stronger shadow and a hairline outline fading in from transparent.
+     Guarded to real hover-capable pointers only (desktop mouse/
+     trackpad), so nothing lingers "stuck" on touch devices after a tap.
+     `.metrics-grid` toggles from overflow:hidden (clean rounded corners
+     at rest) to overflow:visible the instant any column is hovered — via
+     :has() — so the lifted column's shadow isn't clipped by that same
+     rounding. */
+  .metric-column {
+    outline: 1px solid transparent;
+    outline-offset: -1px;
+    transition:
+      transform 250ms ease,
+      box-shadow 250ms ease,
+      outline-color 250ms ease;
+  }
+  .metrics-grid {
+    overflow: hidden;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .metric-column:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-card-hover);
+      outline-color: var(--color-border);
+      z-index: 1;
+    }
+    .metrics-grid:has(.metric-column:hover) {
+      overflow: visible;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .card-service, .card-metric, .card-process,
+    .card-service, .card-metric, .card-process, .metric-column,
     .card-service .card-icon, .card-service .card-arrow {
       transition: none !important;
     }
-    .card-service:hover, .card-metric:hover, .card-process:hover {
+    .card-service:hover, .card-metric:hover, .card-process:hover, .metric-column:hover {
       transform: none !important;
     }
   }

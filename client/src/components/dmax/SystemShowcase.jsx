@@ -37,7 +37,11 @@ import { motion } from "framer-motion";
  */
 export function SystemShowcase({ eyebrow, title, subtitle, items = [], closing }) {
   return (
-    <section className={`${title ? "pt-[120px]" : "pt-0"} pb-[120px]`}>
+    // bg-surface-gray closes out the "Decision Maker" light-gray band that
+    // starts two sections above (see Home.jsx) — this is currently the
+    // component's only call site, so hardcoding it here is safe and
+    // matches the section's own comment/scope (Home page only).
+    <section className={`${title ? "pt-[120px]" : "pt-0"} pb-[120px] bg-surface-gray`}>
       <div className="mx-auto w-full max-w-[1700px] px-5 md:px-8 lg:px-12">
         {title && (
           <div className="mx-auto max-w-3xl text-center">

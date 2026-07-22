@@ -18,22 +18,26 @@ const DEFAULT_IMAGES = [proof1, proof2, proof3, proof4, proof5, proof6, proof7, 
 );
 
 // Card height per breakpoint — this, not a column count, is what actually
-// controls "~3 on desktop / ~2 on tablet / ~1 + peek on mobile", since
-// each card's width is auto (driven by its own aspect ratio via
-// object-contain), not a fixed grid column.
-const CARD_HEIGHT_CLASS = "h-[190px] sm:h-[230px] lg:h-[270px]";
+// controls how many cards are visible at once, since each card's width is
+// auto (driven by its own real screenshot aspect ratio via object-contain,
+// unchanged/uncropped), not a fixed grid column. Tuned for a rough
+// 1-with-peek / 2 / 3 / 4-visible density at mobile / tablet / desktop /
+// large-desktop container widths — height grows only modestly across
+// breakpoints (unlike viewport width, which grows a lot more), so more
+// cards fit per row as the screen gets wider rather than the same few
+// cards just getting bigger.
+const CARD_HEIGHT_CLASS = "h-[200px] sm:h-[215px] lg:h-[230px] xl:h-[245px]";
 
-// Full-bleed breakout — the classic "calc(50% - 50vw)" margin trick.
-// Unlike the site's usual `-mx-5 md:-mx-8 lg:-mx-12` pattern (which only
-// cancels container-x's OWN padding, so content still stops at the
-// centered 1200px container's edge), this works from any ancestor width
-// and always spans the true viewport edge to edge — which is what "no
-// unnecessary gap on wide screens" actually requires here. No horizontal
-// padding is added back on top of it: screenshots should be able to
-// visually touch the viewport edges as they scroll past, not stop short
-// of them. `body { overflow-x: hidden }` (already set sitewide in
-// styles.css) absorbs the sub-pixel 100vw-vs-scrollbar rounding some
-// browsers introduce, so this never causes page-level horizontal scroll.
+// Full-bleed breakout — the classic "calc(50% - 50vw)" margin trick. This
+// is what makes the carousel span edge-to-edge across the viewport
+// (immersive, "more screenshots coming" feel) while the heading/subtitle
+// above it stay put inside the section's normal centered container — the
+// two are independent elements, so widening just this one doesn't touch
+// the other. No horizontal padding is added back on top of it: cards can
+// sit almost flush with the edge, which is the point. `body { overflow-x:
+// hidden }` (already set sitewide in styles.css) absorbs the sub-pixel
+// 100vw-vs-scrollbar rounding some browsers introduce, so this never
+// causes page-level horizontal scroll.
 const FULL_BLEED_STYLE = { width: "100vw", marginLeft: "calc(50% - 50vw)", marginRight: "calc(50% - 50vw)" };
 
 function ProofCard({ image, onClick, reduceMotion }) {
@@ -42,7 +46,7 @@ function ProofCard({ image, onClick, reduceMotion }) {
       type="button"
       onClick={onClick}
       aria-label={`Open ${image.alt} in full size`}
-      className={`group relative shrink-0 cursor-pointer pointer-events-auto ${CARD_HEIGHT_CLASS} overflow-hidden rounded-2xl border border-border bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04),0_6px_16px_-4px_rgba(0,0,0,0.06)] ${
+      className={`group relative shrink-0 cursor-pointer pointer-events-auto ${CARD_HEIGHT_CLASS} overflow-hidden rounded-[24px] border border-border bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04),0_6px_16px_-4px_rgba(0,0,0,0.06)] ${
         reduceMotion
           ? "hover:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.12)]"
           : "transition-[transform,box-shadow] duration-300 ease-out hover:scale-[1.02] hover:shadow-[0_10px_28px_-6px_rgba(0,0,0,0.14)]"
@@ -160,10 +164,17 @@ function Lightbox({ images, index, setIndex, onClose }) {
 
 /**
  * Premium infinite proof-screenshot marquee + click-to-enlarge lightbox.
- * Placed directly below the existing "Proof" section copy in About.jsx —
- * inherits that section's own background/spacing; this component adds no
- * section chrome of its own (no heading, no background color) so it
- * can't visually alter the section around it.
+ * Placed directly below the "Proof Behind Every Number" section copy on
+ * Home.jsx — inherits that section's own background/spacing; this
+ * component adds no section chrome of its own (no heading, no background
+ * color, no captions/labels/buttons on the cards — the screenshots are
+ * the only content) so it can't visually alter the section around it.
+ * Deliberately full-bleed (see FULL_BLEED_STYLE below): it breaks out of
+ * the section's centered `container-narrow` to span the full viewport
+ * edge-to-edge, independent of the heading/subtitle above it (which stay
+ * inside that same centered container, untouched) — that's what gives
+ * the immersive "screenshots flowing off both edges, more always coming"
+ * feel instead of a boxed-in gallery.
  *
  * Auto-scroll is driven by a manual requestAnimationFrame loop (not a CSS
  * keyframe animation) specifically so drag/hover/auto-scroll can all
@@ -172,7 +183,8 @@ function Lightbox({ images, index, setIndex, onClose }) {
  * is exactly the kind of conflict this site has hit before. The track
  * renders the image list twice back to back; once the offset passes one
  * full set's width it wraps by that width, so the loop has no visible
- * seam no matter how long you watch it.
+ * seam no matter how long you watch it. Drifts right-to-left (translateX
+ * decreases → content moves left, new cards enter from the right).
  */
 export function ProofCarousel({ images = DEFAULT_IMAGES }) {
   const reduceMotion = useReducedMotion();
@@ -294,7 +306,7 @@ export function ProofCarousel({ images = DEFAULT_IMAGES }) {
     return (
       <>
         <div className="overflow-x-auto" style={FULL_BLEED_STYLE}>
-          <div className="flex w-max gap-6">
+          <div className="flex w-max gap-7">
             {images.map((image, i) => (
               <ProofCard key={image.src} image={image} onClick={() => openAt(i)} reduceMotion />
             ))}
@@ -324,7 +336,7 @@ export function ProofCarousel({ images = DEFAULT_IMAGES }) {
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
       >
-        <div ref={trackRef} className="flex w-max gap-6" style={{ willChange: "transform" }}>
+        <div ref={trackRef} className="flex w-max gap-7" style={{ willChange: "transform" }}>
           {[...images, ...images].map((image, i) => (
             <ProofCard
               key={`${image.src}-${i}`}
@@ -337,103 +349,6 @@ export function ProofCarousel({ images = DEFAULT_IMAGES }) {
 
       {lightboxIndex !== null && (
         <Lightbox images={images} index={lightboxIndex} setIndex={setLightboxIndex} onClose={closeLightbox} />
-      )}
-    </>
-  );
-}
-
-/**
- * "Selected Work" showcase — an Apple-style case-study presentation built
- * from the exact same real screenshots as <ProofCarousel />, reusing the
- * same <Lightbox />, instead of the horizontal auto-scrolling marquee.
- * One large featured screenshot up top, 2-3 smaller supporting cards
- * below. Deliberately does NOT invent a client name, challenge, solution,
- * or outcome/metric for any of these — there is no real case-study copy
- * available for these screenshots, only the screenshots themselves, so
- * the featured/supporting cards carry a neutral, truthful category label
- * and description instead of fabricated result copy. The lightbox still
- * opens onto the full 8-image set (with working prev/next) no matter
- * which card is clicked, so nothing is hidden — this is a curated
- * *presentation* of the same content, not a reduction of it.
- */
-export function ProofShowcase({ images = DEFAULT_IMAGES }) {
-  const [lightboxIndex, setLightboxIndex] = useState(null);
-  const featured = images[0];
-  const supporting = images.slice(1, 4);
-
-  return (
-    <>
-      <div className="grid lg:grid-cols-12 gap-6 md:gap-8">
-        {/* Featured — one large visual, category label, short neutral
-            description (no invented client/result), CTA to view it full
-            size via the shared lightbox. */}
-        <button
-          type="button"
-          onClick={() => setLightboxIndex(0)}
-          aria-label={`Open ${featured.alt} in full size`}
-          className="group lg:col-span-8 text-left rounded-3xl border border-border bg-card shadow-card overflow-hidden transition-shadow duration-300 hover:shadow-card-hover"
-        >
-          <div className="bg-secondary/40 flex items-center justify-center p-6 md:p-10 min-h-[320px] md:min-h-[440px]">
-            <img
-              src={featured.src}
-              alt={featured.alt}
-              loading="lazy"
-              className="max-h-[280px] md:max-h-[400px] w-auto object-contain shadow-[0_20px_50px_-20px_rgba(0,0,0,0.25)] transition-transform duration-500 ease-out group-hover:scale-[1.02]"
-            />
-          </div>
-          <div className="p-7 md:p-9">
-            <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--accent)" }}>
-              LinkedIn Outreach
-            </p>
-            <h3 className="mt-3 text-2xl md:text-3xl font-bold tracking-tight text-foreground">
-              A real conversation, not a staged mockup.
-            </h3>
-            <p className="mt-3 max-w-xl text-base text-muted-foreground leading-relaxed">
-              One of the real LinkedIn conversations behind the DMAX Method™ — shared exactly as
-              it happened.
-            </p>
-            <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-accent">
-              View Full Size
-              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </span>
-          </div>
-        </button>
-
-        {/* Supporting — 3 smaller cards, same honest framing, no invented
-            per-image detail since none exists. */}
-        <div className="lg:col-span-4 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-6 md:gap-8">
-          {supporting.map((image, i) => (
-            <button
-              key={image.src}
-              type="button"
-              onClick={() => setLightboxIndex(i + 1)}
-              aria-label={`Open ${image.alt} in full size`}
-              className="group text-left rounded-2xl border border-border bg-card shadow-card overflow-hidden transition-shadow duration-300 hover:shadow-card-hover"
-            >
-              <div className="bg-secondary/40 flex items-center justify-center p-5 h-[180px]">
-                <img
-                  src={image.src}
-                  alt={image.alt}
-                  loading="lazy"
-                  className="max-h-full w-auto object-contain transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                />
-              </div>
-              <div className="p-5">
-                <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
-                  Client Conversation
-                </p>
-                <span className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-accent">
-                  View
-                  <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-                </span>
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {lightboxIndex !== null && (
-        <Lightbox images={images} index={lightboxIndex} setIndex={setLightboxIndex} onClose={() => setLightboxIndex(null)} />
       )}
     </>
   );
