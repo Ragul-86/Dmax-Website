@@ -94,7 +94,9 @@ export default function Services() {
           Each card is a flex column; the "Achieve" list carries flex-1, so
           it absorbs any leftover space and the CTA always lands on the same
           baseline across all three cards regardless of copy length. */}
-      <section className="py-16 md:py-20 lg:py-28">
+      {/* First band after the header: Warm White step of the sitewide
+          background rhythm. */}
+      <section className="py-20 md:py-24 lg:py-32 bg-surface-warm border-y border-border">
         <div className="container-x">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
             {solutions.map((s, i) => (
@@ -141,8 +143,8 @@ export default function Services() {
         </div>
       </section>
 
-      {/* 5. Why It Works */}
-      <section className="py-16 md:py-20 lg:py-28">
+      {/* 5. Why It Works — White step */}
+      <section className="py-20 md:py-24 lg:py-32">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">Trust comes before business.</h2>
           <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">

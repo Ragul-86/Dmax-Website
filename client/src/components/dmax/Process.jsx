@@ -39,7 +39,7 @@ export function Process({
         : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4";
 
   return (
-    <section id="process" className="py-16 md:py-20 lg:py-28 scroll-mt-24">
+    <section id="process" className="py-20 md:py-24 lg:py-32 scroll-mt-24">
       <div className="container-x">
         <div className="max-w-3xl">
           {eyebrow && <p className="eyebrow">{eyebrow}</p>}

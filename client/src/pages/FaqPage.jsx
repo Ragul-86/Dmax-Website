@@ -86,8 +86,8 @@ export default function FaqPage() {
         </div>
       </header>
 
-      {/* 2. What You'll Discover */}
-      <section className="py-16 md:py-20 lg:py-28 bg-secondary/40 border-y border-border">
+      {/* 2. What You'll Discover — Warm White step (first band after the header) */}
+      <section className="py-20 md:py-24 lg:py-32 bg-surface-warm border-y border-border">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">The principles behind predictable growth.</h2>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
@@ -118,8 +118,8 @@ export default function FaqPage() {
       {/* 3. Explore by Topic */}
       <Services eyebrow={null} title={<>Explore by Topic</>} items={topics} columns="lg:grid-cols-5" />
 
-      {/* 4. Featured Insights */}
-      <section id="featured-insights" className="py-16 md:py-20 lg:py-28 scroll-mt-24 bg-secondary/40 border-y border-border">
+      {/* 4. Featured Insights — Gray step */}
+      <section id="featured-insights" className="py-20 md:py-24 lg:py-32 scroll-mt-24 bg-surface-gray border-y border-border">
         <div className="container-x">
           <div className="max-w-3xl">
             <p className="eyebrow">Featured Insights</p>
@@ -145,8 +145,8 @@ export default function FaqPage() {
         </div>
       </section>
 
-      {/* 5. Our Philosophy */}
-      <section className="py-16 md:py-20 lg:py-28">
+      {/* 5. Our Philosophy — White step */}
+      <section className="py-20 md:py-24 lg:py-32">
         <Reveal className="container-x max-w-3xl">
           <p className="eyebrow">Our Philosophy</p>
           <div className="mt-6 space-y-3 text-lg text-muted-foreground leading-relaxed">

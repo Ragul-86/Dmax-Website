@@ -51,7 +51,7 @@ export default function About() {
           same soft radial-mask treatment to dissolve the photo's flat
           studio backdrop, now set inside a neutral card frame. DMAX green
           is used once, subtly, on the role label only. */}
-      <section className="py-16 md:py-20 lg:py-28">
+      <section className="py-20 md:py-24 lg:py-32">
         <div className="container-x grid grid-cols-1 lg:grid-cols-[42%_58%] gap-x-16 gap-y-14 lg:items-center">
           <Reveal className="flex flex-col items-center lg:items-start">
             <div className="w-full max-w-[560px] aspect-[560/700] rounded-3xl border border-border bg-card p-6 shadow-card">
@@ -114,8 +114,10 @@ export default function About() {
         </div>
       </section>
 
-      {/* 2. The Observation — two-column: narrative left, supporting proof-panel right */}
-      <section className="py-16 md:py-20 lg:py-28 bg-secondary/40 border-y border-border">
+      {/* 2. The Observation — two-column: narrative left, supporting proof-panel right.
+          First band after the Founder section: Warm White step of the
+          sitewide background rhythm. */}
+      <section className="py-20 md:py-24 lg:py-32 bg-surface-warm border-y border-border">
         <div className="container-x grid lg:grid-cols-12 gap-10 items-start">
           <Reveal className="lg:col-span-7">
             <h2 className="h2-section text-balance">B2B buying has changed.</h2>
@@ -152,8 +154,8 @@ export default function About() {
         </div>
       </section>
 
-      {/* 3. The Problem */}
-      <section className="py-16 md:py-20 lg:py-28">
+      {/* 3. The Problem — White step */}
+      <section className="py-20 md:py-24 lg:py-32">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">Great businesses are overlooked every day.</h2>
           <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">
@@ -173,8 +175,8 @@ export default function About() {
         </Reveal>
       </section>
 
-      {/* 4. Our Belief */}
-      <section className="py-16 md:py-20 lg:py-28 bg-secondary/40 border-y border-border">
+      {/* 4. Our Belief — Gray step */}
+      <section className="py-20 md:py-24 lg:py-32 bg-surface-gray border-y border-border">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">Trust is built before business is won.</h2>
           <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">
@@ -210,8 +212,8 @@ export default function About() {
           used to live here has moved to the Home page's new "Results"
           section (directly under the homepage's Numbers/metrics section),
           per the storytelling-flow reorg — it exists in exactly one place
-          on the site now, not duplicated. */}
-      <section className="py-16 md:py-20 lg:py-28 bg-secondary/40 border-y border-border">
+          on the site now, not duplicated. Gray step of the background rhythm. */}
+      <section className="py-20 md:py-24 lg:py-32 bg-surface-gray border-y border-border">
         <Reveal className="container-x max-w-3xl">
           <p className="eyebrow">Proof</p>
           <h2 className="mt-4 h2-section text-balance">
@@ -249,8 +251,8 @@ export default function About() {
         closing="If your business depends on credibility before commitment, you're the kind of business we built DMAX to help."
       />
 
-      {/* 8. Why Now? */}
-      <section className="py-16 md:py-20 lg:py-28">
+      {/* 8. Why Now? — White step */}
+      <section className="py-20 md:py-24 lg:py-32">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">Why Now?</h2>
           <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">

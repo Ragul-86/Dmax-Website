@@ -44,8 +44,17 @@
   --color-graphite: var(--graphite);
   --color-mist: var(--mist);
 
+  --color-surface-warm: var(--surface-warm);
+  --color-surface-gray: var(--surface-gray);
+
   --font-display: "SF Pro Display", "Inter", "Helvetica Neue", system-ui, sans-serif;
   --font-sans: "SF Pro Display", "Inter", "Helvetica Neue", system-ui, sans-serif;
+
+  /* A touch more open than Tailwind's default 1.625 — every paragraph
+     sitewide already opts into `leading-relaxed`, so nudging the token
+     itself improves reading rhythm everywhere at once without touching
+     any component markup. */
+  --leading-relaxed: 1.75;
 }
 
 :root {
@@ -88,13 +97,26 @@
   --gradient-brand: linear-gradient(135deg, #38E000 0%, #66FF33 100%);
   --gradient-ink: linear-gradient(180deg, #18181B 0%, #000 100%);
 
-  /* Shadows */
-  --shadow-card: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px -8px rgba(15,15,20,0.08);
-  --shadow-card-hover: 0 1px 2px rgba(0,0,0,0.04), 0 24px 60px -20px rgba(15,15,20,0.18);
+  /* Shadows — softened and spread further (Apple-style diffuse elevation:
+     a faint contact shadow close to the surface + a large, very low-
+     opacity ambient glow underneath, rather than one mid-distance shadow).
+     Same visual "weight" as before, reads calmer/more premium. */
+  --shadow-card: 0 1px 2px rgba(15,15,20,0.03), 0 20px 48px -22px rgba(15,15,20,0.10);
+  --shadow-card-hover: 0 1px 2px rgba(15,15,20,0.03), 0 32px 72px -24px rgba(15,15,20,0.16);
   --shadow-glow: 0 0 0 1px rgba(56,224,0,0.25), 0 20px 60px -20px rgba(56,224,0,0.45);
-  --shadow-elevation: 0 30px 60px -30px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.04);
+  --shadow-elevation: 0 40px 80px -36px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.04);
 
   --radius: 20px;
+
+  /* Background rhythm — the tonal steps a page cycles through between
+     the Hero and the Footer. Warm white sits fractionally warmer than
+     pure white (a hint of cream, not gray); the gray step is a true but
+     very light neutral, one notch below Apple's classic #F5F5F7. Both
+     are deliberately subtle — the transition between any two adjacent
+     steps should be almost unnoticeable, only felt in aggregate as the
+     page scrolls. */
+  --surface-warm: oklch(0.995 0.004 85);
+  --surface-gray: oklch(0.965 0.002 270);
 }
 
 .dark {
@@ -132,9 +154,12 @@
                    linear-gradient(180deg, #0a0b10 0%, #11131a 100%);
   --gradient-ink: linear-gradient(180deg, #000 0%, #0a0b10 100%);
 
-  --shadow-card: 0 1px 2px rgba(0,0,0,0.4), 0 8px 24px -8px rgba(0,0,0,0.6);
-  --shadow-card-hover: 0 1px 2px rgba(0,0,0,0.4), 0 24px 60px -20px rgba(0,0,0,0.8);
-  --shadow-elevation: 0 30px 60px -30px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04);
+  --shadow-card: 0 1px 2px rgba(0,0,0,0.4), 0 20px 48px -22px rgba(0,0,0,0.55);
+  --shadow-card-hover: 0 1px 2px rgba(0,0,0,0.4), 0 32px 72px -24px rgba(0,0,0,0.75);
+  --shadow-elevation: 0 40px 80px -36px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.04);
+
+  --surface-warm: oklch(0.16 0.006 85);
+  --surface-gray: oklch(0.19 0.006 270);
 }
 
 /* Smooth theme transition */
@@ -211,7 +236,7 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
   .card-service,
   .card-metric,
   .card-process {
-    border-radius: 22px;
+    border-radius: 24px;
     border: 1px solid var(--color-border);
     background: var(--color-card);
     box-shadow: var(--shadow-card);
@@ -369,7 +394,7 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
     border-radius: 9999px;
     background: var(--color-foreground);
     color: var(--color-background);
-    padding: 1rem 1.75rem;
+    padding: 1.05rem 2.125rem;
     font-size: 0.875rem;
     font-weight: 600;
     transition: background-color 0.25s ease, transform 0.25s cubic-bezier(0.2,0.7,0.2,1), box-shadow 0.25s ease;
@@ -394,7 +419,7 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
     background: color-mix(in srgb, var(--color-background) 60%, transparent);
     backdrop-filter: blur(12px);
     color: var(--color-foreground);
-    padding: 1rem 1.75rem;
+    padding: 1.05rem 2.125rem;
     font-size: 0.875rem;
     font-weight: 600;
     transition: border-color 0.25s ease, transform 0.25s cubic-bezier(0.2,0.7,0.2,1);
@@ -420,7 +445,7 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
     border-radius: 9999px;
     background: var(--color-accent);
     color: var(--color-accent-foreground);
-    padding: 1rem 1.75rem;
+    padding: 1.05rem 2.125rem;
     font-size: 0.875rem;
     font-weight: 600;
     transition: filter 0.25s ease, transform 0.25s cubic-bezier(0.2,0.7,0.2,1);

@@ -24,7 +24,7 @@ export function TrustedBrands({
 }) {
   if (variant === "badges") {
     return (
-      <section className="py-16 md:py-20 lg:py-28 bg-background">
+      <section className="py-20 md:py-24 lg:py-32 bg-background">
         <div className="container-x">
           <p className="eyebrow text-center">{title}</p>
 
@@ -56,7 +56,7 @@ export function TrustedBrands({
 
   if (variant === "chips") {
     return (
-      <section className="py-16 md:py-20 lg:py-28 bg-background">
+      <section className="py-20 md:py-24 lg:py-32 bg-background">
         <div className="container-x">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-balance text-foreground">
@@ -90,7 +90,7 @@ export function TrustedBrands({
   }
 
   return (
-    <section className="py-20 border-y border-border bg-secondary/40">
+    <section className="py-20 md:py-24 lg:py-32 border-y border-border bg-surface-gray">
       <div className="container-x">
         <p className="eyebrow text-center">{title}</p>
         <div

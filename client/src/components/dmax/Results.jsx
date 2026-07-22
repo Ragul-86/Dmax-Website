@@ -56,7 +56,7 @@ export function Results({ eyebrow = "Results", title = <>Our Impact</>, metrics 
         : "xl:grid-cols-4";
 
   return (
-    <section id="results" className="py-16 md:py-20 lg:py-28 bg-background">
+    <section id="results" className="py-20 md:py-24 lg:py-32 bg-background">
       <div className="container-x">
         {/* Restrained heading — a stat strip earns its authority from the
             numbers, not from a full-weight section headline. */}

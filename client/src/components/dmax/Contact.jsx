@@ -44,7 +44,7 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="py-16 md:py-20 lg:py-28 scroll-mt-24">
+    <section id="contact" className="py-20 md:py-24 lg:py-32 scroll-mt-24">
       <div className="container-x grid lg:grid-cols-12 gap-10">
         <div className="lg:col-span-5">
           <p className="eyebrow">Book Your Strategy Session</p>

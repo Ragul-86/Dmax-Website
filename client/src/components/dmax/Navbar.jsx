@@ -41,13 +41,13 @@ export function Navbar() {
             : "bg-transparent"
         }`}
       >
-        <nav className="container-x flex h-20 items-center justify-between">
-          <Link to="/" aria-label="DMAX home" onClick={() => setOpen(false)} className="inline-flex items-center">
+        <nav className="container-x flex h-20 md:h-24 items-center justify-between">
+          <Link to="/" aria-label="DMAX home" onClick={() => setOpen(false)} className="inline-flex items-center pr-4">
             <img src={logo} alt="DMAX" className="h-7 md:h-8 w-auto block dark:hidden" />
             <img src={logoDark} alt="DMAX" className="h-7 md:h-8 w-auto hidden dark:block" />
           </Link>
 
-          <ul className="hidden lg:flex items-center gap-8 text-sm font-medium text-foreground/70">
+          <ul className="hidden lg:flex items-center gap-10 text-sm font-medium text-foreground/70">
             {links.map((l) => (
               <li key={l.to}>
                 <NavLink
@@ -69,7 +69,7 @@ export function Navbar() {
             <ThemeToggle />
             <Link
               to="/contact"
-              className="hidden lg:inline-flex group items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-semibold text-background transition-all duration-300 hover:bg-foreground/90 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
+              className="hidden lg:inline-flex group items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-all duration-300 hover:bg-foreground/90 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
             >
               Book a Strategy Call
               <ArrowRight className="size-4 group-hover:translate-x-0.5 transition-transform" />

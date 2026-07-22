@@ -106,8 +106,10 @@ export default function Home() {
       {/* 1. Hero — headline, supporting text, primary + secondary CTA */}
       <Hero />
 
-      {/* 2. The Reality */}
-      <section className="py-32">
+      {/* 2. The Reality — first band after the Hero: Warm White step of the
+          sitewide background rhythm (Warm White → White → Gray → White →
+          Gray → White → Black Footer). */}
+      <section className="py-20 md:py-24 lg:py-32 bg-surface-warm border-y border-border">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">Decision-Makers Have Changed.</h2>
           <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">
@@ -123,8 +125,8 @@ export default function Home() {
         </Reveal>
       </section>
 
-      {/* 3. The Cost of Doing Nothing */}
-      <section className="py-32 bg-secondary/40 border-y border-border">
+      {/* 3. The Cost of Doing Nothing — White step */}
+      <section className="py-20 md:py-24 lg:py-32">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">The Hidden Cost of an Invisible Business</h2>
           <p className="mt-8 text-lg text-muted-foreground leading-relaxed">
@@ -158,8 +160,8 @@ export default function Home() {
         closing="Every element works together to create predictable business growth."
       />
 
-      {/* 5. Choose Your Path */}
-      <section className="py-32 bg-secondary/40 border-y border-border">
+      {/* 5. Choose Your Path — Gray step */}
+      <section className="py-20 md:py-24 lg:py-32 bg-surface-gray border-y border-border">
         <div className="container-x">
           <Reveal className="max-w-3xl">
             <p className="eyebrow">Solutions</p>
@@ -189,8 +191,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. Why It Works */}
-      <section className="py-32">
+      {/* 6. Why It Works — White step */}
+      <section className="py-20 md:py-24 lg:py-32">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">Modern Decision-Makers Trust Before They Buy.</h2>
           <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">
@@ -229,8 +231,8 @@ export default function Home() {
           treatment) as the rest of the homepage's banded sections; the
           carousel itself breaks out to full viewport width on its own
           (see ProofCarousel.jsx), so its wrapper is deliberately NOT
-          container-x. */}
-      <section className="py-16 md:py-20 lg:py-28 bg-secondary/40 border-y border-border">
+          container-x. Gray step of the background rhythm. */}
+      <section className="py-20 md:py-24 lg:py-32 bg-surface-gray border-y border-border">
         <Reveal className="container-x max-w-3xl">
           <p className="eyebrow">Results</p>
           <h2 className="mt-4 h2-section text-balance">Proof Behind Every Number</h2>

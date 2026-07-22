@@ -74,8 +74,8 @@ export default function ContactPage() {
         </div>
       </header>
 
-      {/* What You'll Leave With */}
-      <section className="py-16 md:py-20 lg:py-28 bg-secondary/40 border-y border-border">
+      {/* What You'll Leave With — Warm White step (first band after the header) */}
+      <section className="py-20 md:py-24 lg:py-32 bg-surface-warm border-y border-border">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">What You'll Leave With</h2>
           <div className="mt-6 space-y-2 text-lg text-muted-foreground leading-relaxed">
@@ -98,8 +98,8 @@ export default function ContactPage() {
         </Reveal>
       </section>
 
-      {/* Is This Strategy Session Right for You? */}
-      <section className="py-16 md:py-20 lg:py-28">
+      {/* Is This Strategy Session Right for You? — White step */}
+      <section className="py-20 md:py-24 lg:py-32">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">Is This Strategy Session Right for You?</h2>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
@@ -121,8 +121,8 @@ export default function ContactPage() {
         </Reveal>
       </section>
 
-      {/* What Happens During the Session? */}
-      <section className="py-16 md:py-20 lg:py-28 bg-secondary/40 border-y border-border">
+      {/* What Happens During the Session? — Gray step */}
+      <section className="py-20 md:py-24 lg:py-32 bg-surface-gray border-y border-border">
         <div className="container-x">
           <Reveal className="max-w-3xl">
             <h2 className="h2-section text-balance">What Happens During the Session?</h2>
@@ -146,8 +146,8 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Why Business Leaders Book This Session */}
-      <section className="py-16 md:py-20 lg:py-28">
+      {/* Why Business Leaders Book This Session — White step */}
+      <section className="py-20 md:py-24 lg:py-32">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">Why Business Leaders Book This Session</h2>
           <p className="mt-6 text-lg text-muted-foreground">Because they're asking questions like:</p>
@@ -165,8 +165,8 @@ export default function ContactPage() {
         </Reveal>
       </section>
 
-      {/* Who We Work With */}
-      <section className="py-16 md:py-20 lg:py-28 bg-secondary/40 border-y border-border">
+      {/* Who We Work With — Gray step */}
+      <section className="py-20 md:py-24 lg:py-32 bg-surface-gray border-y border-border">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">Who We Work With</h2>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
@@ -187,8 +187,8 @@ export default function ContactPage() {
         </Reveal>
       </section>
 
-      {/* Before You Book */}
-      <section className="py-16 md:py-20 lg:py-28">
+      {/* Before You Book — White step */}
+      <section className="py-20 md:py-24 lg:py-32">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">Before You Book</h2>
           <div className="mt-6 space-y-2 text-lg text-muted-foreground leading-relaxed">

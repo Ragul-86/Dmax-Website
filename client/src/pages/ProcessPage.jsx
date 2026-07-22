@@ -134,7 +134,9 @@ export default function ProcessPage() {
         </div>
       </header>
 
-      <section className="pt-12 pb-12 mt-12 bg-secondary/40 border-y border-border">
+      {/* First band after the header: Warm White step of the sitewide
+          background rhythm. */}
+      <section className="py-20 md:py-24 lg:py-32 bg-surface-warm border-y border-border">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">Every Business Has a Growth Bottleneck.</h2>
           <p className="mt-4 text-lg text-muted-foreground">
@@ -146,7 +148,7 @@ export default function ProcessPage() {
       <Process eyebrow={null} title={null} steps={methodSteps} />
 
       {/* Expanded per-stage detail from the Method doc */}
-      <section className="pb-32">
+      <section className="pb-20 md:pb-24 lg:pb-32">
         <div className="container-x space-y-6">
           {stageDetails.map((s, i) => (
             <motion.div
@@ -185,7 +187,7 @@ export default function ProcessPage() {
       </section>
 
       {/* The DMAX Method™ diagram summary */}
-      <section className="pb-32">
+      <section className="pb-20 md:pb-24 lg:pb-32">
         <Reveal className="container-x max-w-3xl">
           <p className="eyebrow">The DMAX Method™</p>
           <h2 className="mt-4 h2-section text-balance">Every stage builds the next.</h2>

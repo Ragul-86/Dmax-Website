@@ -33,7 +33,7 @@ export function WhyChooseDMAX({
     }
 
     return (
-      <section className={`py-16 md:py-20 lg:py-28 ${banded ? "bg-secondary/40 border-y border-border" : "bg-background"}`}>
+      <section className={`py-20 md:py-24 lg:py-32 ${banded ? "bg-surface-gray border-y border-border" : "bg-background"}`}>
         <div className="container-x">
           <div className="max-w-4xl mx-auto">
             <div className="max-w-xl">
@@ -82,7 +82,7 @@ export function WhyChooseDMAX({
   }
 
   return (
-    <section className={`py-16 md:py-20 lg:py-28 ${banded ? "bg-secondary/40 border-y border-border" : ""}`}>
+    <section className={`py-20 md:py-24 lg:py-32 ${banded ? "bg-surface-gray border-y border-border" : ""}`}>
       <div className="container-x">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
