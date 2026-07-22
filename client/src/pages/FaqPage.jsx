@@ -87,7 +87,7 @@ export default function FaqPage() {
       </header>
 
       {/* 2. What You'll Discover — Warm White step (first band after the header) */}
-      <section className="py-20 md:py-24 lg:py-32 bg-surface-warm border-y border-border">
+      <section className="py-20 md:py-28 lg:py-36 bg-surface-warm border-y border-border">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">The principles behind predictable growth.</h2>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
@@ -119,7 +119,7 @@ export default function FaqPage() {
       <Services eyebrow={null} title={<>Explore by Topic</>} items={topics} columns="lg:grid-cols-5" />
 
       {/* 4. Featured Insights — Gray step */}
-      <section id="featured-insights" className="py-20 md:py-24 lg:py-32 scroll-mt-24 bg-surface-gray border-y border-border">
+      <section id="featured-insights" className="py-20 md:py-28 lg:py-36 scroll-mt-24 bg-surface-gray border-y border-border">
         <div className="container-x">
           <div className="max-w-3xl">
             <p className="eyebrow">Featured Insights</p>
@@ -146,7 +146,7 @@ export default function FaqPage() {
       </section>
 
       {/* 5. Our Philosophy — White step */}
-      <section className="py-20 md:py-24 lg:py-32">
+      <section className="py-20 md:py-28 lg:py-36">
         <Reveal className="container-x max-w-3xl">
           <p className="eyebrow">Our Philosophy</p>
           <div className="mt-6 space-y-3 text-lg text-muted-foreground leading-relaxed">

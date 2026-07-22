@@ -136,7 +136,7 @@ export default function ProcessPage() {
 
       {/* First band after the header: Warm White step of the sitewide
           background rhythm. */}
-      <section className="py-20 md:py-24 lg:py-32 bg-surface-warm border-y border-border">
+      <section className="py-20 md:py-28 lg:py-36 bg-surface-warm border-y border-border">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">Every Business Has a Growth Bottleneck.</h2>
           <p className="mt-4 text-lg text-muted-foreground">

@@ -75,7 +75,7 @@ export default function ContactPage() {
       </header>
 
       {/* What You'll Leave With — Warm White step (first band after the header) */}
-      <section className="py-20 md:py-24 lg:py-32 bg-surface-warm border-y border-border">
+      <section className="py-20 md:py-28 lg:py-36 bg-surface-warm border-y border-border">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">What You'll Leave With</h2>
           <div className="mt-6 space-y-2 text-lg text-muted-foreground leading-relaxed">
@@ -99,7 +99,7 @@ export default function ContactPage() {
       </section>
 
       {/* Is This Strategy Session Right for You? — White step */}
-      <section className="py-20 md:py-24 lg:py-32">
+      <section className="py-20 md:py-28 lg:py-36">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">Is This Strategy Session Right for You?</h2>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
@@ -122,7 +122,7 @@ export default function ContactPage() {
       </section>
 
       {/* What Happens During the Session? — Gray step */}
-      <section className="py-20 md:py-24 lg:py-32 bg-surface-gray border-y border-border">
+      <section className="py-20 md:py-28 lg:py-36 bg-surface-gray border-y border-border">
         <div className="container-x">
           <Reveal className="max-w-3xl">
             <h2 className="h2-section text-balance">What Happens During the Session?</h2>
@@ -147,7 +147,7 @@ export default function ContactPage() {
       </section>
 
       {/* Why Business Leaders Book This Session — White step */}
-      <section className="py-20 md:py-24 lg:py-32">
+      <section className="py-20 md:py-28 lg:py-36">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">Why Business Leaders Book This Session</h2>
           <p className="mt-6 text-lg text-muted-foreground">Because they're asking questions like:</p>
@@ -166,7 +166,7 @@ export default function ContactPage() {
       </section>
 
       {/* Who We Work With — Gray step */}
-      <section className="py-20 md:py-24 lg:py-32 bg-surface-gray border-y border-border">
+      <section className="py-20 md:py-28 lg:py-36 bg-surface-gray border-y border-border">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">Who We Work With</h2>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
@@ -188,7 +188,7 @@ export default function ContactPage() {
       </section>
 
       {/* Before You Book — White step */}
-      <section className="py-20 md:py-24 lg:py-32">
+      <section className="py-20 md:py-28 lg:py-36">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">Before You Book</h2>
           <div className="mt-6 space-y-2 text-lg text-muted-foreground leading-relaxed">

@@ -158,7 +158,7 @@ export function Services({
   columns = "lg:grid-cols-3",
 }) {
   return (
-    <section id="services" className="py-20 md:py-24 lg:py-32">
+    <section id="services" className="py-20 md:py-28 lg:py-36">
       <div className="container-x">
         <div className="max-w-3xl">
           {eyebrow && <p className="eyebrow">{eyebrow}</p>}

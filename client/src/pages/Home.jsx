@@ -12,7 +12,7 @@ import { WhyChooseDMAX } from "@/components/dmax/WhyChooseDMAX";
 import { HomeFinalCTA } from "@/components/dmax/HomeFinalCTA";
 import { Footer } from "@/components/dmax/Footer";
 import { Reveal } from "@/components/dmax/Reveal";
-import { ProofCarousel } from "@/components/dmax/ProofCarousel";
+import { ProofShowcase } from "@/components/dmax/ProofCarousel";
 
 // Section 4 — "Introducing the Decision-Maker Acquisition System™" — 8 elements
 import strategicPositioningImg from "@/assets/system/strategic-positioning.png";
@@ -106,27 +106,41 @@ export default function Home() {
       {/* 1. Hero — headline, supporting text, primary + secondary CTA */}
       <Hero />
 
-      {/* 2. The Reality — first band after the Hero: Warm White step of the
-          sitewide background rhythm (Warm White → White → Gray → White →
-          Gray → White → Black Footer). */}
-      <section className="py-20 md:py-24 lg:py-32 bg-surface-warm border-y border-border">
-        <Reveal className="container-x max-w-3xl">
-          <h2 className="h2-section text-balance">Decision-Makers Have Changed.</h2>
-          <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">
-            <p>Your future clients don't make decisions after one sales call.</p>
-            <p>They research.</p>
-            <p>They compare.</p>
-            <p>They observe.</p>
-            <p>They build trust long before they respond to your email or schedule a meeting.</p>
-            <p className="text-foreground font-semibold">
-              If you're invisible during that process, you're already losing opportunities.
-            </p>
-          </div>
-        </Reveal>
+      {/* 2. The Reality — Tony Robbins-style editorial section: large
+          left-aligned headline in a 7-of-12-column block, short supporting
+          copy, and one oversized visual panel as the section's single
+          focal point. The panel is a large typographic treatment of the
+          section's own existing closing line (no new image/illustration
+          invented, no new copy written) — a bold pull-quote block on a
+          dark surface, which is the "focal point" without adding any
+          decorative graphic. First band after the Hero: Warm White step
+          of the sitewide background rhythm. */}
+      <section className="py-20 md:py-28 lg:py-36 bg-surface-warm border-y border-border">
+        <div className="container-x grid lg:grid-cols-12 gap-x-12 gap-y-12 items-center">
+          <Reveal className="lg:col-span-7">
+            <h2 className="h2-section text-balance">Decision-Makers Have Changed.</h2>
+            <div className="mt-8 max-w-xl space-y-3 text-lg text-muted-foreground leading-relaxed">
+              <p>Your future clients don't make decisions after one sales call.</p>
+              <p>They research.</p>
+              <p>They compare.</p>
+              <p>They observe.</p>
+              <p>They build trust long before they respond to your email or schedule a meeting.</p>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.1} className="lg:col-span-5">
+            <div className="rounded-3xl bg-foreground p-10 md:p-12 shadow-elevation">
+              <p className="text-2xl md:text-[1.75rem] font-bold leading-[1.25] tracking-tight text-balance text-background">
+                If you're invisible during that process, you're{" "}
+                <span style={{ color: "var(--accent)" }}>already losing opportunities.</span>
+              </p>
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       {/* 3. The Cost of Doing Nothing — White step */}
-      <section className="py-20 md:py-24 lg:py-32">
+      <section className="py-20 md:py-28 lg:py-36">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">The Hidden Cost of an Invisible Business</h2>
           <p className="mt-8 text-lg text-muted-foreground leading-relaxed">
@@ -160,39 +174,71 @@ export default function Home() {
         closing="Every element works together to create predictable business growth."
       />
 
-      {/* 5. Choose Your Path — Gray step */}
-      <section className="py-20 md:py-24 lg:py-32 bg-surface-gray border-y border-border">
+      {/* 5. Choose Your Path — Apple product-selection-card composition:
+          spacious equal-height cards, strong title, one card (the middle
+          one) subtly emphasized via a black/white inversion rather than
+          an extra color, so it reads as "recommended" without breaking
+          the restrained palette. Gray step of the background rhythm. */}
+      <section className="py-20 md:py-28 lg:py-36 bg-surface-gray border-y border-border">
         <div className="container-x">
           <Reveal className="max-w-3xl">
             <p className="eyebrow">Solutions</p>
             <h2 className="mt-4 h2-section text-balance">Choose Your Path.</h2>
           </Reveal>
 
-          <div className="mt-16 grid md:grid-cols-3 gap-5 items-stretch">
-            {paths.map((p, i) => (
-              <motion.div
-                key={p.title}
-                initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, margin: "-10%" }}
-                transition={{ duration: 0.7, delay: i * 0.12, ease: [0.2, 0.7, 0.2, 1] }}
-                className="card-lift flex flex-col rounded-3xl border border-border bg-card p-8 md:p-10 shadow-card"
-              >
-                <div className="text-xs uppercase tracking-widest text-accent">{p.audience}</div>
-                <h3 className="mt-3 text-xl font-semibold">{p.title}</h3>
-                <p className="mt-3 text-sm text-muted-foreground leading-relaxed flex-1">{p.desc}</p>
-                <Link to="/services" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-accent hover:brightness-110">
-                  {p.cta}
-                  <ArrowRight className="size-4" />
-                </Link>
-              </motion.div>
-            ))}
+          <div className="mt-16 grid md:grid-cols-3 gap-6 md:gap-8 items-stretch">
+            {paths.map((p, i) => {
+              const emphasized = i === 1;
+              return (
+                <motion.div
+                  key={p.title}
+                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, margin: "-10%" }}
+                  transition={{ duration: 0.7, delay: i * 0.12, ease: [0.2, 0.7, 0.2, 1] }}
+                  className={`card-lift flex flex-col rounded-3xl p-10 md:p-12 ${
+                    emphasized
+                      ? "bg-foreground text-background shadow-elevation md:-translate-y-2"
+                      : "border border-border bg-card shadow-card"
+                  }`}
+                >
+                  <div
+                    className={`text-xs uppercase tracking-widest ${
+                      emphasized ? "" : "text-accent"
+                    }`}
+                    style={emphasized ? { color: "var(--accent)" } : undefined}
+                  >
+                    {p.audience}
+                  </div>
+                  <h3 className="mt-4 text-2xl md:text-[28px] font-bold tracking-tight leading-tight">
+                    {p.title}
+                  </h3>
+                  <p
+                    className={`mt-4 text-base leading-relaxed flex-1 ${
+                      emphasized ? "opacity-80" : "text-muted-foreground"
+                    }`}
+                  >
+                    {p.desc}
+                  </p>
+                  <Link
+                    to="/services"
+                    className={`mt-8 pt-6 inline-flex items-center gap-2 text-sm font-semibold border-t hover:brightness-110 ${
+                      emphasized ? "border-background/15" : "border-border text-accent"
+                    }`}
+                    style={emphasized ? { color: "var(--accent)" } : undefined}
+                  >
+                    {p.cta}
+                    <ArrowRight className="size-4" />
+                  </Link>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* 6. Why It Works — White step */}
-      <section className="py-20 md:py-24 lg:py-32">
+      <section className="py-20 md:py-28 lg:py-36">
         <Reveal className="container-x max-w-3xl">
           <h2 className="h2-section text-balance">Modern Decision-Makers Trust Before They Buy.</h2>
           <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">
@@ -223,16 +269,16 @@ export default function Home() {
         metrics={numbers}
       />
 
-      {/* 9b. Results — proof carousel, moved here from the About page's
-          Proof section so it exists in exactly one place on the site.
-          Sits directly under the Numbers section so the story reads as
+      {/* 9b. Results — "Selected Work" showcase (see ProofShowcase in
+          ProofCarousel.jsx), moved here from the About page's Proof
+          section so it exists in exactly one place on the site. Sits
+          directly under the Numbers section so the story reads as
           Numbers → Proof → (Why DMAX / client validation) in one
-          continuous flow. Same shell (bg-secondary/40 border-y, heading
-          treatment) as the rest of the homepage's banded sections; the
-          carousel itself breaks out to full viewport width on its own
-          (see ProofCarousel.jsx), so its wrapper is deliberately NOT
-          container-x. Gray step of the background rhythm. */}
-      <section className="py-20 md:py-24 lg:py-32 bg-surface-gray border-y border-border">
+          continuous flow. Apple-style featured-project + supporting-cards
+          layout, built from the same real screenshots as before — no
+          invented client names, challenges, or outcomes, since none
+          exist for these. Gray step of the background rhythm. */}
+      <section className="py-20 md:py-28 lg:py-36 bg-surface-gray border-y border-border">
         <Reveal className="container-x max-w-3xl">
           <p className="eyebrow">Results</p>
           <h2 className="mt-4 h2-section text-balance">Proof Behind Every Number</h2>
@@ -241,8 +287,8 @@ export default function Home() {
             business outcomes.
           </p>
         </Reveal>
-        <Reveal delay={0.15} className="mt-12">
-          <ProofCarousel />
+        <Reveal delay={0.15} className="container-x mt-12">
+          <ProofShowcase />
         </Reveal>
       </section>
 

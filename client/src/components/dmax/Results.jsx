@@ -16,7 +16,7 @@ function parseMetric(value) {
   return { n: parseInt(digits.replace(/,/g, ""), 10), suffix, separator: hasComma ? "," : "" };
 }
 
-function MetricCard({ m, i, inView }) {
+function MetricCard({ m, i, inView, emphasized }) {
   const { n, suffix, separator } = parseMetric(m.value);
 
   return (
@@ -25,16 +25,24 @@ function MetricCard({ m, i, inView }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10%" }}
       transition={{ duration: 0.6, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative flex flex-col justify-center gap-2 bg-background px-6 py-9 md:px-7 md:py-10 transition-colors duration-300 hover:bg-secondary/30"
+      className="group relative flex flex-col justify-center gap-3 bg-background px-7 py-12 md:px-8 md:py-14 transition-colors duration-300 hover:bg-secondary/30"
     >
-      {/* Accent bar — reveals on hover instead of a heavy card lift/shadow */}
-      <span className="pointer-events-none absolute top-0 left-0 right-0 h-[2px] origin-left scale-x-0 bg-accent transition-transform duration-300 ease-out group-hover:scale-x-100" />
+      {/* Accent bar — always on for the one emphasized metric, reveals on
+          hover for every other one. */}
+      <span
+        className={`pointer-events-none absolute top-0 left-0 right-0 h-[2px] origin-left bg-accent transition-transform duration-300 ease-out ${
+          emphasized ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+        }`}
+      />
 
-      <div className="text-4xl md:text-5xl xl:text-[3.25rem] font-bold tracking-tight tabular-nums leading-none text-foreground transition-colors duration-300 group-hover:text-accent">
+      <div
+        className="text-6xl md:text-7xl xl:text-[5rem] font-bold tracking-tight tabular-nums leading-none"
+        style={{ color: emphasized ? "var(--accent)" : "var(--color-foreground)" }}
+      >
         {inView ? <CountUp end={n} duration={2.2} separator={separator} /> : 0}
         {suffix}
       </div>
-      <div className="text-[0.8rem] font-medium leading-snug text-muted-foreground">{m.label}</div>
+      <div className="text-sm font-medium leading-snug text-muted-foreground">{m.label}</div>
     </motion.div>
   );
 }
@@ -56,23 +64,24 @@ export function Results({ eyebrow = "Results", title = <>Our Impact</>, metrics 
         : "xl:grid-cols-4";
 
   return (
-    <section id="results" className="py-20 md:py-24 lg:py-32 bg-background">
+    <section id="results" className="py-20 md:py-28 lg:py-36 bg-background">
       <div className="container-x">
-        {/* Restrained heading — a stat strip earns its authority from the
-            numbers, not from a full-weight section headline. */}
+        {/* Larger, more confident heading — this section needs to
+            establish trust and authority immediately, not read as a
+            minor stat strip. */}
         <div className="max-w-xl">
           {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-          <h2 className="mt-3 text-2xl md:text-3xl font-semibold tracking-tight leading-[1.2] text-balance text-foreground">
+          <h2 className="mt-4 text-3xl md:text-4xl font-bold tracking-tight leading-[1.15] text-balance text-foreground">
             {title}
           </h2>
         </div>
 
         <div
           ref={gridRef}
-          className={`mt-10 md:mt-12 grid grid-cols-1 sm:grid-cols-3 ${desktopCols} gap-px rounded-[22px] border border-border bg-border overflow-hidden`}
+          className={`mt-14 md:mt-16 grid grid-cols-1 sm:grid-cols-3 ${desktopCols} gap-px rounded-[22px] border border-border bg-border overflow-hidden`}
         >
           {metrics.map((m, i) => (
-            <MetricCard key={m.label} m={m} i={i} inView={inView} />
+            <MetricCard key={m.label} m={m} i={i} inView={inView} emphasized={i === 0} />
           ))}
         </div>
       </div>

@@ -59,7 +59,7 @@ export function SystemShowcase({ eyebrow, title, subtitle, items = [], closing }
         )}
 
         <div
-          className={`${title ? "mt-16" : ""} grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 justify-items-center`}
+          className={`${title ? "mt-16" : ""} grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center`}
         >
           {items.map((s, i) => (
             <motion.div
@@ -67,8 +67,8 @@ export function SystemShowcase({ eyebrow, title, subtitle, items = [], closing }
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-10%" }}
-              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className="mission-card group relative w-full max-w-[380px] h-[540px] sm:h-[555px] lg:h-[570px] cursor-pointer overflow-hidden rounded-[32px] bg-black"
+              transition={{ duration: 0.6, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+              className="mission-card group relative w-full max-w-[380px] h-[460px] sm:h-[480px] lg:h-[500px] cursor-pointer overflow-hidden rounded-[22px] bg-black"
             >
               {/* Image — two layers, same footprint as before (still
                   exactly 100% of the card, same size/radius/layout), but
@@ -119,20 +119,21 @@ export function SystemShowcase({ eyebrow, title, subtitle, items = [], closing }
                 }}
               />
 
-              {/* Content — bottom-left, 36px padding */}
-              <div className="absolute inset-x-0 bottom-0 p-9">
+              {/* Content — bottom-left, sized down to fit the narrower
+                  4-column card without wrapping awkwardly */}
+              <div className="absolute inset-x-0 bottom-0 p-7">
                 <p
-                  className="text-[13px] font-semibold uppercase"
-                  style={{ color: "#39E600", letterSpacing: "4px" }}
+                  className="text-[11px] font-semibold uppercase"
+                  style={{ color: "var(--accent)", letterSpacing: "3px" }}
                 >
                   {`Mission ${String(i + 1).padStart(2, "0")}`}
                 </p>
-                <h3 className="mt-3 text-[34px] sm:text-[40px] lg:text-[48px] font-extrabold leading-[1.05] text-white text-balance">
+                <h3 className="mt-2.5 text-[24px] sm:text-[26px] lg:text-[28px] font-extrabold leading-[1.1] text-white text-balance">
                   {s.title}
                 </h3>
                 {s.desc && (
                   <p
-                    className="mt-3 max-w-[92%] text-[19px] font-normal leading-snug line-clamp-3"
+                    className="mt-2.5 max-w-[94%] text-[15px] font-normal leading-snug line-clamp-2"
                     style={{ color: "rgba(255,255,255,0.85)" }}
                   >
                     {s.desc}
