@@ -15,7 +15,7 @@ export function CTA({
 }) {
   return (
     <section className="py-24">
-      <div className="container-x">
+      <div className="container-narrow">
         <div className="relative overflow-hidden rounded-[36px] scene-dark dark:scene-light p-10 md:p-16 text-white dark:text-graphite shadow-elevation">
           <div className="stars stars-force absolute inset-0 opacity-60 dark:hidden" aria-hidden />
           <div className="grid md:grid-cols-12 gap-10 items-center relative">

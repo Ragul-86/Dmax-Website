@@ -25,7 +25,7 @@ export function TrustedBrands({
   if (variant === "badges") {
     return (
       <section className="py-20 md:py-28 lg:py-36 bg-background">
-        <div className="container-x">
+        <div className="container-narrow">
           <p className="eyebrow text-center">{title}</p>
 
           {/* Grid (not flex-wrap) so the row count is exact at every
@@ -57,7 +57,7 @@ export function TrustedBrands({
   if (variant === "chips") {
     return (
       <section className="py-20 md:py-28 lg:py-36 bg-background">
-        <div className="container-x">
+        <div className="container-narrow">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-balance text-foreground">
               {heading?.primary}

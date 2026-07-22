@@ -70,12 +70,12 @@ export default function Services() {
       <Navbar />
 
       {/* 1. Hero */}
-      <header className="pt-40 pb-4 container-x">
+      <header className="container-narrow pt-40 pb-4 text-center">
         <p className="eyebrow">Services</p>
-        <h1 className="mt-4 h1-page text-balance max-w-4xl">
+        <h1 className="mx-auto mt-4 h1-page max-w-4xl text-balance">
           One System. <span className="text-accent">Three Ways to Grow.</span>
         </h1>
-        <div className="mt-8 max-w-2xl space-y-3 text-lg text-muted-foreground leading-relaxed">
+        <div className="mx-auto mt-8 max-w-2xl space-y-3 text-lg text-muted-foreground leading-relaxed">
           <p>Every business is different.</p>
           <p>The way people choose isn't.</p>
           <p>Decision-makers trust businesses they know before they need them.</p>
@@ -97,7 +97,7 @@ export default function Services() {
       {/* First band after the header: Warm White step of the sitewide
           background rhythm. */}
       <section className="py-20 md:py-28 lg:py-36 bg-surface-warm border-y border-border">
-        <div className="container-x">
+        <div className="container-narrow">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
             {solutions.map((s, i) => (
               <motion.div
@@ -145,7 +145,7 @@ export default function Services() {
 
       {/* 5. Why It Works — White step */}
       <section className="py-20 md:py-28 lg:py-36">
-        <Reveal className="container-x max-w-3xl">
+        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
           <h2 className="h2-section text-balance">Trust comes before business.</h2>
           <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">
             <p>Long before someone schedules a meeting…</p>

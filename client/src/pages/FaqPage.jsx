@@ -65,12 +65,12 @@ export default function FaqPage() {
       <Navbar />
 
       {/* 1. Hero */}
-      <header className="pt-40 pb-4 container-x">
+      <header className="container-narrow pt-40 pb-4 text-center">
         <p className="eyebrow">Insights</p>
-        <h1 className="mt-4 h1-page text-balance max-w-4xl">
+        <h1 className="mx-auto mt-4 h1-page max-w-4xl text-balance">
           Better thinking builds <span className="text-accent">better businesses.</span>
         </h1>
-        <div className="mt-8 max-w-2xl space-y-3 text-lg text-muted-foreground leading-relaxed">
+        <div className="mx-auto mt-8 max-w-2xl space-y-3 text-lg text-muted-foreground leading-relaxed">
           <p>The way B2B companies grow has changed.</p>
           <p>Decision-makers research before they respond.</p>
           <p>Trust is built before the first meeting.</p>
@@ -88,12 +88,12 @@ export default function FaqPage() {
 
       {/* 2. What You'll Discover — Warm White step (first band after the header) */}
       <section className="py-20 md:py-28 lg:py-36 bg-surface-warm border-y border-border">
-        <Reveal className="container-x max-w-3xl">
+        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
           <h2 className="h2-section text-balance">The principles behind predictable growth.</h2>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
             Our insights focus on the questions ambitious founders ask every day.
           </p>
-          <ul className="mt-6 space-y-3 text-lg">
+          <ul className="mx-auto mt-6 max-w-md space-y-3 text-left text-lg">
             {[
               "How do we become the obvious choice in our market?",
               "Why has our growth become inconsistent?",
@@ -120,8 +120,8 @@ export default function FaqPage() {
 
       {/* 4. Featured Insights — Gray step */}
       <section id="featured-insights" className="py-20 md:py-28 lg:py-36 scroll-mt-24 bg-surface-gray border-y border-border">
-        <div className="container-x">
-          <div className="max-w-3xl">
+        <div className="container-narrow">
+          <div className="mx-auto max-w-3xl text-center">
             <p className="eyebrow">Featured Insights</p>
           </div>
           <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -147,7 +147,7 @@ export default function FaqPage() {
 
       {/* 5. Our Philosophy — White step */}
       <section className="py-20 md:py-28 lg:py-36">
-        <Reveal className="container-x max-w-3xl">
+        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
           <p className="eyebrow">Our Philosophy</p>
           <div className="mt-6 space-y-3 text-lg text-muted-foreground leading-relaxed">
             <p>We don't publish content because algorithms reward consistency.</p>

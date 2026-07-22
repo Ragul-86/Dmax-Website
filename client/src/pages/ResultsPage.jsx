@@ -22,12 +22,12 @@ export default function ResultsPage() {
   return (
     <main className="bg-background text-foreground">
       <Navbar />
-      <header className="pt-40 pb-4 container-x">
+      <header className="container-narrow pt-40 pb-4 text-center">
         <p className="eyebrow">Results</p>
-        <h1 className="mt-4 h1-page text-balance max-w-4xl">
+        <h1 className="mx-auto mt-4 h1-page max-w-4xl text-balance">
           Real Business Stories. Real Growth. <span className="text-accent">Real Revenue.</span>
         </h1>
-        <p className="mt-6 max-w-2xl text-lg text-muted-foreground leading-relaxed">
+        <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground leading-relaxed">
           Every strategy is measured by business outcomes—not vanity metrics.
         </p>
       </header>

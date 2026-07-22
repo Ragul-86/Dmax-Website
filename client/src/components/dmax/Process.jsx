@@ -40,11 +40,11 @@ export function Process({
 
   return (
     <section id="process" className="py-20 md:py-28 lg:py-36 scroll-mt-24">
-      <div className="container-x">
-        <div className="max-w-3xl">
+      <div className="container-narrow">
+        <div className="mx-auto max-w-3xl text-center">
           {eyebrow && <p className="eyebrow">{eyebrow}</p>}
           {title && <h2 className="mt-4 h2-section text-balance">{title}</h2>}
-          {subtitle && <p className="mt-5 text-lg text-muted-foreground max-w-2xl">{subtitle}</p>}
+          {subtitle && <p className="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">{subtitle}</p>}
         </div>
 
         <div ref={ref} className="relative mt-16">

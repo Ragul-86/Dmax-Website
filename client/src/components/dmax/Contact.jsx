@@ -45,7 +45,7 @@ export function Contact() {
 
   return (
     <section id="contact" className="py-20 md:py-28 lg:py-36 scroll-mt-24">
-      <div className="container-x grid lg:grid-cols-12 gap-10">
+      <div className="container-narrow grid lg:grid-cols-12 gap-10">
         <div className="lg:col-span-5">
           <p className="eyebrow">Book Your Strategy Session</p>
           <h2 className="mt-4 h2-section text-balance" style={{ fontSize: "clamp(1.875rem, 1.5rem + 1.8vw, 3rem)" }}>

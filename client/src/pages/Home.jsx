@@ -106,20 +106,18 @@ export default function Home() {
       {/* 1. Hero — headline, supporting text, primary + secondary CTA */}
       <Hero />
 
-      {/* 2. The Reality — Tony Robbins-style editorial section: large
-          left-aligned headline in a 7-of-12-column block, short supporting
-          copy, and one oversized visual panel as the section's single
-          focal point. The panel is a large typographic treatment of the
-          section's own existing closing line (no new image/illustration
-          invented, no new copy written) — a bold pull-quote block on a
-          dark surface, which is the "focal point" without adding any
-          decorative graphic. First band after the Hero: Warm White step
-          of the sitewide background rhythm. */}
+      {/* 2. The Reality — Tony Robbins-style editorial section: a single
+          centered column (headline, short punchy lines, then the section's
+          existing closing line as a centered pull-quote panel below) —
+          rebalanced from the previous left-aligned 7/5 split since neither
+          block actually requires a side-by-side pairing. No new copy or
+          imagery, just recomposed. First band after the Hero: Warm White
+          step of the sitewide background rhythm. */}
       <section className="py-20 md:py-28 lg:py-36 bg-surface-warm border-y border-border">
-        <div className="container-x grid lg:grid-cols-12 gap-x-12 gap-y-12 items-center">
-          <Reveal className="lg:col-span-7">
+        <div className="container-narrow">
+          <Reveal className="mx-auto max-w-3xl text-center">
             <h2 className="h2-section text-balance">Decision-Makers Have Changed.</h2>
-            <div className="mt-8 max-w-xl space-y-3 text-lg text-muted-foreground leading-relaxed">
+            <div className="mx-auto mt-8 max-w-xl space-y-3 text-lg text-muted-foreground leading-relaxed">
               <p>Your future clients don't make decisions after one sales call.</p>
               <p>They research.</p>
               <p>They compare.</p>
@@ -128,8 +126,8 @@ export default function Home() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1} className="lg:col-span-5">
-            <div className="rounded-3xl bg-foreground p-10 md:p-12 shadow-elevation">
+          <Reveal delay={0.1} className="mx-auto mt-12 max-w-2xl">
+            <div className="rounded-3xl bg-foreground p-10 md:p-12 text-center shadow-elevation">
               <p className="text-2xl md:text-[1.75rem] font-bold leading-[1.25] tracking-tight text-balance text-background">
                 If you're invisible during that process, you're{" "}
                 <span style={{ color: "var(--accent)" }}>already losing opportunities.</span>
@@ -141,12 +139,12 @@ export default function Home() {
 
       {/* 3. The Cost of Doing Nothing — White step */}
       <section className="py-20 md:py-28 lg:py-36">
-        <Reveal className="container-x max-w-3xl">
+        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
           <h2 className="h2-section text-balance">The Hidden Cost of an Invisible Business</h2>
           <p className="mt-8 text-lg text-muted-foreground leading-relaxed">
             Every month you rely only on referrals or random outreach, you risk:
           </p>
-          <ul className="mt-6 space-y-3 text-lg">
+          <ul className="mx-auto mt-6 max-w-md space-y-3 text-left text-lg">
             {[
               "Missed business opportunities",
               "Longer sales cycles",
@@ -180,8 +178,8 @@ export default function Home() {
           an extra color, so it reads as "recommended" without breaking
           the restrained palette. Gray step of the background rhythm. */}
       <section className="py-20 md:py-28 lg:py-36 bg-surface-gray border-y border-border">
-        <div className="container-x">
-          <Reveal className="max-w-3xl">
+        <div className="container-narrow">
+          <Reveal className="mx-auto max-w-3xl text-center">
             <p className="eyebrow">Solutions</p>
             <h2 className="mt-4 h2-section text-balance">Choose Your Path.</h2>
           </Reveal>
@@ -239,9 +237,9 @@ export default function Home() {
 
       {/* 6. Why It Works — White step */}
       <section className="py-20 md:py-28 lg:py-36">
-        <Reveal className="container-x max-w-3xl">
+        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
           <h2 className="h2-section text-balance">Modern Decision-Makers Trust Before They Buy.</h2>
-          <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">
+          <div className="mx-auto mt-8 max-w-2xl space-y-3 text-lg text-muted-foreground leading-relaxed">
             <p>Trust isn't built during the sales meeting. It comes from repeated exposure.</p>
             <p>
               It's built through consistent visibility, valuable insights, and meaningful
@@ -279,7 +277,7 @@ export default function Home() {
           invented client names, challenges, or outcomes, since none
           exist for these. Gray step of the background rhythm. */}
       <section className="py-20 md:py-28 lg:py-36 bg-surface-gray border-y border-border">
-        <Reveal className="container-x max-w-3xl">
+        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
           <p className="eyebrow">Results</p>
           <h2 className="mt-4 h2-section text-balance">Proof Behind Every Number</h2>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
@@ -287,7 +285,7 @@ export default function Home() {
             business outcomes.
           </p>
         </Reveal>
-        <Reveal delay={0.15} className="container-x mt-12">
+        <Reveal delay={0.15} className="container-narrow mt-12">
           <ProofShowcase />
         </Reveal>
       </section>

@@ -159,11 +159,13 @@ export function Services({
 }) {
   return (
     <section id="services" className="py-20 md:py-28 lg:py-36">
-      <div className="container-x">
-        <div className="max-w-3xl">
+      <div className="container-narrow">
+        <div className="mx-auto max-w-3xl text-center">
           {eyebrow && <p className="eyebrow">{eyebrow}</p>}
           <h2 className="mt-4 h2-section text-balance">{title}</h2>
-          {subtitle && <p className="mt-5 text-lg text-muted-foreground max-w-2xl">{subtitle}</p>}
+          {subtitle && (
+            <p className="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">{subtitle}</p>
+          )}
         </div>
 
         <div className={`mt-16 grid md:grid-cols-2 ${columns} gap-5`}>

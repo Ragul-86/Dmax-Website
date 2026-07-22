@@ -115,12 +115,12 @@ export default function ProcessPage() {
   return (
     <main className="bg-background text-foreground">
       <Navbar />
-      <header className="pt-40 pb-4 container-x">
+      <header className="container-narrow pt-40 pb-4 text-center">
         <p className="eyebrow">Method</p>
-        <h1 className="mt-4 h1-page text-balance max-w-4xl">
+        <h1 className="mx-auto mt-4 h1-page max-w-4xl text-balance">
           More Marketing Isn't the Answer. <span className="text-accent">A Better Growth System Is.</span>
         </h1>
-        <div className="mt-8 max-w-2xl space-y-3 text-lg text-muted-foreground leading-relaxed">
+        <div className="mx-auto mt-8 max-w-2xl space-y-3 text-lg text-muted-foreground leading-relaxed">
           <p>Most businesses don't struggle because they have a bad product.</p>
           <p>Or poor service.</p>
           <p>Or an inexperienced team.</p>
@@ -137,7 +137,7 @@ export default function ProcessPage() {
       {/* First band after the header: Warm White step of the sitewide
           background rhythm. */}
       <section className="py-20 md:py-28 lg:py-36 bg-surface-warm border-y border-border">
-        <Reveal className="container-x max-w-3xl">
+        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
           <h2 className="h2-section text-balance">Every Business Has a Growth Bottleneck.</h2>
           <p className="mt-4 text-lg text-muted-foreground">
             The question is: which one is holding yours back?
@@ -149,7 +149,7 @@ export default function ProcessPage() {
 
       {/* Expanded per-stage detail from the Method doc */}
       <section className="pb-20 md:pb-24 lg:pb-32">
-        <div className="container-x space-y-6">
+        <div className="container-narrow space-y-6">
           {stageDetails.map((s, i) => (
             <motion.div
               key={s.n}
@@ -188,7 +188,7 @@ export default function ProcessPage() {
 
       {/* The DMAX Method™ diagram summary */}
       <section className="pb-20 md:pb-24 lg:pb-32">
-        <Reveal className="container-x max-w-3xl">
+        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
           <p className="eyebrow">The DMAX Method™</p>
           <h2 className="mt-4 h2-section text-balance">Every stage builds the next.</h2>
           <div className="mt-6 text-lg font-semibold text-foreground">

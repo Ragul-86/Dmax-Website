@@ -51,12 +51,12 @@ export default function ContactPage() {
   return (
     <main className="bg-background text-foreground">
       <Navbar />
-      <header className="pt-40 pb-4 container-x">
+      <header className="container-narrow pt-40 pb-4 text-center">
         <p className="eyebrow">Book Your Strategy Session</p>
-        <h1 className="mt-4 h1-page text-balance max-w-4xl">
+        <h1 className="mx-auto mt-4 h1-page max-w-4xl text-balance">
           Includes Your Complimentary <span className="text-accent">Growth Bottleneck Assessment™</span>
         </h1>
-        <div className="mt-8 max-w-2xl space-y-3 text-lg text-muted-foreground leading-relaxed">
+        <div className="mx-auto mt-8 max-w-2xl space-y-3 text-lg text-muted-foreground leading-relaxed">
           <p>Every business reaches a point where working harder no longer creates better results.</p>
           <p>More marketing isn't always the answer.</p>
           <p>More sales activity isn't always the answer.</p>
@@ -76,14 +76,14 @@ export default function ContactPage() {
 
       {/* What You'll Leave With — Warm White step (first band after the header) */}
       <section className="py-20 md:py-28 lg:py-36 bg-surface-warm border-y border-border">
-        <Reveal className="container-x max-w-3xl">
+        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
           <h2 className="h2-section text-balance">What You'll Leave With</h2>
-          <div className="mt-6 space-y-2 text-lg text-muted-foreground leading-relaxed">
+          <div className="mx-auto mt-6 space-y-2 text-lg text-muted-foreground leading-relaxed">
             <p>This isn't a sales presentation.</p>
             <p>It's a working session focused on your business.</p>
             <p>By the end of our conversation, you'll receive:</p>
           </div>
-          <ul className="mt-6 space-y-3 text-lg">
+          <ul className="mx-auto mt-6 max-w-lg space-y-3 text-left text-lg">
             {leaveWith.map((l) => (
               <li key={l} className="flex items-start gap-3">
                 <span className="mt-2.5 size-1.5 rounded-full bg-accent shrink-0" />
@@ -100,13 +100,13 @@ export default function ContactPage() {
 
       {/* Is This Strategy Session Right for You? — White step */}
       <section className="py-20 md:py-28 lg:py-36">
-        <Reveal className="container-x max-w-3xl">
+        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
           <h2 className="h2-section text-balance">Is This Strategy Session Right for You?</h2>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
             This session is designed for founders and business leaders who want to grow with
             intention—not guesswork. It's especially valuable if you're trying to:
           </p>
-          <ul className="mt-6 space-y-3 text-lg">
+          <ul className="mx-auto mt-6 max-w-lg space-y-3 text-left text-lg">
             {rightForYou.map((l) => (
               <li key={l} className="flex items-start gap-3">
                 <span className="mt-2.5 size-1.5 rounded-full bg-accent shrink-0" />
@@ -123,8 +123,8 @@ export default function ContactPage() {
 
       {/* What Happens During the Session? — Gray step */}
       <section className="py-20 md:py-28 lg:py-36 bg-surface-gray border-y border-border">
-        <div className="container-x">
-          <Reveal className="max-w-3xl">
+        <div className="container-narrow">
+          <Reveal className="mx-auto max-w-3xl text-center">
             <h2 className="h2-section text-balance">What Happens During the Session?</h2>
           </Reveal>
           <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -148,10 +148,10 @@ export default function ContactPage() {
 
       {/* Why Business Leaders Book This Session — White step */}
       <section className="py-20 md:py-28 lg:py-36">
-        <Reveal className="container-x max-w-3xl">
+        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
           <h2 className="h2-section text-balance">Why Business Leaders Book This Session</h2>
           <p className="mt-6 text-lg text-muted-foreground">Because they're asking questions like:</p>
-          <ul className="mt-6 space-y-3 text-lg">
+          <ul className="mx-auto mt-6 max-w-lg space-y-3 text-left text-lg">
             {whyBookQuestions.map((q) => (
               <li key={q} className="flex items-start gap-3">
                 <span className="mt-2.5 size-1.5 rounded-full bg-accent shrink-0" />
@@ -167,12 +167,12 @@ export default function ContactPage() {
 
       {/* Who We Work With — Gray step */}
       <section className="py-20 md:py-28 lg:py-36 bg-surface-gray border-y border-border">
-        <Reveal className="container-x max-w-3xl">
+        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
           <h2 className="h2-section text-balance">Who We Work With</h2>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
             We partner with businesses where trust influences every buying decision.
           </p>
-          <ul className="mt-6 space-y-3 text-lg">
+          <ul className="mx-auto mt-6 max-w-lg space-y-3 text-left text-lg">
             {whoWeWorkWith.map((w) => (
               <li key={w} className="flex items-start gap-3">
                 <span className="mt-2.5 size-1.5 rounded-full bg-accent shrink-0" />
@@ -189,9 +189,9 @@ export default function ContactPage() {
 
       {/* Before You Book — White step */}
       <section className="py-20 md:py-28 lg:py-36">
-        <Reveal className="container-x max-w-3xl">
+        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
           <h2 className="h2-section text-balance">Before You Book</h2>
-          <div className="mt-6 space-y-2 text-lg text-muted-foreground leading-relaxed">
+          <div className="mx-auto mt-6 space-y-2 text-lg text-muted-foreground leading-relaxed">
             <p>This strategy session is valuable because it's prepared—not improvised.</p>
             <p>Before we meet, you'll complete a short questionnaire about your business and growth goals.</p>
             <p className="text-foreground font-semibold">

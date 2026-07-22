@@ -79,7 +79,7 @@ export function HomeFinalCTA({
       viewport={{ once: true, margin: "-10%" }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="container-x">
+      <div className="container-narrow">
         <div className="relative">
           <div className="relative overflow-hidden rounded-[36px] scene-dark p-10 md:p-16 shadow-elevation">
             {/* Cinematic scene layer — background, Earth and astronaut all

@@ -27,12 +27,12 @@ export default function About() {
 
       {/* 1. Hero — reverted to original single-column design (no Founder
           image here; that now lives in its own section below). */}
-      <header className="pt-40 pb-4 container-x">
+      <header className="container-narrow pt-40 pb-4 text-center">
         <p className="eyebrow">About DMAX</p>
-        <h1 className="mt-4 h1-page text-balance max-w-4xl">
+        <h1 className="mx-auto mt-4 h1-page max-w-4xl text-balance">
           We Didn't Start DMAX to Build <span className="text-accent">Another Marketing Agency.</span>
         </h1>
-        <div className="mt-12 max-w-3xl space-y-5 text-xl text-muted-foreground leading-relaxed">
+        <div className="mx-auto mt-12 max-w-3xl space-y-5 text-xl text-muted-foreground leading-relaxed">
           <p>We started it because we saw something most businesses were missing.</p>
           <p>Not more leads.</p>
           <p>Not better content.</p>
@@ -52,7 +52,7 @@ export default function About() {
           studio backdrop, now set inside a neutral card frame. DMAX green
           is used once, subtly, on the role label only. */}
       <section className="py-20 md:py-28 lg:py-36">
-        <div className="container-x grid grid-cols-1 lg:grid-cols-[42%_58%] gap-x-16 gap-y-14 lg:items-center">
+        <div className="container-narrow grid grid-cols-1 lg:grid-cols-[42%_58%] gap-x-16 gap-y-14 lg:items-center">
           <Reveal className="flex flex-col items-center lg:items-start">
             <div className="w-full max-w-[560px] aspect-[560/700] rounded-3xl border border-border bg-card p-6 shadow-card">
               <img
@@ -118,7 +118,7 @@ export default function About() {
           First band after the Founder section: Warm White step of the
           sitewide background rhythm. */}
       <section className="py-20 md:py-28 lg:py-36 bg-surface-warm border-y border-border">
-        <div className="container-x grid lg:grid-cols-12 gap-10 items-start">
+        <div className="container-narrow grid lg:grid-cols-12 gap-10 items-start">
           <Reveal className="lg:col-span-7">
             <h2 className="h2-section text-balance">B2B buying has changed.</h2>
             <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">
@@ -156,7 +156,7 @@ export default function About() {
 
       {/* 3. The Problem — White step */}
       <section className="py-20 md:py-28 lg:py-36">
-        <Reveal className="container-x max-w-3xl">
+        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
           <h2 className="h2-section text-balance">Great businesses are overlooked every day.</h2>
           <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">
             <p>Not because they're less capable.</p>
@@ -177,7 +177,7 @@ export default function About() {
 
       {/* 4. Our Belief — Gray step */}
       <section className="py-20 md:py-28 lg:py-36 bg-surface-gray border-y border-border">
-        <Reveal className="container-x max-w-3xl">
+        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
           <h2 className="h2-section text-balance">Trust is built before business is won.</h2>
           <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">
             <p>This belief shapes everything we do.</p>
@@ -202,7 +202,7 @@ export default function About() {
         subtitle="Every business grows through the same five stages. Not because of algorithms. Because of human decision-making."
         steps={methodSteps}
       />
-      <Reveal className="container-x pb-20">
+      <Reveal className="container-narrow pb-20">
         <p className="text-xl font-semibold text-center max-w-2xl mx-auto">
           This isn't a campaign. It's a growth system.
         </p>
@@ -214,7 +214,7 @@ export default function About() {
           per the storytelling-flow reorg — it exists in exactly one place
           on the site now, not duplicated. Gray step of the background rhythm. */}
       <section className="py-20 md:py-28 lg:py-36 bg-surface-gray border-y border-border">
-        <Reveal className="container-x max-w-3xl">
+        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
           <p className="eyebrow">Proof</p>
           <h2 className="mt-4 h2-section text-balance">
             A philosophy is only valuable if it produces results.
@@ -253,7 +253,7 @@ export default function About() {
 
       {/* 8. Why Now? — White step */}
       <section className="py-20 md:py-28 lg:py-36">
-        <Reveal className="container-x max-w-3xl">
+        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
           <h2 className="h2-section text-balance">Why Now?</h2>
           <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">
             <p>Because your competitors aren't waiting.</p>

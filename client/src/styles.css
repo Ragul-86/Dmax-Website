@@ -476,10 +476,21 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
   }
 
   /* Global container — one master grid every section aligns to.
-     1320px content width, 20/32/48px gutters at mobile/tablet/desktop. */
+     1320px content width, 20/32/48px gutters at mobile/tablet/desktop.
+     Used by the Navbar and the Hero — left untouched everywhere so both
+     keep their exact current width. */
   .container-x { max-width: 1320px; margin-inline: auto; padding-inline: 20px; }
   @media (min-width: 768px)  { .container-x { padding-inline: 32px; } }
   @media (min-width: 1024px) { .container-x { padding-inline: 48px; } }
+
+  /* Narrower editorial container — same gutter scale as .container-x, but
+     a tighter 1240px cap for the premium, centered Apple/Stripe/Linear-
+     style content sections below the Hero. Deliberately a separate class
+     (not a change to .container-x) so the Navbar and Hero are completely
+     unaffected. */
+  .container-narrow { max-width: 1240px; margin-inline: auto; padding-inline: 20px; }
+  @media (min-width: 768px)  { .container-narrow { padding-inline: 32px; } }
+  @media (min-width: 1024px) { .container-narrow { padding-inline: 48px; } }
 
   /* Hero scene — light, airy daylight atmosphere by default */
   .scene {

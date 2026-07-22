@@ -34,9 +34,9 @@ export function WhyChooseDMAX({
 
     return (
       <section className={`py-20 md:py-28 lg:py-36 ${banded ? "bg-surface-gray border-y border-border" : "bg-background"}`}>
-        <div className="container-x">
+        <div className="container-narrow">
           <div className="max-w-4xl mx-auto">
-            <div className="max-w-xl">
+            <div className="mx-auto max-w-xl text-center">
               {eyebrow && <p className="eyebrow">{eyebrow}</p>}
               <h2 className="mt-3 text-3xl md:text-4xl font-bold tracking-tight text-balance text-foreground">
                 {title}
@@ -74,7 +74,9 @@ export function WhyChooseDMAX({
               </div>
             )}
 
-            {intro && <p className="mt-8 text-muted-foreground leading-relaxed max-w-2xl">{intro}</p>}
+            {intro && (
+              <p className="mx-auto mt-8 max-w-2xl text-center text-muted-foreground leading-relaxed">{intro}</p>
+            )}
           </div>
         </div>
       </section>
@@ -83,7 +85,7 @@ export function WhyChooseDMAX({
 
   return (
     <section className={`py-20 md:py-28 lg:py-36 ${banded ? "bg-surface-gray border-y border-border" : ""}`}>
-      <div className="container-x">
+      <div className="container-narrow">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}

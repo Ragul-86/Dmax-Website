@@ -65,11 +65,11 @@ export function Results({ eyebrow = "Results", title = <>Our Impact</>, metrics 
 
   return (
     <section id="results" className="py-20 md:py-28 lg:py-36 bg-background">
-      <div className="container-x">
+      <div className="container-narrow">
         {/* Larger, more confident heading — this section needs to
             establish trust and authority immediately, not read as a
             minor stat strip. */}
-        <div className="max-w-xl">
+        <div className="mx-auto max-w-xl text-center">
           {eyebrow && <p className="eyebrow">{eyebrow}</p>}
           <h2 className="mt-4 text-3xl md:text-4xl font-bold tracking-tight leading-[1.15] text-balance text-foreground">
             {title}
