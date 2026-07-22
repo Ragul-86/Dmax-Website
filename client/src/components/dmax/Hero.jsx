@@ -57,10 +57,14 @@ export function Hero() {
       };
 
   return (
-    <section className="relative overflow-hidden bg-background pt-36 pb-20 lg:pt-40 lg:pb-0">
-      <div className="container-x relative grid items-center gap-16 lg:grid-cols-12 lg:gap-8">
+    <section className="relative overflow-hidden bg-background pt-36 pb-20 lg:pt-40 lg:pb-24">
+      {/* grid-cols uses fr, not %, so the 48/52 split is computed on the
+          space actually remaining after the column gap — percentage tracks
+          would sum to 100% of the container *plus* the gap on top, silently
+          overflowing it by the gap width on every desktop breakpoint. */}
+      <div className="container-x relative grid items-center gap-16 lg:grid-cols-[48fr_52fr] lg:gap-x-6">
         {/* ===== Left — content ===== */}
-        <div className="lg:col-span-6">
+        <div>
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
@@ -163,10 +167,31 @@ export function Hero() {
           </motion.ul>
         </div>
 
-        {/* ===== Right — the astronaut, large, allowed to bleed slightly
-            past the container's edge on desktop for an editorial feel. ===== */}
+        {/* ===== Right — the astronaut.
+            The current asset is a PORTRAIT photo (~2:3), not the old
+            landscape 3:2 render — but the <img> below was still declaring
+            width={1536} height={1024}. Browsers use those attributes to
+            reserve the image's aspect-ratio box before it loads; with the
+            wrong (landscape) ratio declared, `object-contain` was fitting
+            the tall portrait figure inside a short, wide box — shrinking it
+            far below its real size and leaving the empty margins on both
+            sides that read as "too small" / "right side feels empty." Fixed
+            to the real ~1024×1536 ratio below.
+
+            Sizing model, desktop only (lg+): instead of a width-driven
+            max-width (which caps growth arbitrarily), this column now
+            stretches to the full height of the row — set by the grid's
+            `items-center` sizing to whatever the text column naturally
+            needs — via `self-stretch`, and the image is sized by height
+            (`h-full w-auto object-contain`) so it fills that height exactly
+            and its width follows the real portrait ratio automatically. No
+            manual max-width tiers, no translate offsets: it's proportional
+            and fluid at any viewport by construction, and vertically fills
+            the same envelope as the text column, so there's no leftover
+            top/bottom slack to look "bottom-heavy." Mobile/tablet (below
+            lg) keep the original width-driven sizing untouched. */}
         <div
-          className="lg:col-span-6 lg:-mr-8 xl:-mr-16"
+          className="flex justify-center lg:self-stretch"
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >
@@ -175,15 +200,15 @@ export function Hero() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.9, delay: 0.3, ease: [0.2, 0.7, 0.2, 1] }}
             style={{ x: astroPX, y: astroPY }}
-            className="mx-auto w-full max-w-[30rem] lg:max-w-none lg:w-[110%]"
+            className="w-full max-w-[26rem] sm:max-w-[28rem] lg:w-auto lg:max-w-none lg:h-full lg:flex lg:items-center lg:justify-center"
           >
             <img
               src={astronaut}
               alt="DMAX — astronaut, the visual identity of the Decision-Maker Acquisition System"
               loading="eager"
-              width={1536}
-              height={1024}
-              className="w-full h-auto object-contain"
+              width={1024}
+              height={1536}
+              className="w-full h-auto lg:h-full lg:w-auto max-w-full object-contain"
             />
           </motion.div>
         </div>

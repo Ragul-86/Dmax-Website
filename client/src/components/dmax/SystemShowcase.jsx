@@ -7,59 +7,50 @@ import { motion } from "framer-motion";
  * based and is still used, unchanged, by the Insights "Explore by Topic"
  * grid) so this redesign can't leak into any other section.
  *
- * Section: 1700px max content width, centered, 120px vertical section
- * padding, 48px grid gap. Exactly 3 cards per row on desktop, 2 on
- * tablet, 1 on mobile.
+ * Section: 1700px max content width, centered. Intro (label/heading/
+ * description) is a centered editorial block — Tony Robbins-style — with
+ * generous space before the grid. The grid itself is untouched: exactly
+ * 4 cards per row on desktop / 2 on tablet / 1 on mobile, same 8 items,
+ * same order, same artwork, same count — only the internal composition
+ * of each card and the section's global spacing/typography were refined.
  *
- * Card — 380px wide, 540-570px tall (reduced again from the prior
- * 420-460/620-660px pass, for a lighter, more Apple-editorial
- * proportion), same radius, gradient, content, and hover behavior as
- * before. Only the image
- * treatment changed: instead of a single object-fit: cover image (which
- * necessarily trimmed part of every wide ~4:3 scene to fill this
- * narrower ~0.78-aspect card), each card now layers a blurred,
- * scaled-up object-cover copy of the photo as an ambient backdrop
- * (fills the card completely, so there's never an empty gap) underneath
- * the complete, uncropped photo via object-fit: contain — which by
- * definition cannot cut off any part of the source image, guaranteeing
- * the astronaut's head/hands, Earth, holograms, and the DMAX flag are
- * always fully visible. The foreground artwork is forced to
- * objectPosition Y: 0% — flush against the card's top edge, zero gap —
- * so all of contain's leftover letterbox space lands at the bottom,
- * under the gradient/text, instead of splitting top and bottom. Each
- * item's `focal` field (set in Home.jsx) still supplies the horizontal
- * (X) bias per image; only its Y component is no longer used for the
- * foreground layer.
+ * Card — 380px wide, 540-570px tall, same radius family, image
+ * treatment, and hover behavior as before (still a full-bleed photo:
+ * a blurred object-cover backdrop under the complete, uncropped photo
+ * via object-fit: contain, which by definition can never crop the
+ * astronaut's head/hands, Earth, holograms, or the DMAX flag).
  *
- * Gradient — exact 5-stop cinematic fade baked directly onto the image:
- * transparent → rgba(0,0,0,.25) → rgba(0,0,0,.55) → rgba(0,0,0,.85) →
- * rgba(0,0,0,.95), evenly spaced bottom-to-top, so it only aids
- * legibility without ever fully hiding the photo.
- *
- * Content — bottom-left, 36px padding: MISSION 0N label (13px, 600,
- * 4px letter-spacing, DMAX green), title (48px, extra-bold/800, white),
- * optional description (19px, regular, rgba(255,255,255,.85) — only
- * rendered if the data actually supplies one; no copy invented for
- * items that don't have it).
+ * Content hierarchy — moved from bottom-left to TOP-left (Apple feature-
+ * card scan order: label acting as the card's icon-equivalent → title →
+ * description) since these items have no separate icon glyph or supplied
+ * description copy — the "Mission 0N" tag is the closest existing
+ * equivalent to an icon, and no description text was invented for items
+ * that don't have one. To keep the top-anchored text legible against the
+ * photo, the artwork is now flush to the card's BOTTOM edge (was flush
+ * top) and the cinematic gradient fades from the top down (was bottom
+ * up) — everything else about the artwork (images, crop-safety,
+ * `focal` horizontal bias) is unchanged.
  *
  * Hover: 10px lift, image scales to 1.03, soft DMAX-green glow, deep
  * shadow — 350ms cubic-bezier(.22,1,.36,1), all via `.mission-card` /
- * `.mission-card-img` in styles.css.
+ * `.mission-card-img` in styles.css (unchanged).
  */
 export function SystemShowcase({ eyebrow, title, subtitle, items = [], closing }) {
   return (
     <section className={`${title ? "pt-[120px]" : "pt-0"} pb-[120px]`}>
       <div className="mx-auto w-full max-w-[1700px] px-5 md:px-8 lg:px-12">
         {title && (
-          <div className="max-w-3xl">
+          <div className="mx-auto max-w-3xl text-center">
             {eyebrow && <p className="eyebrow">{eyebrow}</p>}
             <h2 className="mt-4 h2-section text-balance">{title}</h2>
-            {subtitle && <p className="mt-5 text-lg text-muted-foreground max-w-2xl">{subtitle}</p>}
+            {subtitle && (
+              <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">{subtitle}</p>
+            )}
           </div>
         )}
 
         <div
-          className={`${title ? "mt-16" : ""} grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center`}
+          className={`${title ? "mt-20 lg:mt-24" : ""} grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 justify-items-center`}
         >
           {items.map((s, i) => (
             <motion.div
@@ -68,11 +59,11 @@ export function SystemShowcase({ eyebrow, title, subtitle, items = [], closing }
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.6, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
-              className="mission-card group relative w-full max-w-[380px] h-[460px] sm:h-[480px] lg:h-[500px] cursor-pointer overflow-hidden rounded-[22px] bg-black"
+              className="mission-card group relative w-full max-w-[380px] h-[460px] sm:h-[480px] lg:h-[500px] cursor-pointer overflow-hidden rounded-[24px] bg-black"
             >
               {/* Image — two layers, same footprint as before (still
                   exactly 100% of the card, same size/radius/layout), but
-                  now guaranteed to never crop any part of the artwork.
+                  guaranteed to never crop any part of the artwork.
                   Layer 1: a blurred, scaled-up object-cover copy of the
                   same photo fills the entire card as an ambient backdrop
                   (real pixels, just softened) so there's never an empty
@@ -90,50 +81,50 @@ export function SystemShowcase({ eyebrow, title, subtitle, items = [], closing }
                 style={{ objectPosition: s.focal || "50% 45%" }}
               />
               <div aria-hidden className="absolute inset-0 bg-black/45" />
-              {/* Foreground artwork — objectPosition Y is forced to exactly
-                  0% (not just "close to top") so the image's top edge is
-                  pixel-flush with the card's top edge/rounded corners, no
-                  matter how much letterbox space object-fit: contain
-                  leaves over. A Y value like "10%" still reserves a
-                  visible strip at the top for the remainder of the gap —
-                  only 0% guarantees zero gap. All of the resulting
-                  leftover space is pushed to the bottom, under the
-                  gradient/text, where it's already expected. X still
-                  comes from each item's `focal` for horizontal framing. */}
+              {/* Foreground artwork — objectPosition Y is now forced to
+                  exactly 100% (flush to the card's BOTTOM edge, was 0%/
+                  top) so contain's leftover letterbox space collects at
+                  the TOP instead — right where the content block and its
+                  gradient now sit. X still comes from each item's `focal`
+                  for horizontal framing; nothing about which images are
+                  used or their crop-safety changed. */}
               <img
                 src={s.image}
                 alt={s.title}
                 loading="lazy"
                 className="mission-card-img absolute inset-0 h-full w-full object-contain"
-                style={{ objectPosition: `${(s.focal || "50%").split(" ")[0]} 0%` }}
+                style={{ objectPosition: `${(s.focal || "50%").split(" ")[0]} 100%` }}
               />
 
-              {/* Cinematic gradient — transparent → .25 → .55 → .85 → .95,
-                  baked directly onto the image, readability only. */}
+              {/* Cinematic gradient — same 5-stop fade, flipped to run
+                  top-down so it sits behind the now top-anchored content
+                  instead of the bottom. */}
               <div
                 aria-hidden
                 className="absolute inset-0"
                 style={{
                   background:
-                    "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 25%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.25) 75%, rgba(0,0,0,0) 100%)",
+                    "linear-gradient(to bottom, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 25%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.25) 75%, rgba(0,0,0,0) 100%)",
                 }}
               />
 
-              {/* Content — bottom-left, sized down to fit the narrower
-                  4-column card without wrapping awkwardly */}
-              <div className="absolute inset-x-0 bottom-0 p-7">
+              {/* Content — top-left, Apple feature-card scan order: the
+                  "Mission 0N" tag (the closest existing equivalent to an
+                  icon), then title, then an optional description — never
+                  invented, only rendered if `s.desc` actually exists. */}
+              <div className="absolute inset-x-0 top-0 p-8">
                 <p
                   className="text-[11px] font-semibold uppercase"
                   style={{ color: "var(--accent)", letterSpacing: "3px" }}
                 >
                   {`Mission ${String(i + 1).padStart(2, "0")}`}
                 </p>
-                <h3 className="mt-2.5 text-[24px] sm:text-[26px] lg:text-[28px] font-extrabold leading-[1.1] text-white text-balance">
+                <h3 className="mt-3 text-[25px] sm:text-[27px] lg:text-[30px] font-extrabold tracking-tight leading-[1.15] text-white text-balance">
                   {s.title}
                 </h3>
                 {s.desc && (
                   <p
-                    className="mt-2.5 max-w-[94%] text-[15px] font-normal leading-snug line-clamp-2"
+                    className="mt-3 max-w-[94%] text-[15px] font-normal leading-relaxed"
                     style={{ color: "rgba(255,255,255,0.85)" }}
                   >
                     {s.desc}
