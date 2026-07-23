@@ -212,25 +212,39 @@ export default function ProcessPage() {
               transition={{ duration: 0.6, delay: i * 0.05, ease: [0.2, 0.7, 0.2, 1] }}
               className="card-lift rounded-3xl border border-border bg-card p-8 md:p-10 shadow-card"
             >
+              {/* Typography-only pass on these 5 cards: every element bumped
+                  up the scale while keeping the same relative hierarchy —
+                  title (now text-3xl) > quote/question (text-2xl) > intro
+                  lead (text-lg, newly given an explicit size — it had none
+                  before) > problem-label/bullets/closing (text-base, up
+                  from text-sm) > step number (text-sm, up from text-xs).
+                  Closing also gets font-bold (was font-semibold) per the
+                  brief. Paragraph-to-paragraph gaps (mt-5→mt-6, mt-3→mt-4)
+                  and bullet-to-bullet gap (space-y-1.5→space-y-2.5) opened
+                  up slightly for breathing room; leading-relaxed added to
+                  the label/closing lines so multi-line wraps get the same
+                  more-generous line-height as the rest of the card. Grid
+                  split (col-span-4/8), card padding/border/shadow/bg, and
+                  the entrance animation are all untouched. */}
               <div className="grid md:grid-cols-12 gap-6">
                 <div className="md:col-span-4">
-                  <div className="text-xs font-semibold text-accent">{s.n}</div>
-                  <h3 className="mt-2 text-2xl font-semibold">{s.title}</h3>
-                  <p className="mt-3 text-lg font-medium text-foreground">{s.quote}</p>
+                  <div className="text-sm font-semibold text-accent">{s.n}</div>
+                  <h3 className="mt-2 text-3xl font-semibold">{s.title}</h3>
+                  <p className="mt-3 text-2xl font-medium leading-snug text-foreground">{s.quote}</p>
                 </div>
                 <div className="md:col-span-8">
-                  <p className="text-muted-foreground leading-relaxed">{s.lead}</p>
-                  <p className="mt-5 text-sm font-semibold text-foreground">{s.problemLabel}</p>
-                  <ul className="mt-3 space-y-1.5">
+                  <p className="text-lg leading-relaxed text-muted-foreground">{s.lead}</p>
+                  <p className="mt-6 text-base font-semibold leading-relaxed text-foreground">{s.problemLabel}</p>
+                  <ul className="mt-4 space-y-2.5">
                     {s.bullets.map((b) => (
-                      <li key={b} className="text-sm text-muted-foreground leading-relaxed flex items-start gap-2">
-                        <span className="mt-2 size-1 rounded-full bg-accent shrink-0" />
+                      <li key={b} className="text-base text-muted-foreground leading-relaxed flex items-start gap-2">
+                        <span className="mt-2.5 size-1 rounded-full bg-accent shrink-0" />
                         {b}
                       </li>
                     ))}
                   </ul>
                   {s.closing && (
-                    <p className="mt-5 text-sm font-semibold text-foreground">{s.closing}</p>
+                    <p className="mt-6 text-base font-bold leading-relaxed text-foreground">{s.closing}</p>
                   )}
                 </div>
               </div>
@@ -239,73 +253,183 @@ export default function ProcessPage() {
         </div>
       </section>
 
-      {/* "Every Stage Builds the Next" — the Method page's signature
-          storytelling section. Deep Black background (unchanged from the
-          earlier background-rhythm pass), now restructured into a
-          premium 45/55 editorial two-column layout: the approved
-          astronaut/growth-journey image on the left, the exact original
-          copy on the right (same eyebrow → heading → framework line →
-          paragraphs → closing bold line, nothing reworded, reordered, or
-          removed — "We don't." stays inline as its own bold beat inside
-          the paragraph flow, exactly as before). Only this section was
-          touched; every other section on this page is untouched. */}
+      {/* "Every Stage Builds the Next" — LAYOUT REDESIGN per the latest
+          brief: this is no longer a two-column (image | copy) row. It's
+          now one large image "canvas" with the copy overlaid on top of
+          it (upper-right), like an Apple/SpaceX story panel — but the
+          astronaut is still a real <img> element, not a CSS
+          background-image, per the brief's explicit "don't use the image
+          as the section background" constraint. A dark gradient (peaking
+          ~60% black, concentrated behind the text, fading to fully clear
+          toward the bottom-left where the astronaut reads unobstructed)
+          sits between the image and the text purely for legibility.
+          Content, wording, and every individual animation primitive
+          (the image's own fade+slide-in motion.div, the text's Reveal
+          fade-up, each statement row's staggered fade-up) are all kept
+          exactly as they were — only their layout/positioning classes
+          changed. Below md, there isn't room to overlay this much copy
+          legibly on top of an image, so it gracefully falls back to the
+          original stacked order (image, then text below it) with no
+          overlay/gradient — still the same content and animations, just
+          not layered. Only this section was touched; every other section
+          on this page is untouched. */}
       <section className="py-24 md:py-32 lg:py-40 bg-deep-black overflow-hidden">
-        <div className="container-narrow grid lg:grid-cols-[45%_55%] gap-x-14 xl:gap-x-20 gap-y-14 items-center">
-          {/* Left column — image only. object-contain preserves the
-              photo's original proportions (no crop, no stretch); the
-              soft drop-shadow plus a faint edge-fade mask are the only
-              "adjustments" applied, both within the brief's allowed list
-              (soft premium shadow / slight blend with background) — no
-              new graphics, holograms, or workflow edits. */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-            className="mx-auto w-full max-w-[560px]"
-          >
-            <img
-              src={methodGrowthJourney}
-              alt="An astronaut walking beside a rising line of glowing growth milestones"
-              className="w-full h-auto object-contain rounded-2xl"
+        {/* Container widened: container-narrow (1144px content) was still
+            leaving visible side margins. This card now uses the same
+            full-bleed technique as the ProofCarousel elsewhere on the
+            site (100vw + negative auto-margins to break out of the
+            centered layout), with only a small px gutter left — 95-98%
+            of the viewport instead of container-narrow's ~1144px cap, so
+            the card reads as edge-to-edge. Scoped to just this card; every
+            other section on this page keeps container-narrow untouched. */}
+        <div
+          className="px-4 sm:px-6 lg:px-8"
+          style={{ width: "100vw", marginLeft: "calc(50% - 50vw)", marginRight: "calc(50% - 50vw)" }}
+        >
+          {/* BUG FIX: the previous pass made this a flex container
+              (md:flex md:items-center md:justify-end) and turned the text
+              into a plain, non-positioned flex child so it would grow
+              safely with content — but that's what made it vanish. Per
+              CSS stacking rules, positioned elements (the image and
+              gradient below, both md:absolute) always paint *after*, and
+              therefore on top of, any non-positioned/static sibling in
+              the same stacking context — regardless of DOM order. With
+              the text left as position:static, the absolute image (and
+              especially the absolute gradient) were painting over it
+              completely. Fixed by giving the text its own explicit
+              position:absolute + z-index (see below) so it's back in the
+              same stacking mechanism as its siblings, just on top of them
+              this time — exactly image z-1 / overlay z-10, as specced. */}
+          <div className="relative overflow-hidden rounded-3xl bg-deep-black md:min-h-[760px] lg:min-h-[880px] xl:min-h-[960px]">
+            {/* Image — a standalone <img>, not a background-image. Fills
+                the entire card: width:100%, height:100%, object-fit:cover
+                — laid out normally on mobile (stacked above the text,
+                untouched) and switched to fully filling the whole
+                "canvas" box (`md:absolute md:inset-0`) from md up.
+                Explicit z-[1] — the base layer. Same fade+slide-in-from-
+                left entrance as before. */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-10%" }}
+              transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+              // min-h on the mobile-only branch (overridden by md:absolute
+              // md:inset-0 from md up, where the card's own min-h governs
+              // instead): the image has no HTML width/height attributes,
+              // so below md it was sized purely by its own intrinsic
+              // dimensions once loaded — a real CLS source, jumping from
+              // 0 height to full height as it comes in. This reserves a
+              // reasonable floor up front so the page doesn't visibly hop.
+              className="min-h-[220px] sm:min-h-[280px] md:absolute md:inset-0 md:z-[1] md:min-h-0"
+            >
+              <img
+                src={methodGrowthJourney}
+                alt="An astronaut walking beside a rising line of glowing growth milestones"
+                className="w-full h-auto rounded-3xl md:h-full md:w-full md:object-cover"
+                style={{ filter: "brightness(1.05) contrast(1.05)" }}
+              />
+            </motion.div>
+
+            {/* Dark gradient overlay — switched from the old diagonal
+                (aimed at a right-anchored column) to a centered radial
+                fade, matching the text's new centered position: 40-60%
+                black concentrated behind the middle of the image, fading
+                to fully transparent toward all four edges so the
+                astronaut and any glowing pathway/icon nearer the edges
+                stay clearly visible. Sits just above the image (z-[2])
+                but still well below the text (z-10). Desktop/tablet (md+)
+                only — on the mobile stacked layout the text isn't on top
+                of the image, so no overlay is needed there. */}
+            <div
+              aria-hidden
+              className="hidden md:block md:absolute md:inset-0 md:z-[2] md:rounded-3xl pointer-events-none"
               style={{
-                filter: "brightness(1.05) contrast(1.05) drop-shadow(0 30px 60px rgba(0,0,0,0.55))",
-                WebkitMaskImage:
-                  "radial-gradient(ellipse 92% 92% at 50% 50%, black 78%, transparent 100%)",
-                maskImage:
-                  "radial-gradient(ellipse 92% 92% at 50% 50%, black 78%, transparent 100%)",
+                background:
+                  "radial-gradient(ellipse 62% 58% at 50% 50%, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.42) 45%, rgba(0,0,0,0.15) 68%, rgba(0,0,0,0) 85%)",
               }}
             />
-          </motion.div>
 
-          {/* Right column — exact original copy, capped at ~600px per
-              spec, with the same hierarchy as before: small label →
-              heading → framework line → paragraphs → final bold
-              statement. Stagger reveal via Reveal's built-in per-child
-              motion, just no longer center-aligned across the full
-              section width. */}
-          <Reveal className="max-w-[600px]">
-            <p className="eyebrow" style={{ color: "rgba(255,255,255,0.55)" }}>
-              The DMAX Method™
-            </p>
-            <h2 className="mt-4 h2-section text-balance" style={{ color: "#FFFFFF" }}>
-              Every stage builds the next.
-            </h2>
-            <div className="mt-8 text-lg font-semibold" style={{ color: "#FFFFFF" }}>
-              Market Position → Market Visibility → Market Trust → Qualified Conversations → Predictable Revenue
-            </div>
-            <div className="mt-10 space-y-4 text-lg leading-relaxed" style={{ color: "#D8D8D8" }}>
-              <p>Most businesses try to jump straight to lead generation.</p>
-              <p className="font-semibold" style={{ color: "#FFFFFF" }}>We don't.</p>
-              <p>Because without positioning, visibility creates noise.</p>
-              <p>Without visibility, trust never develops.</p>
-              <p>Without trust, conversations rarely become business.</p>
-              <p>Growth isn't built by chasing tactics.</p>
-              <p className="font-semibold" style={{ color: "#FFFFFF" }}>
-                It's built by strengthening each stage of the system.
+            {/* Text — width widened per the latest brief: was a flat
+                max-w-[760px], which read as narrow against this much
+                wider full-bleed image. Now w-[80%] (inside the requested
+                75-85%) so it scales with however wide the image itself
+                is at a given viewport, capped at max-w-[1000px] (inside
+                the requested 900-1100px readable-line-length ceiling) so
+                it never over-stretches on very large screens. mx-auto +
+                inset-x-0 still keep it centered with equal margins on
+                both sides — never edge-to-edge, since 80% always leaves
+                10% margin on each side by construction. Horizontal
+                padding trimmed (px-6/8/10, was the same p-8/11/14 as the
+                vertical) since the wider box no longer needs as much
+                inset before the (now much longer) paragraph and bullet
+                lines start; vertical padding (py-8/11/14) kept identical
+                so top/bottom breathing room — and every internal gap
+                between heading/paragraphs/bullets/final statement below —
+                is unchanged. Still position:absolute + z-10 above the
+                image (z-1) and gradient (z-2), still vertically centered
+                via top-1/2/-translate-y-1/2. */}
+            <Reveal className="mt-8 md:mt-0 md:absolute md:z-10 md:inset-x-0 md:mx-auto md:top-1/2 md:-translate-y-1/2 md:w-[80%] md:max-w-[1000px] md:text-center md:px-6 md:py-8 lg:px-8 lg:py-11 xl:px-10 xl:py-14">
+              <p className="eyebrow" style={{ color: "rgba(255,255,255,0.55)" }}>
+                The DMAX Method™
               </p>
-            </div>
-          </Reveal>
+              <h2 className="mt-4 h2-section text-balance" style={{ color: "#FFFFFF" }}>
+                Every stage builds the next.
+              </h2>
+              <div className="mt-8 text-lg font-semibold" style={{ color: "#FFFFFF" }}>
+                Market Position → Market Visibility → Market Trust → Qualified Conversations → Predictable Revenue
+              </div>
+
+              {/* Lead-in — unchanged flowing-paragraph treatment. */}
+              <div className="mt-10 space-y-4 text-lg leading-relaxed" style={{ color: "#D8D8D8" }}>
+                <p>Most businesses try to jump straight to lead generation.</p>
+                <p className="font-semibold" style={{ color: "#FFFFFF" }}>We don't.</p>
+              </div>
+
+              {/* The four "Because..." lines — each its own row with a
+                  small accent mark, comfortable space-y-5 gap, and its
+                  own fade-up entrance staggered ~100ms apart. justify-center
+                  added (was left-implicit) so each marker+text pair sits
+                  centered as a unit within the now-centered column,
+                  matching the section's new composition. */}
+              <div className="mt-8 space-y-5">
+                {[
+                  "Because without positioning, visibility creates noise.",
+                  "Without visibility, trust never develops.",
+                  "Without trust, conversations rarely become business.",
+                  "Growth isn't built by chasing tactics.",
+                ].map((line, i) => (
+                  <motion.div
+                    key={line}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-10%" }}
+                    transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                    className="flex items-start justify-center gap-3"
+                  >
+                    <span aria-hidden className="mt-[2px] text-base leading-none" style={{ color: "var(--color-accent)" }}>
+                      ✦
+                    </span>
+                    <p className="text-lg leading-relaxed text-left" style={{ color: "#D8D8D8" }}>
+                      {line}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Final statement — the section's conclusion: font-bold
+                  with a subtle green accent line, now centered as a unit
+                  (flex justify-center) so the accent bar hugs the text
+                  itself instead of the full column's left edge. */}
+              <div className="mt-10 flex justify-center">
+                <div className="relative pl-5">
+                  <span aria-hidden className="absolute left-0 top-0.5 bottom-0.5 w-[3px] rounded-full bg-accent" />
+                  <p className="text-lg font-bold leading-relaxed text-left" style={{ color: "#FFFFFF" }}>
+                    It's built by strengthening each stage of the system.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
 

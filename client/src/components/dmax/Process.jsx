@@ -59,7 +59,27 @@ export function Process({
   return (
     <section
       id="process"
-      className={`${tightTop ? "pt-0 pb-20 md:pb-28 lg:pb-36" : "py-20 md:py-28 lg:py-36"} scroll-mt-24 ${dark ? "bg-deep-black" : ""}`}
+      // Padding: tightTop (ProcessPage.jsx only) and the dark-only py
+      // below (Home.jsx's "Our Method." instance) are both opt-in and
+      // mutually exclusive in practice — About.jsx passes neither prop,
+      // so its spacing is completely unaffected either way. This section
+      // and the full-bleed photo section before it on Home.jsx are two
+      // fully independent <section> elements; this top padding
+      // (pt-20/28/36, the sitewide standard) is now chosen purely on
+      // this section's own merit as a self-contained chapter, not
+      // balanced or coordinated against the previous section's own
+      // bottom padding — each section owns its own spacing. Bottom
+      // padding (pb-16/20/24) is unrelated to this and stays as-is; it
+      // exists to keep the Warm White "Results" section right after this
+      // one from reading as an oversized gap, which is a separate,
+      // still-valid fix from the earlier spacing audit.
+      className={`${
+        tightTop
+          ? "pt-0 pb-20 md:pb-28 lg:pb-36"
+          : dark
+            ? "pt-20 md:pt-28 lg:pt-36 pb-16 md:pb-20 lg:pb-24"
+            : "py-20 md:py-28 lg:py-36"
+      } scroll-mt-24 ${dark ? "method-section bg-deep-black border-t border-white/10" : ""}`}
     >
       <div className="container-narrow">
         <div className="mx-auto max-w-3xl text-center">
@@ -96,7 +116,7 @@ export function Process({
             className="absolute lg:top-6 lg:left-0 lg:right-0 lg:h-[2px] lg:origin-left left-6 top-0 bottom-0 w-[2px] lg:w-auto bg-accent origin-top lg:scale-y-100"
           />
 
-          <ol className={`relative grid ${gridColsClass} gap-5 lg:pt-12 pl-14 lg:pl-0`}>
+          <ol className={`relative grid ${gridColsClass} gap-6 lg:pt-12 pl-14 lg:pl-0`}>
             {steps.map((s, i) => {
               const start = i / steps.length;
               const end = (i + 0.5) / steps.length;

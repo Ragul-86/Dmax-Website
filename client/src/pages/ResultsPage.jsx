@@ -22,7 +22,7 @@ export default function ResultsPage() {
   return (
     <main className="bg-background text-foreground">
       <Navbar />
-      <header className="container-narrow pt-40 pb-4 text-center">
+      <header className="container-narrow pt-28 md:pt-32 lg:pt-36 pb-4 text-center">
         <p className="eyebrow">Results</p>
         <h1 className="mx-auto mt-4 h1-page max-w-4xl text-balance">
           Real Business Stories. Real Growth. <span className="text-accent">Real Revenue.</span>

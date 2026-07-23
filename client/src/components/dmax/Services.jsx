@@ -70,7 +70,12 @@ function TopicArtwork({ s }) {
 
   return (
     <div
-      className="relative -mx-7 -mt-7 md:-mx-8 md:-mt-8 h-[180px] w-[calc(100%+3.5rem)] md:w-[calc(100%+4rem)] overflow-hidden bg-white"
+      // Height raised 180px → 230px (+27.8%, inside the requested
+      // 20-30% card-height / "image as dominant visual" range) — the
+      // rest of the card (title/body) grows a bit too from the
+      // typography bump below, so total card height increases in
+      // proportion without needing a separate hard-coded height rule.
+      className="relative -mx-7 -mt-7 md:-mx-8 md:-mt-8 h-[230px] w-[calc(100%+3.5rem)] md:w-[calc(100%+4rem)] overflow-hidden bg-white"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
@@ -164,13 +169,26 @@ export function Services({
   // Topic" usage doesn't pass this, so it keeps the original intro
   // untouched.
   editorial = false,
+  // Opt-in only — used exclusively by FaqPage.jsx's "Explore by Topic"
+  // call, to widen the section's container well past the sitewide
+  // container-narrow cap. ServicesPage.jsx's <Services editorial /> call
+  // (a dead, unrouted page — not linked from App.jsx) omits this and
+  // keeps the standard container-narrow width, so this can't affect any
+  // live page other than the one it's meant for.
+  wide = false,
 }) {
   return (
     <section
       id="services"
       className={editorial ? "pt-14 md:pt-20 lg:pt-24 pb-20 md:pb-28 lg:pb-36" : "py-20 md:py-28 lg:py-36"}
     >
-      <div className="container-narrow">
+      {/* wide: max-w-[1760px] (inside the requested 1700-1800px range,
+          ~95% of a 1920px viewport) with a slightly wider desktop gutter
+          (px-12 vs container-narrow's 48px, i.e. same value, just applied
+          directly here since this isn't the shared container-narrow
+          class) so the "Explore by Topic" cards get dramatically more
+          room without the section running edge-to-edge. */}
+      <div className={wide ? "mx-auto max-w-[1760px] px-5 sm:px-8 lg:px-12" : "container-narrow"}>
         <div className={`mx-auto text-center ${editorial ? "max-w-[720px]" : "max-w-3xl"}`}>
           {eyebrow && <p className="eyebrow">{eyebrow}</p>}
           {editorial && (
@@ -198,7 +216,7 @@ export function Services({
           )}
         </div>
 
-        <div className={`${editorial ? "mt-20 md:mt-24" : "mt-16"} grid md:grid-cols-2 ${columns} gap-5`}>
+        <div className={`${editorial ? "mt-20 md:mt-24" : "mt-16"} grid md:grid-cols-2 ${columns} gap-6`}>
           {items.map((s, i) => (
             <motion.article
               key={s.title}
@@ -219,8 +237,13 @@ export function Services({
                   <s.icon className="size-5" />
                 </div>
               )}
-              <h3 className={`${s.image ? "relative mt-4" : "mt-6"} text-xl font-semibold`}>{s.title}</h3>
-              {s.desc && <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.desc}</p>}
+              {/* Title: text-xl/semibold → text-2xl/bold ("slightly larger
+                  and bolder", same wording/hierarchy). Body: text-sm →
+                  text-base (one typography step up); leading-relaxed is a
+                  relative multiplier so it automatically delivers more
+                  actual line-height at the bigger font-size too. */}
+              <h3 className={`${s.image ? "relative mt-4" : "mt-6"} text-2xl font-bold`}>{s.title}</h3>
+              {s.desc && <p className="mt-3 text-base text-muted-foreground leading-relaxed">{s.desc}</p>}
               {s.bullets && s.bullets.length > 0 && (
                 <>
                   <div className="mt-5 text-xs uppercase tracking-widest text-muted-foreground">What's Included</div>

@@ -129,17 +129,31 @@ export default function Services() {
                 <div className="card-icon inline-flex size-12 items-center justify-center rounded-2xl bg-foreground text-background transition-all duration-300 group-hover:bg-accent group-hover:text-accent-foreground group-hover:scale-110 group-hover:-rotate-3">
                   <s.icon className="size-5" />
                 </div>
-                <div className="mt-6 text-xs font-semibold uppercase tracking-widest text-accent">{s.audience}</div>
-                <h3 className="mt-2.5 text-xl font-semibold leading-snug">{s.title}</h3>
-                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.intro}</p>
+                {/* Typography-only readability pass on these cards: every
+                    text element bumped up the Tailwind scale (which
+                    carries its paired line-height along with it, since
+                    leading-snug/leading-relaxed are relative multipliers
+                    that grow with font-size automatically — satisfies
+                    "increase line-height proportionally" with no extra
+                    classes needed). Card width/height, colors, icons,
+                    the bullet dot, margins between blocks (mt-6/mt-3/
+                    mt-2.5/mt-2/mt-8), and all animations are untouched.
+                    Equal card heights across a row are already handled
+                    by the parent grid's `items-stretch` (grid rows
+                    auto-equalize to the tallest cell), so no explicit
+                    height/min-height was needed even though these cards
+                    now run taller. */}
+                <div className="mt-6 text-base font-semibold uppercase tracking-widest text-accent">{s.audience}</div>
+                <h3 className="mt-2.5 text-2xl font-semibold leading-snug">{s.title}</h3>
+                <p className="mt-3 text-xl text-muted-foreground leading-relaxed">{s.intro}</p>
 
-                <div className="mt-6 text-xs font-semibold uppercase tracking-widest text-muted-foreground">Built for</div>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.builtFor}</p>
+                <div className="mt-6 text-sm font-semibold uppercase tracking-widest text-muted-foreground">Built for</div>
+                <p className="mt-2 text-lg text-muted-foreground leading-relaxed">{s.builtFor}</p>
 
-                <div className="mt-6 text-xs font-semibold uppercase tracking-widest text-muted-foreground">What You'll Achieve</div>
+                <div className="mt-6 text-sm font-semibold uppercase tracking-widest text-muted-foreground">What You'll Achieve</div>
                 <ul className="mt-3 space-y-2 flex-1">
                   {s.achieve.map((a) => (
-                    <li key={a} className="text-sm text-muted-foreground leading-relaxed flex items-start gap-2">
+                    <li key={a} className="text-lg text-muted-foreground leading-relaxed flex items-start gap-2">
                       <span className="mt-2 size-1 rounded-full bg-accent shrink-0" />
                       {a}
                     </li>
@@ -148,7 +162,7 @@ export default function Services() {
 
                 <Link
                   to="/contact"
-                  className="mt-8 pt-6 border-t border-border inline-flex items-center gap-2 text-sm font-semibold text-accent hover:brightness-110"
+                  className="mt-8 pt-6 border-t border-border inline-flex items-center gap-2 text-xl font-semibold text-accent hover:brightness-110"
                 >
                   {s.cta}
                   <ArrowRight className="card-arrow size-4" />
@@ -169,29 +183,38 @@ export default function Services() {
           light background, so they're swapped for literal inline color
           overrides here (white for the heading and the bold closing
           line, #D8D8D8 soft-white for the other body lines) — same
-          pattern used elsewhere on the site for dark sections. Vertical
-          spacing increased (py-24/32/40 → py-28/36/44, larger mt- gaps)
-          so the section breathes as a distinct dark moment. */}
-      <section className="py-28 md:py-36 lg:py-44 bg-deep-black">
+          pattern used elsewhere on the site for dark sections.
+          Vertical spacing brought back down: an earlier pass had pushed
+          this to py-28/36/44 plus oversized internal mt-10/12/16 gaps to
+          "increase spacing," which ended up reading as excessive empty
+          space above the heading and below the closing line. Section
+          padding now matches this page's own header/cards sections
+          (py-24/32/40) instead of running larger than the rest of the
+          page, and the internal heading→paragraph and paragraph→
+          paragraph gaps are back to the site's normal flowing-copy
+          rhythm (mt-8/mt-6, with the bold mid-statement kept at mt-8 for
+          a touch of emphasis, not the previous mt-16). No content,
+          typography, colors, or animations were touched. */}
+      <section className="py-24 md:py-32 lg:py-40 bg-deep-black">
         <Reveal className="container-narrow mx-auto max-w-[900px] text-center">
           <h2 className="h2-section text-balance" style={{ color: "#FFFFFF" }}>
             Trust comes before business.
           </h2>
 
-          <div className="mt-12">
+          <div className="mt-8">
             <p className="text-lg leading-relaxed" style={{ color: "#D8D8D8" }}>
               Long before someone schedules a meeting…
             </p>
 
-            <p className="mt-10 text-lg leading-relaxed text-balance" style={{ color: "#D8D8D8" }}>
+            <p className="mt-6 text-lg leading-relaxed text-balance" style={{ color: "#D8D8D8" }}>
               They search • They compare • They read • They observe
             </p>
 
-            <p className="mt-16 text-lg font-bold leading-relaxed text-balance" style={{ color: "#FFFFFF" }}>
+            <p className="mt-8 text-lg font-bold leading-relaxed text-balance" style={{ color: "#FFFFFF" }}>
               The businesses that earn trust first are usually the businesses that win.
             </p>
 
-            <p className="mt-10 text-lg leading-relaxed" style={{ color: "#D8D8D8" }}>
+            <p className="mt-6 text-lg leading-relaxed" style={{ color: "#D8D8D8" }}>
               DMAX helps you become one of them.
             </p>
           </div>

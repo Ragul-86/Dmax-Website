@@ -14,7 +14,7 @@ export function CTA({
   showEmail = true,
 }) {
   return (
-    <section className="py-24">
+    <section className="pt-24 pb-20">
       <div className="container-narrow">
         <div className="relative overflow-hidden rounded-[36px] scene-dark dark:scene-light p-10 md:p-16 text-white dark:text-graphite shadow-elevation">
           <div className="stars stars-force absolute inset-0 opacity-60 dark:hidden" aria-hidden />

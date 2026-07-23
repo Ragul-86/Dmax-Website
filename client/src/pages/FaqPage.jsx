@@ -83,7 +83,7 @@ export default function FaqPage() {
           the full section width (same fix used on Services.jsx and
           ProcessPage.jsx's headers). Typography/copy/layout untouched. */}
       <header className="bg-surface-warm pb-4">
-        <div className="container-narrow pt-32 text-center">
+        <div className="container-narrow pt-28 md:pt-32 lg:pt-36 text-center">
           <p className="eyebrow">Insights</p>
           <h1 className="mx-auto mt-4 max-w-[1150px] text-[2.625rem] md:text-[3.75rem] lg:text-[4.75rem] font-bold leading-[1.15] tracking-tight text-balance text-foreground">
             Better thinking builds better <span className="text-accent">businesses</span>.
@@ -136,7 +136,7 @@ export default function FaqPage() {
       </section>
 
       {/* 3. Explore by Topic */}
-      <Services eyebrow={null} title={<>Explore by Topic</>} items={topics} columns="lg:grid-cols-5" />
+      <Services eyebrow={null} title={<>Explore by Topic</>} items={topics} columns="lg:grid-cols-5" wide />
 
       {/* 4. Featured Insights — Light Gray step of the locked background
           rhythm (already the correct color; only vertical spacing
@@ -148,7 +148,7 @@ export default function FaqPage() {
           <div className="mx-auto max-w-3xl text-center">
             <p className="eyebrow">Featured Insights</p>
           </div>
-          <div className="mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredInsights.map((a, i) => (
               <motion.article
                 key={a.title}

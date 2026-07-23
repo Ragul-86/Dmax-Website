@@ -20,13 +20,15 @@ const DEFAULT_IMAGES = [proof1, proof2, proof3, proof4, proof5, proof6, proof7, 
 // Card height per breakpoint — this, not a column count, is what actually
 // controls how many cards are visible at once, since each card's width is
 // auto (driven by its own real screenshot aspect ratio via object-contain,
-// unchanged/uncropped), not a fixed grid column. Tuned for a rough
-// 1-with-peek / 2 / 3 / 4-visible density at mobile / tablet / desktop /
-// large-desktop container widths — height grows only modestly across
-// breakpoints (unlike viewport width, which grows a lot more), so more
-// cards fit per row as the screen gets wider rather than the same few
-// cards just getting bigger.
-const CARD_HEIGHT_CLASS = "h-[200px] sm:h-[215px] lg:h-[230px] xl:h-[245px]";
+// unchanged/uncropped), not a fixed grid column. Pushed significantly
+// larger this pass (was 265/285/305/325 — the previous "modest" bump the
+// brief said still wasn't enough): desktop (lg/xl) now lands at 560/620px,
+// squarely in the requested 520-650px range, with mobile/tablet scaled up
+// generously too but kept a bit more conservative so a single card
+// doesn't badly overshoot a phone's viewport width and stop feeling like
+// "one at a time." object-contain still guarantees no stretching/cropping
+// at any of these sizes.
+const CARD_HEIGHT_CLASS = "h-[330px] sm:h-[420px] lg:h-[560px] xl:h-[620px]";
 
 // Full-bleed breakout — the classic "calc(50% - 50vw)" margin trick. This
 // is what makes the carousel span edge-to-edge across the viewport
@@ -40,16 +42,30 @@ const CARD_HEIGHT_CLASS = "h-[200px] sm:h-[215px] lg:h-[230px] xl:h-[245px]";
 // causes page-level horizontal scroll.
 const FULL_BLEED_STYLE = { width: "100vw", marginLeft: "calc(50% - 50vw)", marginRight: "calc(50% - 50vw)" };
 
+// How far a card can scale down as it drifts away from center — 1.0 at
+// dead-center down to this floor at the edges of the visible track. Sits
+// inside the requested "adjacent slides ~85-90%" range.
+const MIN_SCALE = 0.87;
+
 function ProofCard({ image, onClick, reduceMotion }) {
   return (
     <button
       type="button"
       onClick={onClick}
       aria-label={`Open ${image.alt} in full size`}
-      className={`group relative shrink-0 cursor-pointer pointer-events-auto ${CARD_HEIGHT_CLASS} overflow-hidden rounded-[24px] border border-border bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04),0_6px_16px_-4px_rgba(0,0,0,0.06)] ${
+      // Resting shadow slightly richer than before (a touch more spread/
+      // opacity) to read as real depth at the larger card size, still a
+      // soft two-layer shadow, not a heavy drop shadow. Hover scale
+      // (1.05) is separate from — and layered on top of — the
+      // continuous center-based active/adjacent scale applied to this
+      // card's wrapper div (see ProofTrackCard below): they live on two
+      // different DOM nodes so they never fight over the same
+      // `transform` property. Rounded corners, border, and background
+      // are unchanged.
+      className={`group relative shrink-0 cursor-pointer pointer-events-auto ${CARD_HEIGHT_CLASS} overflow-hidden rounded-[24px] border border-border bg-white shadow-[0_2px_6px_rgba(0,0,0,0.05),0_10px_24px_-6px_rgba(0,0,0,0.09)] ${
         reduceMotion
-          ? "hover:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.12)]"
-          : "transition-[transform,box-shadow] duration-300 ease-out hover:scale-[1.02] hover:shadow-[0_10px_28px_-6px_rgba(0,0,0,0.14)]"
+          ? "hover:shadow-[0_8px_28px_-6px_rgba(0,0,0,0.16)]"
+          : "transition-[transform,box-shadow] duration-300 ease-out hover:scale-[1.05] hover:shadow-[0_16px_36px_-8px_rgba(0,0,0,0.18)]"
       }`}
     >
       <img
@@ -185,10 +201,20 @@ function Lightbox({ images, index, setIndex, onClose }) {
  * full set's width it wraps by that width, so the loop has no visible
  * seam no matter how long you watch it. Drifts right-to-left (translateX
  * decreases → content moves left, new cards enter from the right).
+ *
+ * "Active/adjacent" scale: same rAF loop also measures, every frame, how
+ * close each rendered card sits to the track's own horizontal center and
+ * applies a continuous scale (1.0 dead-center → MIN_SCALE at the edges)
+ * directly to that card's wrapper div. This is layered on top of the
+ * exact same drag/auto-scroll mechanics — nothing about navigation,
+ * drag behavior, or the auto-drift itself changed, it's a purely visual
+ * effect riding along on top of the existing position data.
  */
 export function ProofCarousel({ images = DEFAULT_IMAGES }) {
   const reduceMotion = useReducedMotion();
+  const containerRef = useRef(null);
   const trackRef = useRef(null);
+  const cardRefs = useRef([]);
   const setWidthRef = useRef(0);
   const offsetRef = useRef(0);
 
@@ -219,8 +245,36 @@ export function ProofCarousel({ images = DEFAULT_IMAGES }) {
     return () => ro.disconnect();
   }, [images]);
 
+  // Recomputes each card's center-based scale. Two passes (all reads,
+  // then all writes) so this never triggers layout thrashing across the
+  // ~16 rendered cards.
+  const updateCardScales = () => {
+    const container = containerRef.current;
+    if (!container) return;
+    const containerRect = container.getBoundingClientRect();
+    const centerX = containerRect.left + containerRect.width / 2;
+
+    const measurements = cardRefs.current.map((el) => {
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      return { el, centerX: r.left + r.width / 2, halfWidth: r.width / 2 };
+    });
+
+    measurements.forEach((m) => {
+      if (!m) return;
+      const dist = Math.abs(m.centerX - centerX);
+      const range = containerRect.width / 2 + m.halfWidth;
+      const t = range > 0 ? Math.min(dist / range, 1) : 0;
+      const scale = 1 - t * (1 - MIN_SCALE);
+      m.el.style.transform = `scale(${scale})`;
+    });
+  };
+
   // Auto-scroll drift loop — skipped entirely under prefers-reduced-motion
-  // (drag/manual interaction still works either way).
+  // (drag/manual interaction still works either way). Also drives the
+  // continuous active/adjacent card scaling every frame, whether or not
+  // the drift itself is currently paused (hover/drag), so scales stay in
+  // sync with whatever position the track is actually at.
   useEffect(() => {
     if (reduceMotion) return;
     let raf;
@@ -239,6 +293,7 @@ export function ProofCarousel({ images = DEFAULT_IMAGES }) {
           trackRef.current.style.transform = `translateX(${-offsetRef.current}px)`;
         }
       }
+      updateCardScales();
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -254,6 +309,7 @@ export function ProofCarousel({ images = DEFAULT_IMAGES }) {
     if (trackRef.current) {
       trackRef.current.style.transform = `translateX(${-next}px)`;
     }
+    updateCardScales();
   };
 
   const onPointerDown = (e) => {
@@ -300,13 +356,14 @@ export function ProofCarousel({ images = DEFAULT_IMAGES }) {
   const closeLightbox = () => setLightboxIndex(null);
 
   // Reduced-motion fallback: a plain, single-set, natively scrollable row
-  // (no duplicate list, no auto-drift, no wrap trickery) — fully
-  // accessible, still lets people browse and click through to enlarge.
+  // (no duplicate list, no auto-drift, no wrap trickery, no continuous
+  // center-scale effect) — fully accessible, still lets people browse and
+  // click through to enlarge.
   if (reduceMotion) {
     return (
       <>
         <div className="overflow-x-auto" style={FULL_BLEED_STYLE}>
-          <div className="flex w-max gap-7">
+          <div className="flex w-max gap-10">
             {images.map((image, i) => (
               <ProofCard key={image.src} image={image} onClick={() => openAt(i)} reduceMotion />
             ))}
@@ -322,6 +379,7 @@ export function ProofCarousel({ images = DEFAULT_IMAGES }) {
   return (
     <>
       <div
+        ref={containerRef}
         className="overflow-hidden cursor-grab active:cursor-grabbing"
         style={{ ...FULL_BLEED_STYLE, touchAction: "pan-y" }}
         onMouseEnter={() => {
@@ -336,13 +394,20 @@ export function ProofCarousel({ images = DEFAULT_IMAGES }) {
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
       >
-        <div ref={trackRef} className="flex w-max gap-7" style={{ willChange: "transform" }}>
+        {/* Gap increased 32px → 40px (gap-8 → gap-10) so the much larger
+            cards still read as comfortably spaced, not crowded. */}
+        <div ref={trackRef} className="flex w-max gap-10" style={{ willChange: "transform" }}>
           {[...images, ...images].map((image, i) => (
-            <ProofCard
+            <div
               key={`${image.src}-${i}`}
-              image={image}
-              onClick={() => openAt(i % images.length)}
-            />
+              ref={(el) => {
+                cardRefs.current[i] = el;
+              }}
+              className="shrink-0"
+              style={{ willChange: "transform" }}
+            >
+              <ProofCard image={image} onClick={() => openAt(i % images.length)} />
+            </div>
           ))}
         </div>
       </div>

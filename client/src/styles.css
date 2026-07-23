@@ -64,6 +64,42 @@
      itself improves reading rhythm everywhere at once without touching
      any component markup. */
   --leading-relaxed: 1.75;
+
+  /* ============================================================
+     Sitewide typography-scale audit — one central bump instead of
+     hand-editing font-size classNames on every page/component. Every
+     place across the whole site already builds its type out of these
+     same Tailwind text-* utilities (that's the established pattern from
+     every previous typography pass this project has gone through), so
+     redefining the tokens themselves raises font size AND its paired
+     line-height everywhere at once, guaranteeing one consistent scale
+     instead of some sections being bumped and others forgotten.
+     Elements that already carry an explicit leading-* utility (the
+     large majority of body copy sitewide) ignore the paired line-height
+     below and instead get a proportionally bigger line-height for free,
+     since leading-relaxed/snug/etc. are relative multipliers of
+     font-size, not fixed values.
+     text-5xl/6xl/7xl (hero display numbers, e.g. Results.jsx's stat
+     figures) and the standalone .h1-page/.h2-section/.eyebrow classes
+     are deliberately left out of this token block (handled by their own
+     rules below, or — for the Hero H1 — left untouched entirely per
+     "Main Hero Heading: keep as is"). */
+  --text-xs: 0.875rem;           /* 12px -> 14px  — small labels/captions */
+  --text-xs--line-height: 1.25rem;
+  --text-sm: 1rem;               /* 14px -> 16px  — captions, footer text, stat labels */
+  --text-sm--line-height: 1.5rem;
+  --text-base: 1.125rem;         /* 16px -> 18px  — base running text */
+  --text-base--line-height: 1.75rem;
+  --text-lg: 1.3125rem;          /* 18px -> 21px  — body paragraphs / section descriptions */
+  --text-lg--line-height: 2rem;
+  --text-xl: 1.4375rem;          /* 20px -> 23px  — CTA text / card titles */
+  --text-xl--line-height: 2rem;
+  --text-2xl: 1.6875rem;         /* 24px -> 27px  — card titles / small headings */
+  --text-2xl--line-height: 2.25rem;
+  --text-3xl: 2.0625rem;         /* 30px -> 33px  — section headings, one step up */
+  --text-3xl--line-height: 2.5rem;
+  --text-4xl: 2.4375rem;         /* 36px -> 39px  — larger section headings, one step up */
+  --text-4xl--line-height: 2.75rem;
 }
 
 :root {
@@ -281,19 +317,25 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
   .card-service:hover .card-arrow { transform: translateX(4px); }
 
   /* Image-led variant of .card-service — used only by the Insights
-     "Explore by Topic" cards (see components/dmax/Services.jsx). Overrides
-     the base hover lift/shadow with the premium spec's own numbers (8px
-     lift, deeper shadow, 550ms) without touching plain icon-based cards
-     that still use .card-service alone. */
+     "Explore by Topic" cards (see components/dmax/Services.jsx). Tuned to
+     the latest "Explore by Topic" spec: 6px lift, a subtle (not heavy
+     green-glow) shadow, green border, 300ms — without touching plain
+     icon-based cards that still use .card-service alone. The image's own
+     hover zoom lives in the <img>'s Tailwind classes in TopicArtwork
+     (scale-[1.18] resting → group-hover:scale-[1.22]), a relative ~3.4%
+     increase that already matches the requested "image scales ~1.03 on
+     hover" — the 1.18 resting scale itself is untouched since it exists
+     to avoid exposing gaps during the artwork band's float/parallax
+     motion, not as a design choice open to "reset to 1". */
   .card-service-image {
     transition:
-      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
       border-color 0.3s ease;
   }
   .card-service-image:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 30px 60px -14px rgba(0,0,0,0.2), 0 0 44px -10px rgba(56,224,0,0.4);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-card-hover);
     border-color: var(--color-accent);
   }
 
@@ -380,8 +422,11 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
     overflow: hidden;
   }
   @media (hover: hover) and (pointer: fine) {
+    /* Lift brought down from -5px to -3px — within the requested subtle
+       2-4px range for the stats grid's hover state; transition timing
+       (250ms ease, set above on .metric-column) is unchanged. */
     .metric-column:hover {
-      transform: translateY(-5px);
+      transform: translateY(-3px);
       box-shadow: var(--shadow-card-hover);
       outline-color: var(--color-border);
       z-index: 1;
@@ -408,9 +453,12 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
      across every page.
      ============================================================ */
 
-  /* Small-caps eyebrow label used above every section/page heading */
+  /* Small-caps eyebrow label used above every section/page heading —
+     bumped into the same 14-16px "small label" target as the --text-xs
+     token above (kept as its own literal rule since .eyebrow isn't built
+     from a text-* utility class). */
   .eyebrow {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 600;
     letter-spacing: 0.28em;
     text-transform: uppercase;
@@ -419,7 +467,8 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
 
   /* Page-level H1 (About/Results/Process/Services/Contact headers).
      Fluid clamp() scales smoothly between breakpoints instead of
-     jumping at a single md: step. */
+     jumping at a single md: step. Left as-is — "Main Hero Heading: keep
+     as is" per the typography audit brief. */
   .h1-page {
     font-size: clamp(3rem, 6vw, 5.5rem);
     line-height: 1.02;
@@ -427,9 +476,13 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
     letter-spacing: -0.025em;
   }
 
-  /* Section H2 used throughout Home/About/Results/Process/Services etc. */
+  /* Section H2 used throughout Home/About/Results/Process/Services etc.
+     Nudged one step per the audit ("Section Headings: keep the same or
+     increase one step only") — top of the fluid range 3.5rem(56px) ->
+     3.75rem(60px), floor 2rem(32px) -> 2.125rem(34px), same clamp
+     shape/weight/tracking otherwise. */
   .h2-section {
-    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-size: clamp(2.125rem, 4.1vw, 3.75rem);
     line-height: 1.08;
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -445,7 +498,7 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
     background: var(--color-foreground);
     color: var(--color-background);
     padding: 1.05rem 2.125rem;
-    font-size: 0.875rem;
+    font-size: 1rem;
     font-weight: 600;
     transition: background-color 0.25s ease, transform 0.25s cubic-bezier(0.2,0.7,0.2,1), box-shadow 0.25s ease;
   }
@@ -470,7 +523,7 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
     backdrop-filter: blur(12px);
     color: var(--color-foreground);
     padding: 1.05rem 2.125rem;
-    font-size: 0.875rem;
+    font-size: 1rem;
     font-weight: 600;
     transition: border-color 0.25s ease, transform 0.25s cubic-bezier(0.2,0.7,0.2,1);
   }
@@ -496,7 +549,7 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
     background: var(--color-accent);
     color: var(--color-accent-foreground);
     padding: 1.05rem 2.125rem;
-    font-size: 0.875rem;
+    font-size: 1rem;
     font-weight: 600;
     transition: filter 0.25s ease, transform 0.25s cubic-bezier(0.2,0.7,0.2,1);
   }

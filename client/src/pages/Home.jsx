@@ -137,8 +137,14 @@ export default function Home() {
           three stacked sections (this one, "Hidden Cost", and the
           Decision-Maker Acquisition grid below) sharing one continuous
           Light Gray band — the "Decision Maker" step of the locked
-          sitewide background rhythm, right after the Warm White Hero. */}
-      <section className="py-20 md:py-28 lg:py-36 bg-surface-gray">
+          sitewide background rhythm, right after the Warm White Hero.
+          Top padding kept at the full standard (this is the real
+          Hero→Next transition); bottom trimmed, since the next section
+          shares this exact same background with no border between them —
+          two full section paddings stacking back-to-back here was
+          producing a ~280px dead gap in the middle of what's supposed to
+          read as one continuous band. Spacing-only change. */}
+      <section className="pt-20 md:pt-28 lg:pt-36 pb-10 md:pb-14 lg:pb-16 bg-surface-gray">
         <div className="container-narrow">
           <div className="grid grid-cols-1 lg:grid-cols-[60%_40%] items-center gap-y-12 lg:gap-x-20 xl:gap-x-24">
             <Reveal>
@@ -173,8 +179,13 @@ export default function Home() {
           shadow-card, lift + accent-border on hover) — same visual
           language as the Services grids elsewhere, not a new style. Grid's
           default align-items: stretch keeps all four cards equal height
-          per row automatically, regardless of title line-wrap. */}
-      <section className="py-20 md:py-28 lg:py-36 bg-surface-gray">
+          per row automatically, regardless of title line-wrap. Both top
+          and bottom padding trimmed for the same reason as section 2
+          above: this section shares its exact background with the
+          section before it AND the SystemShowcase section after it, so
+          full standard padding on both touching edges was compounding
+          into two oversized gaps in what's meant to read as one band. */}
+      <section className="pt-10 md:pt-14 lg:pt-16 pb-10 md:pb-14 lg:pb-16 bg-surface-gray">
         <div className="container-narrow">
           <Reveal className="mx-auto max-w-3xl text-center">
             <h2 className="h2-section text-balance">The Hidden Cost of an Invisible Business</h2>
@@ -201,7 +212,7 @@ export default function Home() {
             ))}
           </div>
 
-          <Reveal className="mx-auto mt-10 md:mt-12 max-w-3xl text-center">
+          <Reveal className="mx-auto mt-12 md:mt-16 max-w-3xl text-center">
             <p className="text-xl font-semibold text-foreground">
               The cost isn't just fewer leads—it's lost revenue and lost market position.
             </p>
@@ -320,8 +331,27 @@ export default function Home() {
           background-image logic. The gradient replaces the old separate
           bg-black/55 overlay div (kept at the same 55% so the visual
           result is unchanged) — stacking both would have double-darkened
-          it. */}
-      <section className="relative overflow-hidden">
+          it.
+
+          Structural note: this is already its own standalone <section>
+          element — it is NOT wrapped in any shared parent with the
+          "Our Method." section that follows (that one is its own
+          <section id="process"> rendered inside <Process dark />, a
+          sibling here in the JSX, not a child). The "reads as one
+          continuous block" issue was a color-matching problem, not a
+          markup problem: this section's photo is darkened by a 55%
+          black overlay to nearly the same near-black tone as
+          Process's flat `bg-deep-black`, so the two independent
+          sections touch with zero visual seam between them. Given a
+          `trust-section` class here (semantic only, no styling change)
+          and a hairline top border added to the following
+          `method-section` (see Process.jsx) so the boundary between
+          the two independent chapters is now visible, matching the
+          hairline-divider convention already used elsewhere on the
+          site (e.g. Services.jsx section borders, Results.jsx grid
+          dividers). No padding, typography, color, or animation was
+          changed. */}
+      <section className="trust-section relative overflow-hidden">
         <motion.div
           aria-hidden
           className="absolute inset-0 bg-neutral-900"
@@ -337,8 +367,17 @@ export default function Home() {
           transition={{ duration: 0.8, ease: "easeOut" }}
         />
 
+        {/* This section (its own independent <section> element, see
+            above) now defines its own top AND bottom padding on its own
+            merit — not coordinated with, or split against, whatever the
+            next section (Process/"Our Method.") happens to use. Top:
+            full standard padding for the transition in from the White
+            "Choose Your Path" section above. Bottom: full standard
+            padding as well, chosen purely for this section's own
+            breathing room, so it reads as a complete, self-contained
+            chapter regardless of what follows it. */}
         <motion.div
-          className="relative py-28 md:py-36 lg:py-44"
+          className="relative pt-28 md:pt-36 lg:pt-44 pb-20 md:pb-28 lg:pb-36"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-15%" }}
@@ -409,8 +448,18 @@ export default function Home() {
           title/subtitle copy unchanged. Warm White step of the locked
           background rhythm — matches the Numbers section directly above
           so "Results/Proof" reads as one continuous band, no border
-          seam between them. */}
-      <section className="py-20 md:py-28 lg:py-36 bg-surface-warm">
+          seam between them. Top padding trimmed (Home.jsx spacing audit):
+          the Results component above already contributes its own full
+          bottom padding, so keeping this section's top padding at the
+          same full value was doubling up into an oversized gap in the
+          middle of the "one continuous band" this is meant to be. Bottom
+          padding also trimmed slightly: the next section ("Why DMAX.")
+          is a real color transition and still gets its own dedicated
+          gap, but both sides using the full standard py were combining
+          into an oversized ~288px jump — trimmed here and on the
+          "Why DMAX." side so the transition matches the page's normal
+          section-to-section rhythm instead. */}
+      <section className="pt-10 md:pt-14 lg:pt-16 pb-16 md:pb-20 lg:pb-24 bg-surface-warm">
         <Reveal className="container-narrow mx-auto max-w-3xl text-center">
           <p className="eyebrow">Results</p>
           <h2 className="mt-4 h2-section text-balance">Proof Behind Every Number</h2>

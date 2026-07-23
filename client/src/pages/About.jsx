@@ -501,7 +501,7 @@ export default function About() {
         subtitle="Every business grows through the same five stages. Not because of algorithms. Because of human decision-making."
         steps={methodSteps}
       />
-      <Reveal className="container-narrow pb-20">
+      <Reveal className="container-narrow pb-16 md:pb-20 lg:pb-24">
         <p className="text-xl font-semibold text-center max-w-2xl mx-auto">
           This isn't a campaign. It's a growth system.
         </p>

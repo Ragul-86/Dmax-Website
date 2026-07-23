@@ -103,12 +103,28 @@ export function TrustedBrands({
             </p>
           </div>
 
-          <div className="mt-10 md:mt-12 flex flex-wrap items-center justify-center gap-3">
+          {/* Framework pills, enlarged: px-5/py-2.5 + text-sm (≈40px tall)
+              → px-7-8/py-3.5-4 + text-base (≈52-56px tall), a ~30-35%
+              size bump on both axes purely from bigger padding + a
+              slightly larger font (one Tailwind step, "slightly" per the
+              brief, not a full redesign). rounded-full, resting border/
+              background colors, and gap-based equal spacing between
+              pills are unchanged in kind — gap only nudged 12px→16px to
+              stay visually balanced against the larger pills. Hover/
+              focus is still the one "active/green" state (border-accent
+              + bg-accent/10 + text-accent, unchanged) — now layered with
+              a 3px lift, a soft green glow (color-mix off the same
+              --color-accent token so it tracks the theme instead of a
+              hardcoded hex), and a cursor-pointer affordance, all on a
+              300ms transition (was 200ms) — comfortably inside the
+              250-300ms ask. flex-wrap (unchanged) still lets pills wrap
+              to as many rows as each breakpoint needs. */}
+          <div className="mt-10 md:mt-12 flex flex-wrap items-center justify-center gap-4">
             {items.map((b) => (
               <span
                 key={b}
                 tabIndex={0}
-                className="inline-flex items-center rounded-full border border-border bg-secondary/40 px-5 py-2.5 text-sm font-medium text-foreground transition-all duration-200 ease-out hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:border-accent focus-visible:bg-accent/10 focus-visible:text-accent"
+                className="inline-flex items-center justify-center rounded-full border border-border bg-secondary/40 px-7 py-3.5 md:px-8 md:py-4 text-base font-medium text-foreground cursor-pointer transition-all duration-300 ease-out hover:-translate-y-[3px] hover:border-accent hover:bg-accent/10 hover:text-accent hover:shadow-[0_10px_28px_-8px_color-mix(in_oklch,var(--color-accent)_55%,transparent)] focus-visible:outline-none focus-visible:-translate-y-[3px] focus-visible:border-accent focus-visible:bg-accent/10 focus-visible:text-accent focus-visible:shadow-[0_10px_28px_-8px_color-mix(in_oklch,var(--color-accent)_55%,transparent)]"
               >
                 {b}
               </span>

@@ -57,12 +57,83 @@ export function Hero() {
       };
 
   return (
-    <section className="relative overflow-hidden bg-surface-warm pt-36 pb-20 lg:pt-40 lg:pb-24">
+    // Desktop (lg+): min-h-screen (a floor, not a hard cap) so the Hero
+    // fills one full viewport and centers content when it fits, but can
+    // never clip anything — the previous pass used a fixed lg:h-screen
+    // combined with overflow-hidden on both this section and the grid
+    // below, which hard-capped the box at exactly 100vh and silently
+    // clipped the last two stacked items (the stats row and the
+    // Discover/Position/Build/Scale list) whenever the real content was
+    // taller than one viewport at a given screen height. Dropping the
+    // fixed height/overflow-hidden on the grid restores the flex item's
+    // default "min-height: auto" sizing, so it grows to fit its content
+    // first and is only ever centered within *extra* space, never
+    // clipped. No typography, colors, spacing-between-elements, or
+    // animations were changed anywhere below.
+    <section className="relative overflow-hidden bg-surface-warm pt-36 pb-20 lg:min-h-screen lg:pt-0 lg:pb-0 lg:flex lg:flex-col">
+      {/* Navbar-clearance spacer (desktop only) — Navbar is fixed/overlaid
+          (h-20 md:h-24, not in document flow), so the centered content
+          below needs a fixed gap matching its real height reserved above
+          it; the rest of the viewport height is handed to the
+          flex-1 grid below for vertical centering. */}
+      <div className="hidden lg:block lg:h-24 lg:shrink-0" aria-hidden="true" />
+
+      {/* Astronaut — background-integrated visual, desktop only (lg+),
+          per the Hero redesign brief: no longer a normal content element
+          in the grid, now an absolutely-positioned layer against the
+          *section* so it can span the section's full height and read as
+          part of the page background rather than a boxed image. No
+          bg/border/shadow anywhere in this layer — object-contain plus a
+          left-edge mask (fading it toward transparent as it approaches
+          the text side) is what gives the soft blend into bg-surface-warm;
+          the image itself is presumably still 100% visible/uncropped since
+          object-contain never crops. Explicit z-0, with the content grid
+          below given z-10, so the text is always guaranteed to paint on
+          top regardless of DOM/stacking-context edge cases (the exact
+          bug class hit earlier on the Method page's image overlay).
+          Sized to ~48% of the section width (inside the requested
+          45-50%) and up to 92% of the section's own height (capped at
+          88vh) so it's dramatically larger/more present than the old
+          content-height-matched sizing — "fills the right half of the
+          Hero." Below lg, this is hidden entirely; the original stacked
+          astronaut image further down (unchanged) covers "mobile: place
+          the astronaut behind or below the content" exactly as it did
+          before this redesign — same asset, same mouse-parallax values,
+          just moved from being a grid item to a background layer. */}
+      <div className="hidden lg:block absolute inset-y-0 right-0 z-0 w-[48%]">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9, delay: 0.3, ease: [0.2, 0.7, 0.2, 1] }}
+          style={{ x: astroPX, y: astroPY }}
+          className="relative flex h-full items-center justify-center"
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+        >
+          <img
+            src={astronaut}
+            alt="DMAX — astronaut, the visual identity of the Decision-Maker Acquisition System"
+            loading="eager"
+            width={1024}
+            height={1536}
+            className="h-[92%] max-h-[88vh] w-auto object-contain"
+            style={{
+              WebkitMaskImage: "linear-gradient(to left, black 60%, transparent 100%)",
+              maskImage: "linear-gradient(to left, black 60%, transparent 100%)",
+            }}
+          />
+        </motion.div>
+      </div>
+
       {/* grid-cols uses fr, not %, so the 48/52 split is computed on the
           space actually remaining after the column gap — percentage tracks
           would sum to 100% of the container *plus* the gap on top, silently
-          overflowing it by the gap width on every desktop breakpoint. */}
-      <div className="container-x relative grid items-center gap-16 lg:grid-cols-[48fr_52fr] lg:gap-x-6">
+          overflowing it by the gap width on every desktop breakpoint. z-10
+          added so this content always paints above the new background
+          astronaut layer above, regardless of stacking-context edge
+          cases. Column split, gap, and left-column position are all
+          otherwise unchanged from before this redesign. */}
+      <div className="container-x relative z-10 grid items-center gap-16 lg:grid-cols-[48fr_52fr] lg:gap-x-6 lg:flex-1">
         {/* ===== Left — content ===== */}
         <div>
           <motion.div
@@ -116,22 +187,6 @@ export function Hero() {
             </a>
           </motion.div>
 
-          {/* Trust strip — same line as before, simplified (no pulse-glow
-              button wrapper, no backdrop-blur). */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.85 }}
-            className="mt-8 max-w-[36rem] rounded-2xl bg-foreground p-5 text-background"
-          >
-            <div className="flex items-center gap-3">
-              <span className="size-2 shrink-0 rounded-full bg-accent" />
-              <p className="text-sm font-medium">
-                If you're invisible during that process, you're already losing opportunities.
-              </p>
-            </div>
-          </motion.div>
-
           {/* Supporting trust elements — real stats, thin-divider layout,
               no cards/glass/float. */}
           <motion.div
@@ -167,31 +222,15 @@ export function Hero() {
           </motion.ul>
         </div>
 
-        {/* ===== Right — the astronaut.
-            The current asset is a PORTRAIT photo (~2:3), not the old
-            landscape 3:2 render — but the <img> below was still declaring
-            width={1536} height={1024}. Browsers use those attributes to
-            reserve the image's aspect-ratio box before it loads; with the
-            wrong (landscape) ratio declared, `object-contain` was fitting
-            the tall portrait figure inside a short, wide box — shrinking it
-            far below its real size and leaving the empty margins on both
-            sides that read as "too small" / "right side feels empty." Fixed
-            to the real ~1024×1536 ratio below.
-
-            Sizing model, desktop only (lg+): instead of a width-driven
-            max-width (which caps growth arbitrarily), this column now
-            stretches to the full height of the row — set by the grid's
-            `items-center` sizing to whatever the text column naturally
-            needs — via `self-stretch`, and the image is sized by height
-            (`h-full w-auto object-contain`) so it fills that height exactly
-            and its width follows the real portrait ratio automatically. No
-            manual max-width tiers, no translate offsets: it's proportional
-            and fluid at any viewport by construction, and vertically fills
-            the same envelope as the text column, so there's no leftover
-            top/bottom slack to look "bottom-heavy." Mobile/tablet (below
-            lg) keep the original width-driven sizing untouched. */}
+        {/* ===== Right — the astronaut, mobile/tablet ONLY now (lg:hidden).
+            At lg+ the astronaut lives in the new background-integrated
+            layer above instead; below lg, this is exactly the original
+            stacked-image treatment, unchanged — the grid is a single
+            column down there anyway, so this simply renders as its own
+            row below the text, satisfying "mobile: astronaut behind or
+            below the content" the same way it always has. */}
         <div
-          className="flex justify-center lg:self-stretch"
+          className="flex justify-center lg:hidden"
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >
@@ -208,7 +247,7 @@ export function Hero() {
               loading="eager"
               width={1024}
               height={1536}
-              className="w-full h-auto lg:h-full lg:w-auto max-w-full object-contain"
+              className="w-full h-auto lg:h-full lg:w-auto max-w-full lg:max-h-[90vh] object-contain"
             />
           </motion.div>
         </div>

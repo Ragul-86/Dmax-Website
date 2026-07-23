@@ -40,8 +40,16 @@ export function SystemShowcase({ eyebrow, title, subtitle, items = [], closing }
     // bg-surface-gray closes out the "Decision Maker" light-gray band that
     // starts two sections above (see Home.jsx) — this is currently the
     // component's only call site, so hardcoding it here is safe and
-    // matches the section's own comment/scope (Home page only).
-    <section className={`${title ? "pt-[120px]" : "pt-0"} pb-[120px] bg-surface-gray`}>
+    // matches the section's own comment/scope (Home page only). Top
+    // padding trimmed (Home.jsx spacing audit): the section immediately
+    // above shares this exact same background with no border between
+    // them, so two full paddings meeting here was producing an oversized
+    // dead gap in the middle of the continuous band. Bottom padding is
+    // unchanged — the section after this one is a real color transition
+    // (Pure White), which still deserves the full standard gap.
+    <section
+      className={`${title ? "pt-10 md:pt-14 lg:pt-16" : "pt-0"} pb-20 md:pb-28 lg:pb-[120px] bg-surface-gray`}
+    >
       <div className="mx-auto w-full max-w-[1700px] px-5 md:px-8 lg:px-12">
         {title && (
           <div className="mx-auto max-w-3xl text-center">
@@ -118,17 +126,17 @@ export function SystemShowcase({ eyebrow, title, subtitle, items = [], closing }
                   invented, only rendered if `s.desc` actually exists. */}
               <div className="absolute inset-x-0 top-0 p-8">
                 <p
-                  className="text-[11px] font-semibold uppercase"
+                  className="text-[13px] font-semibold uppercase"
                   style={{ color: "var(--accent)", letterSpacing: "3px" }}
                 >
                   {`Mission ${String(i + 1).padStart(2, "0")}`}
                 </p>
-                <h3 className="mt-3 text-[25px] sm:text-[27px] lg:text-[30px] font-extrabold tracking-tight leading-[1.15] text-white text-balance">
+                <h3 className="mt-3 text-[27px] sm:text-[29px] lg:text-[32px] font-extrabold tracking-tight leading-[1.15] text-white text-balance">
                   {s.title}
                 </h3>
                 {s.desc && (
                   <p
-                    className="mt-3 max-w-[94%] text-[15px] font-normal leading-relaxed"
+                    className="mt-3 max-w-[94%] text-[17px] font-normal leading-relaxed"
                     style={{ color: "rgba(255,255,255,0.85)" }}
                   >
                     {s.desc}

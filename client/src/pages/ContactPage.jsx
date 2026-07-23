@@ -162,7 +162,7 @@ export default function ContactPage() {
           a very faint radial glow behind the card (same ambient-green
           radial-gradient technique as Hero.jsx's .scene, just much
           fainter and confined near the card). */}
-      <header className="relative overflow-hidden bg-surface-warm pt-40 pb-20 md:pb-24 lg:pb-28">
+      <header className="relative overflow-hidden bg-surface-warm pt-32 md:pt-36 lg:pt-40 pb-20 md:pb-24 lg:pb-28">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
@@ -277,7 +277,7 @@ export default function ContactPage() {
           <Reveal className="mx-auto max-w-3xl text-center">
             <h2 className="h2-section text-balance">What Happens During the Session?</h2>
           </Reveal>
-          <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {sessionSteps.map((s, i) => (
               <motion.div
                 key={s.t}

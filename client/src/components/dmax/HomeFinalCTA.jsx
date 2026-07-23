@@ -73,7 +73,7 @@ export function HomeFinalCTA({
 
   return (
     <motion.section
-      className="py-24"
+      className="pt-24 pb-20"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10%" }}
