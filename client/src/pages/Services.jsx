@@ -69,23 +69,36 @@ export default function Services() {
     <main className="bg-background text-foreground">
       <Navbar />
 
-      {/* 1. Hero */}
-      <header className="container-narrow pt-40 pb-4 text-center">
-        <p className="eyebrow">Services</p>
-        <h1 className="mx-auto mt-4 h1-page max-w-4xl text-balance">
-          One System. <span className="text-accent">Three Ways to Grow.</span>
-        </h1>
-        <div className="mx-auto mt-8 max-w-2xl space-y-3 text-lg text-muted-foreground leading-relaxed">
-          <p>Every business is different.</p>
-          <p>The way people choose isn't.</p>
-          <p>Decision-makers trust businesses they know before they need them.</p>
-          <p>
-            That's why every DMAX solution is built on the same foundation—helping your business
-            become the obvious choice before the first conversation.
-          </p>
-          <p className="text-foreground font-semibold">
-            Choose the path that matches where you want to grow.
-          </p>
+      {/* 1. Hero — matches the shared wide-editorial hero system also used
+          by the Method (/process) and About (/about) heroes: same
+          container-narrow wrapper + pt-28/32/36 top padding, same
+          max-w-[1150px]/custom-size heading treatment, same max-w-[950px]
+          space-y-4 body column with a bold (not semibold) closing line.
+          Only this page's own copy differs — classes are identical across
+          all three so they read as one designed-together system. */}
+      {/* Warm White step of the locked background rhythm — wrapped in a
+          full-width bg element with container-narrow nested inside for
+          padding, since applying the background straight to
+          container-narrow would only paint the 1240px content box, not
+          the full section width. Typography/layout inside are untouched. */}
+      <header className="bg-surface-warm pb-4">
+        <div className="container-narrow pt-28 md:pt-32 lg:pt-36 text-center">
+          <p className="eyebrow">Services</p>
+          <h1 className="mx-auto mt-5 max-w-[1150px] text-[2.25rem] md:text-[3rem] lg:text-[4.25rem] font-bold leading-[1.15] tracking-tight text-balance text-foreground">
+            One System. <span className="text-accent">Three Ways to Grow.</span>
+          </h1>
+          <div className="mx-auto mt-8 max-w-[950px] space-y-4 text-lg text-muted-foreground leading-relaxed">
+            <p>Every business is different.</p>
+            <p>The way people choose isn't.</p>
+            <p>Decision-makers trust businesses they know before they need them.</p>
+            <p>
+              That's why every DMAX solution is built on the same foundation—helping your
+              business become the obvious choice before the first conversation.
+            </p>
+            <p className="text-foreground font-bold">
+              Choose the path that matches where you want to grow.
+            </p>
+          </div>
         </div>
       </header>
 
@@ -94,9 +107,12 @@ export default function Services() {
           Each card is a flex column; the "Achieve" list carries flex-1, so
           it absorbs any leftover space and the CTA always lands on the same
           baseline across all three cards regardless of copy length. */}
-      {/* First band after the header: Warm White step of the sitewide
-          background rhythm. */}
-      <section className="py-20 md:py-28 lg:py-36 bg-surface-warm border-y border-border">
+      {/* Light Gray step of the locked background rhythm — separates
+          this section from the Warm White hero above and lets the white
+          .card-service cards stand out on their own. Padding bumped
+          slightly (py-20/28/36 → py-24/32/40) per spec, layout/content
+          unchanged. */}
+      <section className="py-24 md:py-32 lg:py-40 bg-surface-gray border-y border-border">
         <div className="container-narrow">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
             {solutions.map((s, i) => (
@@ -143,20 +159,41 @@ export default function Services() {
         </div>
       </section>
 
-      {/* 5. Why It Works — White step */}
-      <section className="py-20 md:py-28 lg:py-36">
-        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
-          <h2 className="h2-section text-balance">Trust comes before business.</h2>
-          <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">
-            <p>Long before someone schedules a meeting…</p>
-            <p>They search.</p>
-            <p>They compare.</p>
-            <p>They read.</p>
-            <p>They observe.</p>
-            <p className="text-foreground font-semibold">
+      {/* 5. Trust Comes Before Business — Deep Black step of the locked
+          background rhythm. This is the page's emotional/cinematic
+          storytelling moment (Apple keynote + Tony Robbins editorial),
+          set against the surrounding Warm White → Light Gray → White
+          rhythm. Copy, structure, and the Reveal animation are
+          untouched — only background and text-color treatment change.
+          text-foreground/muted-foreground are theme classes tuned for a
+          light background, so they're swapped for literal inline color
+          overrides here (white for the heading and the bold closing
+          line, #D8D8D8 soft-white for the other body lines) — same
+          pattern used elsewhere on the site for dark sections. Vertical
+          spacing increased (py-24/32/40 → py-28/36/44, larger mt- gaps)
+          so the section breathes as a distinct dark moment. */}
+      <section className="py-28 md:py-36 lg:py-44 bg-deep-black">
+        <Reveal className="container-narrow mx-auto max-w-[900px] text-center">
+          <h2 className="h2-section text-balance" style={{ color: "#FFFFFF" }}>
+            Trust comes before business.
+          </h2>
+
+          <div className="mt-12">
+            <p className="text-lg leading-relaxed" style={{ color: "#D8D8D8" }}>
+              Long before someone schedules a meeting…
+            </p>
+
+            <p className="mt-10 text-lg leading-relaxed text-balance" style={{ color: "#D8D8D8" }}>
+              They search • They compare • They read • They observe
+            </p>
+
+            <p className="mt-16 text-lg font-bold leading-relaxed text-balance" style={{ color: "#FFFFFF" }}>
               The businesses that earn trust first are usually the businesses that win.
             </p>
-            <p>DMAX helps you become one of them.</p>
+
+            <p className="mt-10 text-lg leading-relaxed" style={{ color: "#D8D8D8" }}>
+              DMAX helps you become one of them.
+            </p>
           </div>
         </Reveal>
       </section>

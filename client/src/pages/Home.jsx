@@ -13,6 +13,7 @@ import { HomeFinalCTA } from "@/components/dmax/HomeFinalCTA";
 import { Footer } from "@/components/dmax/Footer";
 import { Reveal } from "@/components/dmax/Reveal";
 import { ProofCarousel } from "@/components/dmax/ProofCarousel";
+import executiveBoardroom from "@/assets/images/executive-boardroom.jpg";
 
 // Section 4 — "Introducing the Decision-Maker Acquisition System™" — 8 elements
 import strategicPositioningImg from "@/assets/system/strategic-positioning.png";
@@ -310,20 +311,22 @@ export default function Home() {
           the copy — the typography sits directly on the background photo
           over a dark overlay. All text is unchanged, verbatim.
 
-          Background image: intentionally referenced as a plain CSS
-          background (a `public/` path, not a Vite `import`), so the
-          section renders correctly today — with a dark neutral fallback
-          — and picks up the real photo the instant it's dropped in, with
-          zero code changes. To wire up the real photo (a premium
-          executive strategy meeting / boardroom shot), add it at:
-            client/public/images/trust-executive-meeting.jpg
-          (create the `public/images/` folder if it doesn't exist yet). */}
+          Background image: this used to be a plain CSS `public/` path
+          string, which is why it silently 404'd — client/public never
+          actually existed in this project. Now a real Vite asset import
+          (executiveBoardroom, top of file), same file and same
+          linear-gradient-baked-into-background-image pattern as the
+          Solutions page's matching section, so both pages use identical
+          background-image logic. The gradient replaces the old separate
+          bg-black/55 overlay div (kept at the same 55% so the visual
+          result is unchanged) — stacking both would have double-darkened
+          it. */}
       <section className="relative overflow-hidden">
         <motion.div
           aria-hidden
           className="absolute inset-0 bg-neutral-900"
           style={{
-            backgroundImage: "url(/images/trust-executive-meeting.jpg)",
+            backgroundImage: `linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url(${executiveBoardroom})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
@@ -333,8 +336,6 @@ export default function Home() {
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         />
-        {/* Dark overlay — 55%, within the requested 50–60% band */}
-        <div aria-hidden className="absolute inset-0 bg-black/55" />
 
         <motion.div
           className="relative py-28 md:py-36 lg:py-44"

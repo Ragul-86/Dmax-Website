@@ -44,7 +44,12 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 md:py-28 lg:py-36 scroll-mt-24">
+    // Top padding trimmed (bottom unchanged, so spacing before the
+    // Footer is untouched) — pairs with ContactPage.jsx's "Before You
+    // Book" section's reduced bottom padding to close the excessive gap
+    // between the two sections. This component is only ever rendered
+    // once, on ContactPage.jsx, so this is safe to change directly.
+    <section id="contact" className="pt-8 md:pt-12 lg:pt-16 pb-20 md:pb-28 lg:pb-36 scroll-mt-24">
       <div className="container-narrow grid lg:grid-cols-12 gap-10">
         <div className="lg:col-span-5">
           <p className="eyebrow">Book Your Strategy Session</p>

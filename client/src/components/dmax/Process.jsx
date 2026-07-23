@@ -27,6 +27,16 @@ export function Process({
   // color override below so they always win regardless of the shared
   // .card-process / .eyebrow / .h2-section rule order.
   dark = false,
+  // Opt-in only — used exclusively by ProcessPage.jsx, which renders its
+  // own "Every Business Has a Growth Bottleneck." heading/subheading
+  // directly above this component (with eyebrow/title left null there)
+  // and wants that heading to read as this timeline's intro rather than
+  // a separate section. Drops this section's own top padding and shrinks
+  // the gap before the timeline (mt-16 → responsive 24/32/32px); the rest
+  // of the ~56-80px total gap comes from ProcessPage's own reduced bottom
+  // padding on that preceding section. Home.jsx's and About.jsx's
+  // <Process /> usages don't pass this, so their spacing is unchanged.
+  tightTop = false,
 }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -49,7 +59,7 @@ export function Process({
   return (
     <section
       id="process"
-      className={`py-20 md:py-28 lg:py-36 scroll-mt-24 ${dark ? "bg-deep-black" : ""}`}
+      className={`${tightTop ? "pt-0 pb-20 md:pb-28 lg:pb-36" : "py-20 md:py-28 lg:py-36"} scroll-mt-24 ${dark ? "bg-deep-black" : ""}`}
     >
       <div className="container-narrow">
         <div className="mx-auto max-w-3xl text-center">
@@ -76,7 +86,7 @@ export function Process({
           )}
         </div>
 
-        <div ref={ref} className="relative mt-16">
+        <div ref={ref} className={`relative ${tightTop ? "mt-6 md:mt-8 lg:mt-8" : "mt-16"}`}>
           {/* Progress line — vertical on mobile, horizontal from lg */}
           <div
             className={`absolute lg:top-6 lg:left-0 lg:right-0 lg:h-[2px] left-6 top-0 bottom-0 w-[2px] lg:w-auto ${dark ? "bg-white/15" : "bg-border"}`}

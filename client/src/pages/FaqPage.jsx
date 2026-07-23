@@ -64,25 +64,45 @@ export default function FaqPage() {
     <main className="bg-background text-foreground">
       <Navbar />
 
-      {/* 1. Hero */}
-      <header className="container-narrow pt-40 pb-4 text-center">
-        <p className="eyebrow">Insights</p>
-        <h1 className="mx-auto mt-4 h1-page max-w-4xl text-balance">
-          Better thinking builds <span className="text-accent">better businesses.</span>
-        </h1>
-        <div className="mx-auto mt-8 max-w-2xl space-y-3 text-lg text-muted-foreground leading-relaxed">
-          <p>The way B2B companies grow has changed.</p>
-          <p>Decision-makers research before they respond.</p>
-          <p>Trust is built before the first meeting.</p>
-          <p>
-            And the businesses that understand this create opportunities long before their
-            competitors know they exist.
-          </p>
-          <p>
-            Insights is where we share what we're learning about modern B2B growth—through
-            practical ideas, strategic frameworks, and real-world observations.
-          </p>
-          <p className="text-foreground font-semibold">Not marketing trends. Business thinking.</p>
+      {/* 1. Hero — Insights intro. Same widening/height-reduction treatment
+          used on the Method and Services page headers: heading and body
+          copy each get their own column width (1150px / 950px) instead of
+          sharing one ~672-896px wrapper, green is confined to a single
+          word ("businesses") instead of the whole second line, and the
+          six one-sentence lines are grouped into four flowing paragraphs
+          — no wording changed, the first three were already complete
+          sentences and are simply joined with spaces. Heading uses custom
+          sizes (not the shared .h1-page class) so About/Contact/Results/
+          Services headers are unaffected; tracking-tight matches
+          .h1-page's own -0.025em letter-spacing. Top padding trimmed ~20%
+          (pt-40 → pt-32). */}
+      {/* Warm White step of the locked background rhythm — wrapped in a
+          full-width bg element with container-narrow nested inside for
+          padding, since applying the background straight to
+          container-narrow would only paint the 1240px content box, not
+          the full section width (same fix used on Services.jsx and
+          ProcessPage.jsx's headers). Typography/copy/layout untouched. */}
+      <header className="bg-surface-warm pb-4">
+        <div className="container-narrow pt-32 text-center">
+          <p className="eyebrow">Insights</p>
+          <h1 className="mx-auto mt-4 max-w-[1150px] text-[2.625rem] md:text-[3.75rem] lg:text-[4.75rem] font-bold leading-[1.15] tracking-tight text-balance text-foreground">
+            Better thinking builds better <span className="text-accent">businesses</span>.
+          </h1>
+          <div className="mx-auto mt-8 max-w-[950px] space-y-4 text-lg text-muted-foreground leading-relaxed">
+            <p>
+              The way B2B companies grow has changed. Decision-makers research before they respond.
+              Trust is built before the first meeting.
+            </p>
+            <p>
+              And the businesses that understand this create opportunities long before their
+              competitors know they exist.
+            </p>
+            <p>
+              Insights is where we share what we're learning about modern B2B growth—through
+              practical ideas, strategic frameworks, and real-world observations.
+            </p>
+            <p className="text-foreground font-semibold">Not marketing trends. Business thinking.</p>
+          </div>
         </div>
       </header>
 
@@ -118,13 +138,17 @@ export default function FaqPage() {
       {/* 3. Explore by Topic */}
       <Services eyebrow={null} title={<>Explore by Topic</>} items={topics} columns="lg:grid-cols-5" />
 
-      {/* 4. Featured Insights — Gray step */}
-      <section id="featured-insights" className="py-20 md:py-28 lg:py-36 scroll-mt-24 bg-surface-gray border-y border-border">
+      {/* 4. Featured Insights — Light Gray step of the locked background
+          rhythm (already the correct color; only vertical spacing
+          increased slightly per spec, py-20/28/36 → py-24/32/40 and the
+          gap above the grid nudged mt-16 → mt-20). Grid layout, cards,
+          and copy are untouched. */}
+      <section id="featured-insights" className="py-24 md:py-32 lg:py-40 scroll-mt-24 bg-surface-gray border-y border-border">
         <div className="container-narrow">
           <div className="mx-auto max-w-3xl text-center">
             <p className="eyebrow">Featured Insights</p>
           </div>
-          <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {featuredInsights.map((a, i) => (
               <motion.article
                 key={a.title}
@@ -145,22 +169,45 @@ export default function FaqPage() {
         </div>
       </section>
 
-      {/* 5. Our Philosophy — White step */}
-      <section className="py-20 md:py-28 lg:py-36">
-        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
-          <p className="eyebrow">Our Philosophy</p>
-          <div className="mt-6 space-y-3 text-lg text-muted-foreground leading-relaxed">
-            <p>We don't publish content because algorithms reward consistency.</p>
-            <p className="text-foreground font-semibold">
-              We publish because informed founders make better decisions.
-            </p>
-            <p>
-              If one idea helps you avoid a costly mistake, uncover a new opportunity, or rethink
-              how your business grows, it's worth sharing.
-            </p>
-            <p>That's the purpose of every insight we create.</p>
+      {/* 5. Our Philosophy — "Why Insights Matter" step of the locked
+          background rhythm: Deep Black, the page's signature keynote
+          moment. Editorial two-column spread (left 40% pull-quote, right
+          60% supporting copy) is unchanged, as is the Reveal animation —
+          only background and text-color treatment change.
+          text-foreground/muted-foreground are theme classes tuned for a
+          light background, so they're swapped for literal inline color
+          overrides here (white for the eyebrow/pull-quote/closing line,
+          #D8D8D8 soft-white for the other body lines), matching the
+          pattern used on this page's other dark sections. Vertical
+          spacing increased (py-14/20/24 → py-24/32/40) so it reads as a
+          distinct, deliberate dark moment rather than a compact aside. */}
+      <section className="py-24 md:py-32 lg:py-40 bg-deep-black">
+        <div className="container-narrow">
+          <div className="mx-auto max-w-[1200px] grid grid-cols-1 lg:grid-cols-[40%_60%] items-start gap-y-10 lg:gap-x-16 xl:gap-x-20">
+            <Reveal>
+              <p className="eyebrow" style={{ color: "rgba(255,255,255,0.55)" }}>Our Philosophy</p>
+              <p
+                className="mt-5 text-[1.75rem] md:text-[2.25rem] lg:text-[2.5rem] font-bold leading-[1.25] tracking-tight text-balance"
+                style={{ color: "#FFFFFF" }}
+              >
+                We publish because informed founders make better decisions.
+              </p>
+            </Reveal>
+
+            <Reveal delay={0.1} className="lg:pt-1">
+              <div className="space-y-4 text-lg leading-relaxed" style={{ color: "#D8D8D8" }}>
+                <p>We don't publish content because algorithms reward consistency.</p>
+                <p>
+                  If one idea helps you avoid a costly mistake, uncover a new opportunity, or
+                  rethink how your business grows, it's worth sharing.
+                </p>
+                <p className="font-semibold" style={{ color: "#FFFFFF" }}>
+                  That's the purpose of every insight we create.
+                </p>
+              </div>
+            </Reveal>
           </div>
-        </Reveal>
+        </div>
       </section>
 
       {/* 6. Final CTA — shared component, same on every page */}

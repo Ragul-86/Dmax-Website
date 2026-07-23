@@ -19,7 +19,7 @@ export default function ServicesPage() {
           Six disciplines, <span className="text-accent">one revenue system</span>.
         </h1>
       </header>
-      <Services />
+      <Services editorial />
       <Process />
       <CTA />
       <Footer />

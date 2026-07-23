@@ -1,5 +1,13 @@
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight, Factory, GraduationCap, Building2, Briefcase, Rocket, Landmark } from "lucide-react";
+
+// variant="badges" only — one icon per business-type item, matched by
+// position (this variant is currently used exactly once, for About.jsx's
+// "Who We Work With" list, in this fixed order: manufacturers, coaches,
+// B2B service companies, consultants, agencies, founders). Falls back to
+// Building2 for any item beyond this list.
+const BADGE_ICONS = [Factory, GraduationCap, Building2, Briefcase, Landmark, Rocket];
 
 export function TrustedBrands({
   title = "Trusted by coaches, founders & training institutes",
@@ -26,28 +34,56 @@ export function TrustedBrands({
     return (
       <section className="py-20 md:py-28 lg:py-36 bg-background">
         <div className="container-narrow">
-          <p className="eyebrow text-center">{title}</p>
-
-          {/* Grid (not flex-wrap) so the row count is exact at every
-              breakpoint: 1 per row mobile, 2 per row tablet, 3 per row
-              desktop — six items resolve to a clean two-row grid on
-              desktop, evenly spaced by the grid gap. */}
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 justify-items-center">
-            {items.map((b) => (
-              <span
-                key={b}
-                tabIndex={0}
-                className="inline-flex items-center justify-center rounded-lg border border-border px-5 py-2.5 text-center text-sm font-medium tracking-wide text-foreground/80 transition-colors duration-200 ease-out hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:border-accent focus-visible:text-accent"
-              >
-                {b}
-              </span>
-            ))}
+          {/* Small eyebrow → large editorial heading (the section's own
+              title text, "Who We Work With") → one short, purely
+              functional framing sentence — the only new copy added here,
+              kept deliberately plain rather than promotional. Every
+              business-type item and the closing line below are still the
+              exact original text. */}
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="eyebrow">Ideal Clients</p>
+            <h2 className="mt-4 h2-section text-balance">{title}</h2>
+            <p className="mt-5 text-lg text-muted-foreground leading-relaxed">
+              See if your business fits one of these categories.
+            </p>
           </div>
 
+          {/* Premium icon-card grid, replacing the old pill row. 24px
+              radius, generous padding, soft shadow, thin neutral border.
+              Hover: 8px lift, scale 1→1.02, deeper shadow, icon turns
+              accent green, and a thin accent bar animates in across the
+              top edge — all plain Tailwind group-hover transitions, 300ms. */}
+          <div className="mt-14 md:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
+            {items.map((b, i) => {
+              const Icon = BADGE_ICONS[i % BADGE_ICONS.length];
+              return (
+                <motion.div
+                  key={b}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-10%" }}
+                  transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                  className="group relative overflow-hidden rounded-[24px] border border-border bg-card p-8 shadow-card transition-all duration-300 ease-out hover:-translate-y-2 hover:scale-[1.02] hover:shadow-elevation"
+                >
+                  <span
+                    aria-hidden
+                    className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-accent transition-transform duration-300 ease-out group-hover:scale-x-100"
+                  />
+                  <Icon className="size-7 text-foreground transition-colors duration-300 group-hover:text-accent" />
+                  <p className="mt-5 text-base font-semibold leading-snug text-foreground">{b}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Closing sentence — unchanged text, now a centered premium
+              callout instead of a pill. */}
           {closing && (
-            <p className="mt-10 md:mt-12 mx-auto max-w-xl text-center text-base md:text-lg text-muted-foreground leading-relaxed">
-              {closing}
-            </p>
+            <div className="mx-auto mt-14 md:mt-16 max-w-2xl rounded-3xl border border-border bg-card px-8 py-10 md:px-10 md:py-12 text-center shadow-card">
+              <p className="text-lg md:text-xl font-semibold leading-relaxed text-balance text-foreground">
+                {closing}
+              </p>
+            </div>
           )}
         </div>
       </section>

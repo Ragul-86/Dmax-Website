@@ -1,11 +1,85 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import { Navbar } from "@/components/dmax/Navbar";
 import { Process } from "@/components/dmax/Process";
 import { TrustedBrands } from "@/components/dmax/TrustedBrands";
 import { HomeFinalCTA } from "@/components/dmax/HomeFinalCTA";
 import { Footer } from "@/components/dmax/Footer";
 import { Reveal } from "@/components/dmax/Reveal";
+import { ProofCarousel } from "@/components/dmax/ProofCarousel";
 import founderPortrait from "@/assets/founder-portrait.png";
+
+// "Proof" section — each card's title/question is the exact same six
+// "Did...?" outcome questions already in this section's copy, just
+// restructured from stacked sentences into a grid. Nothing invented.
+const proofCards = [
+  { title: "Easier to Remember", q: "Did your business become easier to remember?" },
+  { title: "Qualified Decision-Makers", q: "Did more qualified decision-makers engage with you?" },
+  { title: "Meaningful Conversations", q: "Did more meaningful conversations begin?" },
+  { title: "Healthier Pipeline", q: "Did your pipeline become healthier?" },
+  { title: "Predictable Growth", q: "Did growth become more predictable?" },
+];
+
+// "Why Now?" section — right-column flow. Same nine sentences as the
+// original copy, just regrouped (one sentence, "Because your competitors
+// aren't waiting.", moves to the left column's big statement instead);
+// nothing reworded.
+const whyNowGroups = [
+  {
+    type: "text",
+    content:
+      "Every day, decision-makers are forming opinions. Discovering new companies. Following new experts. Building new relationships.",
+  },
+  { type: "text", content: "The question isn't whether your market is paying attention." },
+  { type: "callout", content: "The question is whether they're paying attention to you." },
+  {
+    type: "text",
+    content:
+      "The businesses that earn trust today become tomorrow's preferred choice. The businesses that wait become tomorrow's alternatives.",
+  },
+];
+
+function WhyNowFlow() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 85%", "end 70%"] });
+  const lineScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
+  return (
+    <div ref={ref} className="relative pl-10">
+      <div className="absolute left-[11px] top-2 bottom-2 w-[2px] bg-border" />
+      <motion.div
+        style={{ scaleY: lineScale }}
+        className="absolute left-[11px] top-2 bottom-2 w-[2px] bg-accent origin-top"
+      />
+      <div className="space-y-8">
+        {whyNowGroups.map((g, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 0.55, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+            className="relative"
+          >
+            <span className="absolute -left-10 top-1 size-6 rounded-full ring-4 ring-background border border-border bg-background grid place-items-center">
+              <span className="size-2 rounded-full bg-accent" />
+            </span>
+            {g.type === "callout" ? (
+              <div className="rounded-2xl border-l-[3px] border-accent bg-accent/5 py-5 pl-6 pr-6">
+                <p className="text-xl md:text-2xl font-bold leading-snug tracking-tight text-balance text-foreground">
+                  {g.content}
+                </p>
+              </div>
+            ) : (
+              <p className="text-lg text-muted-foreground leading-relaxed">{g.content}</p>
+            )}
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 // About DMAX doc — "The DMAX Method™" — five growth stages
 const methodSteps = [
@@ -16,6 +90,157 @@ const methodSteps = [
   { n: "05", t: "Predictable Revenue", d: "Build a business development system that compounds over time." },
 ];
 
+// "The Observation" section — right-column visual. Reuses the five
+// "They..." research-behavior sentences that already exist in the left
+// column's copy (verbatim, not rewritten) as the steps of a vertical
+// buying-journey timeline, replacing the old two-number metrics card.
+const journeySteps = [
+  "They research independently.",
+  "They compare alternatives.",
+  "They read your content.",
+  "They visit your website.",
+  "They ask their network.",
+];
+
+// "The Problem" section — right-column visual. "Visibility", "Trust", and
+// "Growth" are drawn directly from words already in that section's own
+// copy ("less visible", "less trusted", "creates noise—not growth"), not
+// invented concepts — presented as the right order, in contrast to the
+// "activity without trust" trap the left column describes.
+const trustFlowSteps = ["Visibility", "Trust", "Growth"];
+
+function TrustFlow() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 85%", "end 65%"] });
+  const lineScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
+  return (
+    <div ref={ref} className="relative pl-10">
+      <div className="absolute left-[11px] top-6 bottom-6 w-[2px] bg-border" />
+      <motion.div
+        style={{ scaleY: lineScale }}
+        className="absolute left-[11px] top-6 bottom-6 w-[2px] bg-accent origin-top"
+      />
+      <div className="space-y-5">
+        {trustFlowSteps.map((step, i) => {
+          const isLast = i === trustFlowSteps.length - 1;
+          return (
+            <motion.div
+              key={step}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-10%" }}
+              transition={{ duration: 0.5, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+              className="relative rounded-2xl border border-border bg-card p-6 md:p-7 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-accent hover:shadow-elevation"
+            >
+              <span className="absolute -left-10 top-1/2 -translate-y-1/2 size-6 rounded-full ring-4 ring-background border border-border bg-background grid place-items-center text-[11px] font-semibold text-accent">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <div
+                className={`text-xl md:text-2xl font-bold tracking-tight ${isLast ? "text-accent" : "text-foreground"}`}
+              >
+                {step}
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// "Our Belief" section — right-column visual. These exact five labels
+// were given verbatim in the brief's own example flow, and each echoes
+// this section's own copy ("...company they understand", "...already
+// trust", "conversations become easier", "growth becomes more
+// predictable").
+const trustFrameworkSteps = ["Visibility", "Understanding", "Trust", "Conversation", "Business Growth"];
+
+// Note: this component's marker/line colors are hardcoded for a dark
+// background (deep-black ring/border/line instead of the light-theme
+// defaults) since it's rendered exactly once, inside the "Our Belief"
+// section below, which is now the page's Deep Black step. Not a
+// reusable/shared component, so no dark-mode prop is needed.
+function TrustFramework() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 85%", "end 65%"] });
+  const lineScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
+  return (
+    <div ref={ref} className="relative pl-10">
+      <div className="absolute left-[11px] top-2 bottom-2 w-[2px] bg-white/15" />
+      <motion.div
+        style={{ scaleY: lineScale }}
+        className="absolute left-[11px] top-2 bottom-2 w-[2px] bg-accent origin-top"
+      />
+      <ol className="space-y-8">
+        {trustFrameworkSteps.map((step, i) => {
+          const isLast = i === trustFrameworkSteps.length - 1;
+          return (
+            <motion.li
+              key={step}
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-10%" }}
+              transition={{ duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="group relative"
+            >
+              <span className="absolute -left-10 top-0.5 size-6 rounded-full ring-4 ring-deep-black border border-white/15 bg-white/10 grid place-items-center text-[11px] font-semibold text-accent transition-transform duration-300 group-hover:scale-110">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <p
+                className={`text-lg md:text-xl font-semibold tracking-tight ${isLast ? "text-accent" : ""}`}
+                style={isLast ? undefined : { color: "#FFFFFF" }}
+              >
+                {step}
+              </p>
+            </motion.li>
+          );
+        })}
+      </ol>
+    </div>
+  );
+}
+
+function BuyingJourney() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 85%", "end 65%"] });
+  const lineScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
+  return (
+    <div ref={ref} className="rounded-3xl border border-border bg-card p-8 md:p-10 shadow-card">
+      {/* "Buying journey" reuses the exact phrase from the left column's
+          own copy ("...the beginning of the buying journey"), not an
+          invented label. */}
+      <p className="eyebrow">The Buying Journey</p>
+      <div className="relative mt-8 pl-10">
+        <div className="absolute left-[11px] top-1 bottom-1 w-[2px] bg-border" />
+        <motion.div
+          style={{ scaleY: lineScale }}
+          className="absolute left-[11px] top-1 bottom-1 w-[2px] bg-accent origin-top"
+        />
+        <ol className="space-y-7">
+          {journeySteps.map((step, i) => (
+            <motion.li
+              key={step}
+              initial={{ opacity: 0, x: 12 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-10%" }}
+              transition={{ duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="group relative"
+            >
+              <span className="absolute -left-10 top-0.5 size-6 rounded-full ring-4 ring-card border border-border bg-background grid place-items-center text-[11px] font-semibold text-accent transition-transform duration-300 group-hover:scale-110">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <p className="text-base font-medium text-foreground leading-snug">{step}</p>
+            </motion.li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  );
+}
+
 export default function About() {
   useEffect(() => {
     document.title = "About — DMAX";
@@ -25,21 +250,40 @@ export default function About() {
     <main className="bg-background text-foreground">
       <Navbar />
 
-      {/* 1. Hero — reverted to original single-column design (no Founder
-          image here; that now lives in its own section below). */}
-      <header className="container-narrow pt-40 pb-4 text-center">
-        <p className="eyebrow">About DMAX</p>
-        <h1 className="mx-auto mt-4 h1-page max-w-4xl text-balance">
-          We Didn't Start DMAX to Build <span className="text-accent">Another Marketing Agency.</span>
-        </h1>
-        <div className="mx-auto mt-12 max-w-3xl space-y-5 text-xl text-muted-foreground leading-relaxed">
-          <p>We started it because we saw something most businesses were missing.</p>
-          <p>Not more leads.</p>
-          <p>Not better content.</p>
-          <p>A better way to earn trust.</p>
-          <p className="text-foreground font-semibold">
-            Because trust—not attention—is what drives modern B2B growth.
-          </p>
+      {/* 1. Hero — matches the shared wide-editorial hero system also used
+          by the Solutions (/services) and Method (/process) heroes: same
+          container-narrow wrapper + pt-28/32/36 top padding, same
+          max-w-[1150px]/custom-size heading treatment, same max-w-[950px]
+          space-y-4 body column with a bold closing line. Superseded the
+          earlier one-off max-w-[1450px] treatment from the previous pass
+          so all three heroes are now pixel-for-pixel identical apart from
+          copy — the brief's explicit priority ("only the text should
+          change") outweighed that pass's literal 1400-1500px container
+          target, since Method's own hero (the reference) is built on
+          container-narrow (1240px), not a wider one. Green stays confined
+          to "Marketing Agency." only, as set in the previous pass. */}
+      {/* Warm White step of the locked background rhythm — wrapped in a
+          full-width bg element with container-narrow nested inside for
+          padding, since applying the background straight to
+          container-narrow would only paint the 1240px content box, not
+          the full section width (same fix used on the Services, Method,
+          and Insights page headers). Typography/copy/layout untouched. */}
+      <header className="bg-surface-warm pb-4">
+        <div className="container-narrow pt-28 md:pt-32 lg:pt-36 text-center">
+          <p className="eyebrow">About DMAX</p>
+          <h1 className="mx-auto mt-5 max-w-[1150px] text-[2.25rem] md:text-[3rem] lg:text-[4.25rem] font-bold leading-[1.15] tracking-tight text-balance text-foreground">
+            We Didn't Start DMAX to Build Another{" "}
+            <span className="text-accent">Marketing Agency.</span>
+          </h1>
+          <div className="mx-auto mt-8 max-w-[950px] space-y-4 text-lg text-muted-foreground leading-relaxed">
+            <p>We started it because we saw something most businesses were missing.</p>
+            <p>Not more leads.</p>
+            <p>Not better content.</p>
+            <p>A better way to earn trust.</p>
+            <p className="text-foreground font-bold">
+              Because trust—not attention—is what drives modern B2B growth.
+            </p>
+          </div>
         </div>
       </header>
 
@@ -51,7 +295,12 @@ export default function About() {
           same soft radial-mask treatment to dissolve the photo's flat
           studio backdrop, now set inside a neutral card frame. DMAX green
           is used once, subtly, on the role label only. */}
-      <section className="py-20 md:py-28 lg:py-36">
+      {/* "Our Story" step of the locked background rhythm: Very Light
+          Gray — this founder-origin section is the page's own "story"
+          moment, separating it from the Warm White hero above. Vertical
+          spacing increased slightly (py-20/28/36 → py-24/32/40) per
+          spec. Layout, portrait, and copy are untouched. */}
+      <section className="py-24 md:py-32 lg:py-40 bg-surface-gray border-y border-border">
         <div className="container-narrow grid grid-cols-1 lg:grid-cols-[42%_58%] gap-x-16 gap-y-14 lg:items-center">
           <Reveal className="flex flex-col items-center lg:items-start">
             <div className="w-full max-w-[560px] aspect-[560/700] rounded-3xl border border-border bg-card p-6 shadow-card">
@@ -114,85 +363,135 @@ export default function About() {
         </div>
       </section>
 
-      {/* 2. The Observation — two-column: narrative left, supporting proof-panel right.
-          First band after the Founder section: Warm White step of the
-          sitewide background rhythm. */}
-      <section className="py-20 md:py-28 lg:py-36 bg-surface-warm border-y border-border">
-        <div className="container-narrow grid lg:grid-cols-12 gap-10 items-start">
-          <Reveal className="lg:col-span-7">
+      {/* 2. The Observation — premium editorial split (55%/45%) instead of
+          a long stacked paragraph next to a small metrics card. Left:
+          same eleven sentences, regrouped into three flowing paragraphs
+          plus the conclusion set apart at the bottom with a divider for
+          emphasis — no wording changed. Right: the old two-number
+          card-metric is gone; in its place, a vertical buying-journey
+          timeline built from the same five "They..." sentences already in
+          the left copy (reused verbatim as step labels), with a
+          scroll-driven progress line and a per-step stagger reveal.
+          Pure White step of the locked background rhythm (was Warm
+          White) — now that the Founder section above carries the Light
+          Gray band, this section drops to plain white/transparent
+          (inherits the page's own bg-background) to keep colors from
+          repeating back-to-back. */}
+      <section className="py-20 md:py-28 lg:py-36">
+        <div className="container-narrow grid lg:grid-cols-[55%_45%] gap-x-14 xl:gap-x-20 gap-y-14 items-start">
+          <Reveal>
             <h2 className="h2-section text-balance">B2B buying has changed.</h2>
-            <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">
+            <div className="mt-8 space-y-6 text-lg text-muted-foreground leading-relaxed">
               <p>The way most businesses market hasn't.</p>
-              <p>Today's decision-makers don't wait for a sales call.</p>
-              <p>They research independently.</p>
-              <p>They compare alternatives.</p>
-              <p>They read your content.</p>
-              <p>They visit your website.</p>
-              <p>They ask their network.</p>
-              <p>By the time they contact you, they've already formed an opinion.</p>
               <p>
-                The first conversation is no longer the beginning of the buying journey.
+                Today's decision-makers don't wait for a sales call. They research
+                independently. They compare alternatives. They read your content. They visit
+                your website. They ask their network.
               </p>
-              <p>It's often the confirmation of a decision that's already been made.</p>
-              <p className="text-foreground font-semibold">
+              <p>
+                By the time they contact you, they've already formed an opinion. The first
+                conversation is no longer the beginning of the buying journey. It's often the
+                confirmation of a decision that's already been made.
+              </p>
+            </div>
+            <div className="mt-8 pt-6 border-t border-border">
+              <p className="text-xl font-bold text-foreground text-balance">
                 Businesses that understand this grow differently.
               </p>
             </div>
           </Reveal>
-          <Reveal delay={0.1} className="lg:col-span-5">
-            <div className="card-metric grid grid-cols-2 gap-8">
-              <div>
-                <div className="text-4xl md:text-5xl font-bold tracking-tight text-foreground leading-none">5+</div>
-                <div className="mt-3 text-sm font-semibold text-muted-foreground">Countries Reached</div>
-              </div>
-              <div>
-                <div className="text-4xl md:text-5xl font-bold tracking-tight text-foreground leading-none">26%</div>
-                <div className="mt-3 text-sm font-semibold text-muted-foreground">Meeting Rate</div>
-              </div>
-            </div>
+
+          <Reveal delay={0.1}>
+            <BuyingJourney />
           </Reveal>
         </div>
       </section>
 
-      {/* 3. The Problem — White step */}
+      {/* 3. The Problem — White step. Same editorial split as "The
+          Observation" above: left column (55%) keeps the heading and
+          regroups the same ten sentences into an Intro → Reasons →
+          Response → Conclusion flow (no wording changed); right column
+          (45%) replaces the empty whitespace with a Visibility → Trust →
+          Growth flow — words already in this section's own copy — instead
+          of decorative artwork. */}
       <section className="py-20 md:py-28 lg:py-36">
-        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
-          <h2 className="h2-section text-balance">Great businesses are overlooked every day.</h2>
-          <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">
-            <p>Not because they're less capable.</p>
-            <p>Because they're less visible.</p>
-            <p>Less understood.</p>
-            <p>Less trusted.</p>
-            <p>Many businesses respond by doing more marketing.</p>
-            <p>More posts.</p>
-            <p>More campaigns.</p>
-            <p>More outreach.</p>
-            <p className="text-foreground font-semibold">
-              But activity without trust creates noise—not growth.
-            </p>
-            <p>That's why some businesses stay busy while others become the obvious choice.</p>
-          </div>
-        </Reveal>
+        <div className="container-narrow grid lg:grid-cols-[55%_45%] gap-x-14 xl:gap-x-20 gap-y-14 items-start">
+          <Reveal>
+            <h2 className="h2-section text-balance">Great businesses are overlooked every day.</h2>
+            <div className="mt-8 space-y-6 text-lg text-muted-foreground leading-relaxed">
+              <p>Not because they're less capable.</p>
+              <p>Because they're less visible. Less understood. Less trusted.</p>
+              <p>
+                Many businesses respond by doing more marketing. More posts. More campaigns.
+                More outreach.
+              </p>
+            </div>
+            <div className="mt-8 pt-6 border-t border-border space-y-3">
+              <p className="text-xl font-bold text-foreground text-balance">
+                But activity without trust creates noise—not growth.
+              </p>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                That's why some businesses stay busy while others become the obvious choice.
+              </p>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <TrustFlow />
+          </Reveal>
+        </div>
       </section>
 
-      {/* 4. Our Belief — Gray step */}
-      <section className="py-20 md:py-28 lg:py-36 bg-surface-gray border-y border-border">
-        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
-          <h2 className="h2-section text-balance">Trust is built before business is won.</h2>
-          <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">
-            <p>This belief shapes everything we do.</p>
-            <p>We believe people don't choose the company shouting the loudest.</p>
-            <p>They choose the company they understand.</p>
-            <p>The company they've seen consistently.</p>
-            <p>The company they already trust.</p>
-            <p>That's why our work isn't about generating attention.</p>
-            <p>It's about helping businesses earn confidence before they ask for commitment.</p>
-            <p className="text-foreground font-semibold">
+      {/* 4. Our Belief — Deep Black step of the locked background
+          rhythm: the page's emotional storytelling / philosophy moment
+          ("this belief shapes everything we do"). Same 50/50 editorial
+          split as the two sections above, closing statement still
+          breaks out of the columns to span the full width as the
+          section's emotional takeaway — layout is untouched, only
+          background and text-color treatment change. text-foreground/
+          muted-foreground are theme classes tuned for a light
+          background, so they're swapped for literal inline color
+          overrides here (white for headings/bold lines, #D8D8D8
+          soft-white for body copy), matching the pattern used on this
+          site's other dark sections. Vertical spacing increased
+          (py-20/28/36 → py-24/32/40, mt-16/20 closing gap → mt-20/24)
+          for a more cinematic, deliberate dark moment. */}
+      <section className="py-24 md:py-32 lg:py-40 bg-deep-black">
+        <div className="container-narrow">
+          <div className="grid lg:grid-cols-2 gap-x-14 xl:gap-x-20 gap-y-14 items-start">
+            <Reveal>
+              <h2 className="h2-section text-balance" style={{ color: "#FFFFFF" }}>
+                Trust is built before business is won.
+              </h2>
+              <div className="mt-8 space-y-6 text-lg leading-relaxed" style={{ color: "#D8D8D8" }}>
+                <p>This belief shapes everything we do.</p>
+                <p>
+                  We believe people don't choose the company shouting the loudest. They choose
+                  the company they understand. The company they've seen consistently. The
+                  company they already trust.
+                </p>
+                <p>
+                  That's why our work isn't about generating attention. It's about helping
+                  businesses earn confidence before they ask for commitment.
+                </p>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.1}>
+              <TrustFramework />
+            </Reveal>
+          </div>
+
+          <Reveal delay={0.15} className="mx-auto mt-20 md:mt-24 max-w-3xl text-center">
+            <p
+              className="text-2xl md:text-[1.75rem] font-bold leading-snug tracking-tight text-balance"
+              style={{ color: "#FFFFFF" }}
+            >
               When trust comes first, conversations become easier. When conversations improve,
               growth becomes more predictable.
             </p>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
       </section>
 
       {/* 5. The DMAX Method™ */}
@@ -208,32 +507,67 @@ export default function About() {
         </p>
       </Reveal>
 
-      {/* 6. Proof — heading/copy unchanged. The screenshot carousel that
-          used to live here has moved to the Home page's new "Results"
-          section (directly under the homepage's Numbers/metrics section),
-          per the storytelling-flow reorg — it exists in exactly one place
-          on the site now, not duplicated. Gray step of the background rhythm. */}
+      {/* 6. Proof — deliberately NOT another centered text section: small
+          eyebrow → heading → short intro → a modular proof grid, so this
+          reads as evidence/outcomes rather than another paragraph block.
+          Every card's title and question is one of the same five
+          "Did...?" sentences already in this section's copy (verbatim),
+          just restructured — nothing rewritten or invented beyond the
+          honest "Metric — coming soon" tag, which restates this
+          section's own existing closing line (real client outcomes will
+          be added here as DMAX grows) rather than fabricating a number.
+          The LinkedIn proof carousel — reused as-is from Home, not
+          redesigned — sits below the grid per the brief. Gray step of the
+          background rhythm. */}
       <section className="py-20 md:py-28 lg:py-36 bg-surface-gray border-y border-border">
-        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
-          <p className="eyebrow">Proof</p>
-          <h2 className="mt-4 h2-section text-balance">
-            A philosophy is only valuable if it produces results.
-          </h2>
-          <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">
-            <p>Every engagement is measured against business outcomes—not marketing activities.</p>
-            <p>That means focusing on questions like:</p>
-            <p>Did your business become easier to remember?</p>
-            <p>Did more qualified decision-makers engage with you?</p>
-            <p>Did more meaningful conversations begin?</p>
-            <p>Did your pipeline become healthier?</p>
-            <p>Did growth become more predictable?</p>
-            <p>
+        <div className="container-narrow">
+          <Reveal className="mx-auto max-w-3xl text-center">
+            <p className="eyebrow">Proof</p>
+            <h2 className="mt-4 h2-section text-balance">
+              A philosophy is only valuable if it produces results.
+            </h2>
+            <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
+              Every engagement is measured against business outcomes—not marketing activities.
+              That means focusing on questions like:
+            </p>
+          </Reveal>
+
+          <div className="mt-14 md:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7 items-stretch">
+            {proofCards.map((c, i) => (
+              <motion.div
+                key={c.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-10%" }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                className="group flex h-full flex-col justify-between rounded-[24px] border border-border bg-card p-7 md:p-8 shadow-card shadow-card-hover transition-all duration-300 ease-out hover:-translate-y-1.5 hover:scale-[1.02] hover:border-accent"
+              >
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground">{c.title}</h3>
+                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{c.q}</p>
+                </div>
+                <div className="mt-6 flex items-center justify-between border-t border-border pt-5">
+                  <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                    Metric — coming soon
+                  </span>
+                  <ArrowRight className="size-4 text-accent transition-transform duration-300 group-hover:translate-x-1" />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <Reveal delay={0.1} className="mx-auto mt-10 max-w-2xl text-center">
+            <p className="text-sm text-muted-foreground leading-relaxed">
               As DMAX continues to grow, this section will showcase real client stories,
               measurable outcomes, and lessons learned from helping businesses strengthen each
               stage of the DMAX Method™.
             </p>
-          </div>
-        </Reveal>
+          </Reveal>
+
+          <Reveal delay={0.15} className="mt-16 md:mt-20">
+            <ProofCarousel />
+          </Reveal>
+        </div>
       </section>
 
       {/* 7. Who We Work With */}
@@ -251,22 +585,38 @@ export default function About() {
         closing="If your business depends on credibility before commitment, you're the kind of business we built DMAX to help."
       />
 
-      {/* 8. Why Now? — White step */}
-      <section className="py-20 md:py-28 lg:py-36">
-        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
-          <h2 className="h2-section text-balance">Why Now?</h2>
-          <div className="mt-8 space-y-3 text-lg text-muted-foreground leading-relaxed">
-            <p>Because your competitors aren't waiting.</p>
-            <p>Every day, decision-makers are forming opinions.</p>
-            <p>Discovering new companies.</p>
-            <p>Following new experts.</p>
-            <p>Building new relationships.</p>
-            <p>The question isn't whether your market is paying attention.</p>
-            <p className="text-foreground font-semibold">The question is whether they're paying attention to you.</p>
-            <p>The businesses that earn trust today become tomorrow's preferred choice.</p>
-            <p>The businesses that wait become tomorrow's alternatives.</p>
+      {/* 8. Why Now? — "Our Commitment" step of the locked background
+          rhythm: Very Light Gray, a soft transition before the Final
+          CTA. Asymmetric urgency layout instead of another centered
+          heading + stacked paragraphs. Left (42%, sticky on desktop):
+          "Why Now?" as a small kicker above one dramatically
+          line-broken statement pulled from this section's own copy
+          ("Because your competitors aren't waiting.") — not new text.
+          Right (58%): the remaining eight sentences regrouped into
+          three flowing beats beside a scroll-driven dot timeline, with
+          the strongest sentence lifted into its own accent callout. No
+          wording changed anywhere — only which column each sentence sits
+          in, and the section's own background/spacing. Naturally leads
+          into the Final CTA below. */}
+      <section className="py-24 md:py-32 lg:py-40 bg-surface-gray border-y border-border">
+        <div className="container-narrow grid lg:grid-cols-[42%_58%] gap-x-14 xl:gap-x-20 gap-y-12 items-start">
+          <div className="lg:sticky lg:top-32">
+            <Reveal>
+              <p className="eyebrow">Why Now?</p>
+              <p className="mt-6 text-4xl md:text-5xl lg:text-[3.25rem] font-extrabold leading-[1.1] tracking-tight text-balance text-foreground">
+                Because your
+                <br />
+                competitors
+                <br />
+                aren't waiting.
+              </p>
+            </Reveal>
           </div>
-        </Reveal>
+
+          <Reveal delay={0.1}>
+            <WhyNowFlow />
+          </Reveal>
+        </div>
       </section>
 
       {/* 9. Final CTA — shared component, same on every page */}

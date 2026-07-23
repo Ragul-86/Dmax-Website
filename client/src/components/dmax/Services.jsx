@@ -156,19 +156,49 @@ export function Services({
   items = defaultItems,
   closing,
   columns = "lg:grid-cols-3",
+  // Opt-in only — used exclusively by ServicesPage.jsx's <Services /> call
+  // to turn the intro into a restrained, editorial lead-in (smaller/
+  // lighter heading, tight ~720px measure, small green accent bar instead
+  // of a colored heading, more air before the card grid) so the cards
+  // read as the section's primary visual focus. FaqPage.jsx's "Explore by
+  // Topic" usage doesn't pass this, so it keeps the original intro
+  // untouched.
+  editorial = false,
 }) {
   return (
-    <section id="services" className="py-20 md:py-28 lg:py-36">
+    <section
+      id="services"
+      className={editorial ? "pt-14 md:pt-20 lg:pt-24 pb-20 md:pb-28 lg:pb-36" : "py-20 md:py-28 lg:py-36"}
+    >
       <div className="container-narrow">
-        <div className="mx-auto max-w-3xl text-center">
+        <div className={`mx-auto text-center ${editorial ? "max-w-[720px]" : "max-w-3xl"}`}>
           {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-          <h2 className="mt-4 h2-section text-balance">{title}</h2>
+          {editorial && (
+            <div aria-hidden className="mx-auto mt-4 h-[3px] w-9 rounded-full bg-accent" />
+          )}
+          <h2
+            className={
+              editorial
+                ? "mt-5 text-[2rem] md:text-[2.5rem] lg:text-[2.75rem] font-semibold tracking-tight leading-[1.15] text-balance text-foreground"
+                : "mt-4 h2-section text-balance"
+            }
+          >
+            {title}
+          </h2>
           {subtitle && (
-            <p className="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">{subtitle}</p>
+            <p
+              className={
+                editorial
+                  ? "mx-auto mt-4 max-w-[620px] text-lg text-muted-foreground leading-relaxed"
+                  : "mx-auto mt-5 max-w-2xl text-lg text-muted-foreground"
+              }
+            >
+              {subtitle}
+            </p>
           )}
         </div>
 
-        <div className={`mt-16 grid md:grid-cols-2 ${columns} gap-5`}>
+        <div className={`${editorial ? "mt-20 md:mt-24" : "mt-16"} grid md:grid-cols-2 ${columns} gap-5`}>
           {items.map((s, i) => (
             <motion.article
               key={s.title}
