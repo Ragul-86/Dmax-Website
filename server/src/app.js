@@ -6,6 +6,7 @@ import morgan from "morgan";
 import contactRoutes from "./routes/contact.routes.js";
 import { contactRateLimiter } from "./middleware/rateLimiter.js";
 import { notFoundHandler, errorHandler } from "./middleware/errorHandler.js";
+import { sendTestEmail } from "./utils/mailer.js";
 
 export function createApp() {
   const app = express();
@@ -45,6 +46,24 @@ export function createApp() {
 
   app.get("/api/health", (req, res) => {
     res.json({ ok: true, service: "dmax-server", time: new Date().toISOString() });
+  });
+
+  // Standalone email-delivery diagnostic — sends a real test email through
+  // the exact same Resend path the contact form uses and reports back
+  // whatever Resend actually said, success or failure. Never swallows an
+  // error into a fake { success: true }; only reports success once Resend
+  // has confirmed the message with a real message id.
+  app.get("/api/test-email", async (req, res) => {
+    const result = await sendTestEmail();
+    if (result.ok) {
+      return res.json({ success: true, messageId: result.id, response: result.response });
+    }
+    return res.status(502).json({
+      success: false,
+      status: result.status,
+      error: result.error?.message || "Unknown error",
+      response: result.response,
+    });
   });
 
   app.use("/api/contact", contactRateLimiter, contactRoutes);

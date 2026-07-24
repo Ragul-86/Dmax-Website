@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Linkedin } from "lucide-react";
 import { Navbar } from "@/components/dmax/Navbar";
 import { Process } from "@/components/dmax/Process";
 import { TrustedBrands } from "@/components/dmax/TrustedBrands";
@@ -292,45 +292,100 @@ export default function About() {
       <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-surface-warm" />
 
       {/* 1b. Founder — new standalone section, separate from the hero above.
-          Desktop: large framed portrait card left (42%), story right (58%),
-          vertically centered against each other for an Apple-editorial
-          balance. Mobile: portrait card first, then name/role, then story
-          (natural DOM order, no grid reordering needed). Portrait keeps the
-          same soft radial-mask treatment to dissolve the photo's flat
-          studio backdrop, now set inside a neutral card frame. DMAX green
-          is used once, subtly, on the role label only. */}
+          Desktop: premium leadership profile card left (42%), story right
+          (58%), vertically centered against each other for an
+          Apple-editorial balance. Mobile: card first, then story (natural
+          DOM order, no grid reordering needed). The card itself (portrait
+          + name + role + LinkedIn button) is now one self-contained,
+          interactive object — dark surface (bg-foreground, same "black
+          card" token used elsewhere on the site, e.g. Home.jsx's quote
+          card) so the white name / green role read correctly, with its own
+          entrance fade-up, hover lift, and an always-on subtle float on
+          the portrait. Portrait image itself (src, object-fit, radial
+          mask) is completely untouched — only the surrounding
+          card/spacing/animation changed. */}
       {/* "Our Story" step of the locked background rhythm: Very Light
           Gray — this founder-origin section is the page's own "story"
           moment, separating it from the Warm White hero above. Vertical
           spacing increased slightly (py-20/28/36 → py-24/32/40) per
-          spec. Layout, portrait, and copy are untouched. */}
+          spec. Section background/copy are untouched. */}
       <section className="py-24 md:py-32 lg:py-40 bg-surface-gray border-y border-border">
-        <div className="container-narrow grid grid-cols-1 lg:grid-cols-[42%_58%] gap-x-16 gap-y-14 lg:items-center">
-          <Reveal className="flex flex-col items-center lg:items-start">
-            <div className="w-full max-w-[560px] aspect-[560/700] rounded-3xl border border-border bg-card p-6 shadow-card">
-              <img
-                src={founderPortrait}
-                alt="Manoj, Founder of DMAX"
-                className="h-full w-full object-contain"
-                style={{
-                  objectPosition: "bottom center",
-                  WebkitMaskImage:
-                    "radial-gradient(ellipse 82% 90% at 50% 40%, black 62%, transparent 100%)",
-                  maskImage:
-                    "radial-gradient(ellipse 82% 90% at 50% 40%, black 62%, transparent 100%)",
-                }}
-              />
-            </div>
-            <div className="mt-6 text-center lg:text-left">
-              <p className="text-lg font-semibold text-foreground">Manoj</p>
-              <p
-                className="mt-1 text-xs font-semibold uppercase tracking-widest"
-                style={{ color: "#39E600" }}
+        <div className="container-narrow grid grid-cols-1 lg:grid-cols-[42fr_58fr] gap-x-16 gap-y-14 lg:items-center">
+          <div className="flex flex-col items-center lg:items-start">
+            {/* The card — entrance (opacity 0→1, y 40→0, 0.8s easeOut) and
+                hover (y -10px, scale 1.02, 350ms easeOut) both live here.
+                shadow-card-hover (an existing sitewide utility pairing
+                with shadow-card) supplies the "soft shadow increase" via a
+                plain CSS transition timed to match the 350ms hover. `group`
+                scopes the portrait's hover-scale to this card only. */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-15%" }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              whileHover={{ y: -10, scale: 1.02, transition: { duration: 0.35, ease: "easeOut" } }}
+              className="group w-full max-w-[560px] rounded-[32px] bg-foreground p-8 md:p-10 shadow-card shadow-card-hover transition-shadow duration-[350ms] ease-out"
+            >
+              {/* Portrait frame — untouched image, untouched mask; only an
+                  always-on, very subtle float (y: 0 → -8 → 0, 6s,
+                  infinite, ease-in-out) added around it, plus a scale-up
+                  that engages whenever the card itself is hovered. */}
+              <motion.div
+                className="aspect-[560/700] w-full overflow-hidden rounded-[24px] border border-white/10 bg-card p-6"
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               >
-                Founder & CEO
-              </p>
-            </div>
-          </Reveal>
+                <img
+                  src={founderPortrait}
+                  alt="Manoj, Founder of DMAX"
+                  className="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-105"
+                  style={{
+                    objectPosition: "bottom center",
+                    WebkitMaskImage:
+                      "radial-gradient(ellipse 82% 90% at 50% 40%, black 62%, transparent 100%)",
+                    maskImage:
+                      "radial-gradient(ellipse 82% 90% at 50% 40%, black 62%, transparent 100%)",
+                  }}
+                />
+              </motion.div>
+
+              {/* Name/role/button — perfectly centered on the portrait's
+                  own horizontal center (this block is the exact same width
+                  as the image above it), spaced 28px / 8px / 24px per
+                  spec. Name is now white (text-background — the "white on
+                  a dark card" token already used sitewide) and larger/
+                  semibold; role keeps its established DMAX-green color,
+                  now with 2px letter-spacing. */}
+              <div className="mt-7 text-center">
+                <p className="text-2xl font-semibold text-background">Manoj</p>
+                <p
+                  className="mt-2 text-xs font-semibold uppercase"
+                  style={{ color: "#39E600", letterSpacing: "2px" }}
+                >
+                  Founder & CEO
+                </p>
+                {/* Premium executive LinkedIn profile action — solid
+                    #111111 pill against the card's own dark surface (a
+                    visible 1px border gives it definition), centered,
+                    auto-width. Opens the real profile in a new tab with
+                    secure rel — the URL itself is never shown, only the
+                    "View LinkedIn Profile" label — and carries its own
+                    aria-label. Hover: background brightens, pill scales to
+                    1.04, and the LinkedIn icon slides 4px right (all via
+                    the .linkedin-pill rule in styles.css). */}
+                <a
+                  href="https://www.linkedin.com/in/manoj-rajappan/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View Manoj Rajappan's LinkedIn Profile"
+                  className="linkedin-pill mt-6"
+                >
+                  <Linkedin className="size-[18px]" aria-hidden />
+                  <span>View LinkedIn Profile</span>
+                </a>
+              </div>
+            </motion.div>
+          </div>
 
           <Reveal delay={0.1}>
             <div className="max-w-2xl">
@@ -386,7 +441,7 @@ export default function About() {
           (inherits the page's own bg-background) to keep colors from
           repeating back-to-back. */}
       <section className="py-20 md:py-28 lg:py-36">
-        <div className="container-narrow grid lg:grid-cols-[55%_45%] gap-x-14 xl:gap-x-20 gap-y-14 items-start">
+        <div className="container-narrow grid lg:grid-cols-[55fr_45fr] gap-x-14 xl:gap-x-20 gap-y-14 items-start">
           <Reveal>
             <h2 className="h2-section text-balance">B2B buying has changed.</h2>
             <div className="mt-8 space-y-6 text-lg text-muted-foreground leading-relaxed">
@@ -423,7 +478,7 @@ export default function About() {
           Growth flow — words already in this section's own copy — instead
           of decorative artwork. */}
       <section className="py-20 md:py-28 lg:py-36">
-        <div className="container-narrow grid lg:grid-cols-[55%_45%] gap-x-14 xl:gap-x-20 gap-y-14 items-start">
+        <div className="container-narrow grid lg:grid-cols-[55fr_45fr] gap-x-14 xl:gap-x-20 gap-y-14 items-start">
           <Reveal>
             <h2 className="h2-section text-balance">Great businesses are overlooked every day.</h2>
             <div className="mt-8 space-y-6 text-lg text-muted-foreground leading-relaxed">
@@ -629,7 +684,7 @@ export default function About() {
           in, and the section's own background/spacing. Naturally leads
           into the Final CTA below. */}
       <section className="py-24 md:py-32 lg:py-40 bg-surface-gray border-y border-border">
-        <div className="container-narrow grid lg:grid-cols-[42%_58%] gap-x-14 xl:gap-x-20 gap-y-12 items-start">
+        <div className="container-narrow grid lg:grid-cols-[42fr_58fr] gap-x-14 xl:gap-x-20 gap-y-12 items-start">
           <div className="lg:sticky lg:top-32">
             <Reveal>
               <p className="eyebrow">Why Now?</p>

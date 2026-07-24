@@ -1,6 +1,32 @@
 import { Link } from "react-router-dom";
-import { Instagram, Linkedin, Twitter, Youtube, Facebook, ShieldCheck } from "lucide-react";
+import { Linkedin, ShieldCheck } from "lucide-react";
 import logo from "@/assets/dmax-logo-dark.png";
+
+// Company column trimmed to Home/About/Services/Contact only — Process,
+// FAQ, and Results were removed from footer navigation per request (the
+// routes themselves still exist in App.jsx and are still reachable via
+// the Navbar; they're just no longer duplicated down here). No placeholder
+// "#" links either (there's no standalone Privacy/Terms route, so those
+// were removed rather than left as dead links; same reasoning removed the
+// four social icons — Instagram/YouTube/Twitter/Facebook — that had no
+// real profile anywhere in this project. LinkedIn is real, same profile
+// used on the About page's Founder section, so it's the only icon kept).
+const companyLinks = [
+  { l: "Home", to: "/" },
+  { l: "About", to: "/about" },
+  { l: "Services", to: "/services" },
+  { l: "Contact", to: "/contact" },
+];
+
+// The three real solutions from the /services page (pages/Services.jsx's
+// `solutions` array) — not invented service names. All three currently
+// live on the same page (no per-solution anchor/route exists), so each
+// link points to /services, same as every other real internal link here.
+const serviceLinks = [
+  { l: "Expand into Global Markets", to: "/services" },
+  { l: "Grow Your Coaching Practice", to: "/services" },
+  { l: "Build a Predictable Revenue Pipeline", to: "/services" },
+];
 
 export function Footer() {
   return (
@@ -12,48 +38,29 @@ export function Footer() {
             We don't sell content. We don't sell outreach. We build business acquisition systems.
           </p>
           <div className="mt-6 flex items-center gap-3">
-            {[
-              { Icon: Linkedin, name: "LinkedIn" },
-              { Icon: Instagram, name: "Instagram" },
-              { Icon: Youtube, name: "YouTube" },
-              { Icon: Twitter, name: "Twitter" },
-              { Icon: Facebook, name: "Facebook" },
-            ].map(({ Icon, name }) => (
-              <a
-                key={name}
-                href="#"
-                aria-label={`DMAX on ${name}`}
-                className="size-11 rounded-full border border-white/10 grid place-items-center transition-all duration-300 hover:bg-accent hover:text-accent-foreground hover:border-accent hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.94]"
-              >
-                <Icon className="size-4" />
-              </a>
-            ))}
+            <a
+              href="https://www.linkedin.com/in/manoj-rajappan/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="DMAX on LinkedIn"
+              className="size-11 rounded-full border border-white/10 grid place-items-center transition-all duration-300 hover:bg-accent hover:text-accent-foreground hover:border-accent hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.94]"
+            >
+              <Linkedin className="size-4" />
+            </a>
           </div>
         </div>
 
-        <Col
-          title="Company"
-          items={[
-            { l: "About", to: "/about" },
-            { l: "Results", to: "/results" },
-            { l: "Process", to: "/process" },
-            { l: "Contact", to: "/contact" },
-          ]}
-        />
-        <Col
-          title="Services"
-          items={[
-            { l: "Expand into Global Markets", to: "/services" },
-            { l: "Grow Your Coaching Practice", to: "/services" },
-            { l: "Build a Predictable Revenue Pipeline", to: "/services" },
-            { l: "FAQ", to: "/faq" },
-          ]}
-        />
+        <Col title="Company" items={companyLinks} />
+        <Col title="Services" items={serviceLinks} />
 
         <div className="md:col-span-3">
           <div className="text-xs uppercase tracking-widest text-white/40">Contact</div>
           <ul className="mt-5 space-y-3 text-sm text-white/70">
-            <li>+91 86670 41373</li>
+            <li>
+              <a href="tel:+918667041373" className="hover:text-accent">
+                +91 86670 41373
+              </a>
+            </li>
             <li>
               <a href="mailto:manoj@dmax.company" className="hover:text-accent">
                 manoj@dmax.company
@@ -62,9 +69,9 @@ export function Footer() {
             <li className="text-white/60 leading-relaxed">
               No. 6, 2nd Floor,
               <br />
-              Angeripalayam Rd,
+              Angeripalayam Road,
               <br />
-              Tirupur – 641602
+              Tiruppur – 641602
             </li>
           </ul>
         </div>
@@ -73,17 +80,9 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div className="container-x py-6 flex flex-wrap items-center justify-between gap-3 text-xs text-white/50">
           <span>© {new Date().getFullYear()} DMAX. All rights reserved.</span>
-          <div className="flex items-center gap-5">
-            <span className="inline-flex items-center gap-1.5 text-accent">
-              <ShieldCheck className="size-3.5" /> SSL Secured
-            </span>
-            <a href="#" className="hover:text-white">
-              Privacy Policy
-            </a>
-            <a href="#" className="hover:text-white">
-              Terms & Conditions
-            </a>
-          </div>
+          <span className="inline-flex items-center gap-1.5 text-accent">
+            <ShieldCheck className="size-3.5" /> SSL Secured
+          </span>
           <span>Made with Precision. Built for Performance.</span>
         </div>
       </div>

@@ -256,7 +256,7 @@ export default function FaqPage() {
           distinct, deliberate dark moment rather than a compact aside. */}
       <section className="py-24 md:py-32 lg:py-40 bg-deep-black">
         <div className="container-narrow">
-          <div className="mx-auto max-w-[1200px] grid grid-cols-1 lg:grid-cols-[40%_60%] items-start gap-y-10 lg:gap-x-16 xl:gap-x-20">
+          <div className="mx-auto max-w-[1200px] grid grid-cols-1 lg:grid-cols-[40fr_60fr] items-start gap-y-10 lg:gap-x-16 xl:gap-x-20">
             <Reveal>
               <p className="eyebrow" style={{ color: "rgba(255,255,255,0.55)" }}>Our Philosophy</p>
               <p

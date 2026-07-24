@@ -172,7 +172,7 @@ export default function ContactPage() {
           }}
         />
         <div className="relative mx-auto max-w-[1400px] px-6 md:px-10 lg:px-20">
-          <div className="grid lg:grid-cols-[55%_45%] gap-x-14 xl:gap-x-20 gap-y-14 items-center">
+          <div className="grid lg:grid-cols-[55fr_45fr] gap-x-14 xl:gap-x-20 gap-y-14 items-center">
             <Reveal>
               <p className="eyebrow">Book Your Strategy Session</p>
               <h1 className="mt-5 text-[2.75rem] md:text-[3.75rem] lg:text-[4.5rem] font-extrabold leading-[0.98] tracking-tight text-balance text-foreground">
@@ -397,7 +397,7 @@ export default function ContactPage() {
           type and more spacing. */}
       <section className="py-20 md:py-28 lg:py-36 bg-surface-gray border-y border-border">
         <div className="mx-auto max-w-[1350px] px-6 md:px-10 lg:px-16">
-          <div className="grid lg:grid-cols-[40%_60%] gap-x-14 xl:gap-x-20 gap-y-12 items-center">
+          <div className="grid lg:grid-cols-[40fr_60fr] gap-x-14 xl:gap-x-20 gap-y-12 items-center">
             <Reveal>
               <h2 className="h2-section text-balance">Who We Work With</h2>
               <p className="mt-6 text-lg text-muted-foreground leading-relaxed">

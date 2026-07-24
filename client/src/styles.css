@@ -653,6 +653,51 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
     border: 1px solid rgba(255,255,255,0.08);
   }
 
+  /* About page — Founder CARD's premium LinkedIn profile action.
+     Resting state is a solid #111111 executive pill (visible against the
+     card's own dark bg-foreground surface via its 1px border) with the
+     real LinkedIn glyph kept in brand blue at all times — not monochrome,
+     never a bare icon, always paired with the "View LinkedIn Profile"
+     label. Hover/focus: the background brightens (filter, not a color
+     swap), the pill scales up slightly, and the icon nudges 4px to the
+     right — a simpler, calmer hover than earlier drafts of this button,
+     matching the Founder-card redesign's own explicit hover spec. Scoped
+     to this one component via .linkedin-pill; nothing else on the site
+     uses this class. */
+  .linkedin-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 46px;
+    padding: 0 20px;
+    border-radius: 999px;
+    background: #111111;
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: filter 220ms ease-out, transform 220ms ease-out, border-color 220ms ease-out;
+  }
+  .linkedin-pill svg {
+    color: #0A66C2;
+    transition: transform 220ms ease-out;
+  }
+  .linkedin-pill:hover,
+  .linkedin-pill:focus-visible {
+    filter: brightness(1.6);
+    transform: scale(1.04);
+  }
+  .linkedin-pill:hover svg,
+  .linkedin-pill:focus-visible svg {
+    transform: translateX(4px);
+  }
+  .linkedin-pill:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+  .linkedin-pill:active { transform: scale(1.01); }
+
   /* Global outer container — sitewide standardization pass: .container-x,
      .container-narrow, and .container-nav (the Navbar's own container)
      now all share one width/max-width/padding spec — 95% of the
