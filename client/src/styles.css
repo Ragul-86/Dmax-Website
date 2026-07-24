@@ -655,6 +655,29 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
     border: 1px solid rgba(255,255,255,0.08);
   }
 
+  /* About page — Founder Image Card. The single premium container that
+     holds only the portrait (the old design nested a separate bordered
+     portrait frame inside a second outer card — both are now collapsed
+     into this one class). Light mode: near-black card so the portrait
+     reads as a deliberate "framed" object against the section's own
+     light-gray background; dark mode flips to a white card for the same
+     effect against the page's dark surface. The transition is declared
+     here on the base rule (not inside `.dark`) so it stays active no
+     matter which state is currently applied — toggling the `.dark` class
+     smoothly cross-fades background/border/shadow over 250ms instead of
+     snapping instantly. */
+  .founder-image-card {
+    background: #111111;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    transition: background-color 250ms ease-in-out, border-color 250ms ease-in-out, box-shadow 250ms ease-in-out;
+  }
+  .dark .founder-image-card {
+    background: #FFFFFF;
+    border-color: rgba(0,0,0,0.08);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+  }
+
   /* About page — Founder CARD's premium LinkedIn profile action.
      Resting state is a solid #111111 executive pill (visible against the
      card's own dark bg-foreground surface via its 1px border) with the

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { Linkedin, ShieldCheck } from "lucide-react";
+import { Linkedin, Instagram, ShieldCheck } from "lucide-react";
 import logo from "@/assets/dmax-logo-dark.png";
+import { SOCIAL_LINKS } from "@/lib/social";
 
 // Company column trimmed to Home/About/Services/Contact only — Process,
 // FAQ, and Results were removed from footer navigation per request (the
@@ -8,9 +9,9 @@ import logo from "@/assets/dmax-logo-dark.png";
 // the Navbar; they're just no longer duplicated down here). No placeholder
 // "#" links either (there's no standalone Privacy/Terms route, so those
 // were removed rather than left as dead links; same reasoning removed the
-// four social icons — Instagram/YouTube/Twitter/Facebook — that had no
-// real profile anywhere in this project. LinkedIn is real, same profile
-// used on the About page's Founder section, so it's the only icon kept).
+// old YouTube/Twitter/Facebook icons that had no real profile anywhere in
+// this project. LinkedIn + Instagram are DMAX's real company profiles —
+// see @/lib/social.js — so those are the two icons kept here).
 const companyLinks = [
   { l: "Home", to: "/" },
   { l: "About", to: "/about" },
@@ -39,13 +40,22 @@ export function Footer() {
           </p>
           <div className="mt-6 flex items-center gap-3">
             <a
-              href="https://www.linkedin.com/in/manoj-rajappan/"
+              href={SOCIAL_LINKS.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="DMAX on LinkedIn"
-              className="size-11 rounded-full border border-white/10 grid place-items-center transition-all duration-300 hover:bg-accent hover:text-accent-foreground hover:border-accent hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.94]"
+              className="size-11 rounded-full border border-white/10 grid place-items-center transition-all duration-300 hover:bg-accent hover:text-white hover:border-accent hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.94]"
             >
               <Linkedin className="size-4" />
+            </a>
+            <a
+              href={SOCIAL_LINKS.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="DMAX on Instagram"
+              className="size-11 rounded-full border border-white/10 grid place-items-center transition-all duration-300 hover:bg-accent hover:text-white hover:border-accent hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.94]"
+            >
+              <Instagram className="size-4" />
             </a>
           </div>
         </div>

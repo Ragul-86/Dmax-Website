@@ -295,15 +295,18 @@ export default function About() {
           Desktop: premium leadership profile card left (42%), story right
           (58%), vertically centered against each other for an
           Apple-editorial balance. Mobile: card first, then story (natural
-          DOM order, no grid reordering needed). The card itself (portrait
-          + name + role + LinkedIn button) is now one self-contained,
-          interactive object — dark surface (bg-foreground, same "black
-          card" token used elsewhere on the site, e.g. Home.jsx's quote
-          card) so the white name / green role read correctly, with its own
-          entrance fade-up, hover lift, and an always-on subtle float on
-          the portrait. Portrait image itself (src, object-fit, radial
-          mask) is completely untouched — only the surrounding
-          card/spacing/animation changed. */}
+          DOM order, no grid reordering needed). The old "dual-card" design
+          (an outer bg-white wrapper plus a separate bordered portrait
+          frame) is now just ONE premium container — the Founder Image
+          Card (.founder-image-card in styles.css) — holding only the
+          portrait, centered with equal padding on all sides. Name/role/
+          LinkedIn button sit below it as plain content, no longer enclosed
+          in a card themselves. The image card's background/border/shadow
+          invert between light mode (near-black card) and dark mode (white
+          card) and animate smoothly (250ms ease-in-out) on theme toggle.
+          Portrait image itself (src, object-fit, radial mask) is
+          completely untouched — only the surrounding card structure
+          changed. */}
       {/* "Our Story" step of the locked background rhythm: Very Light
           Gray — this founder-origin section is the page's own "story"
           moment, separating it from the Warm White hero above. Vertical
@@ -312,26 +315,31 @@ export default function About() {
       <section className="py-24 md:py-32 lg:py-40 bg-surface-gray border-y border-border">
         <div className="container-narrow grid grid-cols-1 lg:grid-cols-[42fr_58fr] gap-x-16 gap-y-14 lg:items-center">
           <div className="flex flex-col items-center lg:items-start">
-            {/* The card — entrance (opacity 0→1, y 40→0, 0.8s easeOut) and
-                hover (y -10px, scale 1.02, 350ms easeOut) both live here.
-                shadow-card-hover (an existing sitewide utility pairing
-                with shadow-card) supplies the "soft shadow increase" via a
-                plain CSS transition timed to match the 350ms hover. `group`
-                scopes the portrait's hover-scale to this card only. */}
+            {/* Entrance (opacity 0→1, y 40→0, 0.8s easeOut) and hover
+                (y -10px, scale 1.02, 350ms easeOut) both live on this
+                outer wrapper — it's now a plain layout container (no
+                bg/border/shadow of its own), just the shared width/motion
+                anchor for the image card + name/role/button below it.
+                `group` scopes the portrait's hover-scale to this wrapper. */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-15%" }}
               transition={{ duration: 0.8, ease: "easeOut" }}
               whileHover={{ y: -10, scale: 1.02, transition: { duration: 0.35, ease: "easeOut" } }}
-              className="group w-full max-w-[560px] rounded-[32px] bg-foreground p-8 md:p-10 shadow-card shadow-card-hover transition-shadow duration-[350ms] ease-out"
+              className="group w-full max-w-[560px]"
             >
-              {/* Portrait frame — untouched image, untouched mask; only an
-                  always-on, very subtle float (y: 0 → -8 → 0, 6s,
-                  infinite, ease-in-out) added around it, plus a scale-up
-                  that engages whenever the card itself is hovered. */}
+              {/* Founder Image Card — the ONE single premium container
+                  (styles.css: .founder-image-card). Light mode: near-black
+                  card; dark mode: white card; background/border/shadow
+                  cross-fade 250ms ease-in-out on theme toggle. 24px padding
+                  on every side keeps the portrait perfectly centered with
+                  equal spacing. Untouched: the image itself, its object-fit,
+                  and its radial mask — only the frame around it changed.
+                  Always-on subtle float (y: 0 → -8 → 0, 6s, infinite,
+                  ease-in-out) plus a scale-up that engages on wrapper hover. */}
               <motion.div
-                className="aspect-[560/700] w-full overflow-hidden rounded-[24px] border border-white/10 bg-card p-6"
+                className="founder-image-card aspect-[560/700] w-full overflow-hidden rounded-[32px] p-6"
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               >
@@ -350,15 +358,18 @@ export default function About() {
                 />
               </motion.div>
 
-              {/* Name/role/button — perfectly centered on the portrait's
+              {/* Name/role/button — perfectly centered on the image card's
                   own horizontal center (this block is the exact same width
-                  as the image above it), spaced 28px / 8px / 24px per
-                  spec. Name is now white (text-background — the "white on
-                  a dark card" token already used sitewide) and larger/
-                  semibold; role keeps its established DMAX-green color,
-                  now with 2px letter-spacing. */}
+                  as the card above it), spaced 28px / 8px / 24px per spec.
+                  No longer sitting inside a card, so the name now uses the
+                  sitewide adaptive text-foreground token (instead of a
+                  fixed near-black hex) — it needs to stay legible against
+                  this section's own background in both themes, since that
+                  background is light gray in light mode but near-black in
+                  dark mode. Role keeps its established DMAX-green color,
+                  same typography, 2px letter-spacing. */}
               <div className="mt-7 text-center">
-                <p className="text-2xl font-semibold text-background">Manoj Rajappan</p>
+                <p className="text-2xl font-semibold text-foreground">Manoj Rajappan</p>
                 <p
                   className="mt-2 text-xs font-semibold uppercase"
                   style={{ color: "#39E600", letterSpacing: "2px" }}
@@ -366,14 +377,15 @@ export default function About() {
                   Founder & CEO
                 </p>
                 {/* Premium executive LinkedIn profile action — solid
-                    #111111 pill against the card's own dark surface (a
-                    visible 1px border gives it definition), centered,
-                    auto-width. Opens the real profile in a new tab with
-                    secure rel — the URL itself is never shown, only the
-                    "View LinkedIn Profile" label — and carries its own
-                    aria-label. Hover: background brightens, pill scales to
-                    1.04, and the LinkedIn icon slides 4px right (all via
-                    the .linkedin-pill rule in styles.css). */}
+                    #111111 pill (unchanged), a self-contained solid color
+                    so it stays legible regardless of the section's own
+                    background; still centered, auto-width. Opens the real
+                    profile in a new tab with secure rel — the URL itself is
+                    never shown, only the "View LinkedIn Profile" label —
+                    and carries its own aria-label. Hover: background
+                    brightens, pill scales to 1.04, and the LinkedIn icon
+                    slides 4px right (all via the .linkedin-pill rule in
+                    styles.css). */}
                 <a
                   href="https://www.linkedin.com/in/manoj-rajappan/"
                   target="_blank"

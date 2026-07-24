@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/lib/theme";
 import { SmoothScroll } from "@/components/dmax/SmoothScroll";
 import { ScrollToTop } from "@/components/dmax/ScrollToTop";
 import { IntroOverlay } from "@/components/dmax/IntroOverlay";
+import { FloatingSocialButtons } from "@/components/dmax/FloatingSocialButtons";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 // Home ships eagerly — it's the primary landing route and should paint
@@ -25,6 +26,10 @@ export default function App() {
         <SmoothScroll />
         <ScrollToTop />
         <IntroOverlay />
+        {/* Mounted once, outside <Routes>, so the same fixed widget persists
+            across every page instead of remounting (and re-animating) on
+            each route change. */}
+        <FloatingSocialButtons />
         <Suspense fallback={null}>
           <Routes>
             <Route path="/" element={<Home />} />
