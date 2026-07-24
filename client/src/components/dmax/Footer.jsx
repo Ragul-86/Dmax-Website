@@ -55,8 +55,8 @@ export function Footer() {
           <ul className="mt-5 space-y-3 text-sm text-white/70">
             <li>+91 86670 41373</li>
             <li>
-              <a href="mailto:manoj@dmaxnow.com" className="hover:text-accent">
-                manoj@dmaxnow.com
+              <a href="mailto:manoj@dmax.company" className="hover:text-accent">
+                manoj@dmax.company
               </a>
             </li>
             <li className="text-white/60 leading-relaxed">

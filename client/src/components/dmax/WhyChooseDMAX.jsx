@@ -172,7 +172,7 @@ export function WhyChooseDMAX({
           )}
 
           {closingLines.length > 0 && (
-            <div className="mt-8 pt-6 border-t border-border space-y-1 text-sm text-muted-foreground">
+            <div className="mt-8 pt-6 border-t border-border space-y-1 text-base leading-relaxed text-muted-foreground">
               {closingLines.map((line) => (
                 <p key={line}>{line}</p>
               ))}

@@ -20,11 +20,11 @@ import revenueAstronaut from "@/assets/topics/topic-predictable-revenue-analytic
 // (scanner/shield/comms/chart) — Market Position has none since that
 // photo has no holographic element, just the astronaut and the planet.
 const topics = [
-  { image: positionAstronaut, focal: "32% 30%", title: "Market Position", desc: "Clarify why customers should choose your business over every alternative." },
-  { image: visibilityAstronaut, focal: "42% 22%", hologram: { type: "pulse", x: "72%", y: "28%" }, title: "Market Visibility", desc: "Learn how modern businesses earn attention from the right decision-makers." },
-  { image: trustAstronaut, focal: "46% 36%", hologram: { type: "ripple", x: "68%", y: "42%" }, title: "Market Trust", desc: "Understand how credibility influences buying decisions long before a sales conversation begins." },
-  { image: conversationsAstronaut, focal: "45% 30%", hologram: { type: "shimmer", x: "68%", y: "35%" }, title: "Qualified Conversations", desc: "Discover practical ways to create more meaningful business opportunities." },
-  { image: revenueAstronaut, focal: "40% 33%", hologram: { type: "glow", x: "68%", y: "30%" }, title: "Predictable Revenue", desc: "Build systems that support long-term growth instead of relying on short-term tactics." },
+  { image: positionAstronaut, focal: "32% 30%", title: "Why Exporters Fail on LinkedIn", desc: "Discover the common mistakes exporters make on LinkedIn and learn how to build credibility that attracts international buyers instead of chasing leads." },
+  { image: visibilityAstronaut, focal: "42% 22%", hologram: { type: "pulse", x: "72%", y: "28%" }, title: "The New B2B Buying Journey", desc: "Understand how modern decision-makers research, compare, and build trust before contacting your business." },
+  { image: trustAstronaut, focal: "46% 36%", hologram: { type: "ripple", x: "68%", y: "42%" }, title: "Why Referrals Don't Scale", desc: "Referrals are valuable, but they are unpredictable. Learn why sustainable businesses build systems instead of relying on word-of-mouth alone." },
+  { image: conversationsAstronaut, focal: "45% 30%", hologram: { type: "shimmer", x: "68%", y: "35%" }, title: "Building Authority Before Outreach", desc: "Authority creates trust before the first message. Learn how positioning increases response rates and improves sales conversations." },
+  { image: revenueAstronaut, focal: "40% 33%", hologram: { type: "glow", x: "68%", y: "30%" }, title: "Why Is My LinkedIn Content Not Converting to Clients?", desc: "Find out why your content gets views but not enquiries, and how to create content that builds trust and generates qualified opportunities." },
 ];
 
 // "Featured Insights" — six article cards, exact copy from the doc
@@ -85,7 +85,7 @@ export default function FaqPage() {
       <header className="bg-surface-warm pb-4">
         <div className="container-narrow pt-28 md:pt-32 lg:pt-36 text-center">
           <p className="eyebrow">Insights</p>
-          <h1 className="mx-auto mt-4 max-w-[1150px] text-[2.625rem] md:text-[3.75rem] lg:text-[4.75rem] font-bold leading-[1.15] tracking-tight text-balance text-foreground">
+          <h1 className="mx-auto mt-4 max-w-[1150px] text-[2.625rem] md:text-[3.75rem] lg:text-[4.75rem] font-bold leading-[1.02] tracking-tight text-balance text-foreground">
             Better thinking builds better <span className="text-accent">businesses</span>.
           </h1>
           <div className="mx-auto mt-8 max-w-[950px] space-y-4 text-lg text-muted-foreground leading-relaxed">
@@ -106,14 +106,64 @@ export default function FaqPage() {
         </div>
       </header>
 
-      {/* 2. What You'll Discover — Warm White step (first band after the header) */}
-      <section className="py-20 md:py-28 lg:py-36 bg-surface-warm border-y border-border">
-        <Reveal className="container-narrow mx-auto max-w-3xl text-center">
-          <h2 className="h2-section text-balance">The principles behind predictable growth.</h2>
-          <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-            Our insights focus on the questions ambitious founders ask every day.
-          </p>
-          <ul className="mx-auto mt-6 max-w-md space-y-3 text-left text-lg">
+      {/* 2. What You'll Discover — Warm White step (first band after the
+          header). REDESIGNED per the latest brief: the old centered
+          bullet list (max-w-md, small dot markers) is gone — this is the
+          same bullet-row pattern used all over the rest of the site
+          (Services cards, WhyChooseDMAX, etc.), which read as generic
+          here. Replaced with six large, full-width "question strip" rows
+          — a numbered index (DMAX green, bold) + a bold one-line
+          question, separated by a single hairline divider between each
+          row (no divider above the first or below the last), no card/
+          bullet/icon/accordion/timeline/tabs anywhere. Heading, intro,
+          and the closing statement keep their original centered max-w-3xl
+          treatment; only the middle list section changed shape and, to
+          let each question comfortably fit on one line, widened from
+          max-w-md (448px) to max-w-5xl (1024px) — still well inside
+          container-narrow's own ~1144px content box, so no outer
+          container/section change was needed. Section padding/background/
+          colors are untouched. */}
+      {/* Bottom padding split from the original shared py-20/28/36 into its
+          own reduced values (pt- unchanged) — this section's gap into
+          "Explore by Topic" below was reading as an oversized ~390px dead
+          zone (this section's full pb-36/144px + a spacer div + Explore-
+          by-Topic's own full pt-36/144px). The spacer div is removed
+          entirely and each side's own padding is cut by roughly 75-80%
+          so only 32/48/64px (mobile/tablet/desktop) remains from this
+          section, pairing with Explore by Topic's matching top-padding
+          cut below for a combined 32/48/64px total gap. Top padding,
+          content, typography, and everything else in this section is
+          untouched. */}
+      <section className="pt-20 md:pt-28 lg:pt-36 pb-4 md:pb-6 lg:pb-8 bg-surface-warm border-y border-border">
+        <Reveal className="container-narrow">
+          <div className="text-center">
+            {/* Heading gets its own wider, full-bleed-style container so it
+                can reach well past container-narrow's ~1144px content cap.
+                h2-section's fluid clamp still climbs to 60px at desktop
+                viewports independent of container width, so at ~1144px
+                this line was wrapping. Breaking just the h2 out (100vw
+                technique, same as ProcessPage's full-bleed card) gives it
+                enough room to sit on one line at any viewport >=1280px
+                without touching font-size/weight/family. xl:whitespace-nowrap
+                (Tailwind's xl = 1280px, matching the desktop requirement)
+                hard-guarantees no wrap from that breakpoint up; below xl it
+                wraps naturally per available space (tablet/mobile,
+                unchanged). The intro paragraph directly below keeps its
+                original max-w-3xl centered treatment untouched. */}
+            <div
+              className="px-4"
+              style={{ width: "100vw", marginLeft: "calc(50% - 50vw)", marginRight: "calc(50% - 50vw)" }}
+            >
+              <h2 className="mx-auto max-w-[1500px] h2-section text-balance xl:whitespace-nowrap">
+                The principles behind predictable growth.
+              </h2>
+            </div>
+            <p className="mx-auto mt-6 max-w-3xl text-lg text-muted-foreground leading-relaxed">
+              Our insights focus on the questions ambitious founders ask every day.
+            </p>
+          </div>
+
+          <div className="mx-auto mt-14 md:mt-16 max-w-5xl">
             {[
               "How do we become the obvious choice in our market?",
               "Why has our growth become inconsistent?",
@@ -121,22 +171,41 @@ export default function FaqPage() {
               "How can we enter new markets with confidence?",
               "How do we reduce dependence on referrals?",
               "How do we build trust before the first conversation?",
-            ].map((q) => (
-              <li key={q} className="flex items-start gap-3">
-                <span className="mt-2.5 size-1.5 rounded-full bg-accent shrink-0" />
-                {q}
-              </li>
+            ].map((q, i) => (
+              <div
+                key={q}
+                className={`group flex items-center gap-6 md:gap-10 py-8 md:py-10 cursor-pointer transition-colors duration-300 ease-out hover:border-accent ${
+                  i > 0 ? "border-t border-border" : ""
+                }`}
+              >
+                <span className="w-14 md:w-16 shrink-0 text-2xl md:text-3xl font-bold text-accent tabular-nums">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <p className="flex-1 text-left text-xl md:text-2xl font-bold leading-snug text-foreground lg:whitespace-nowrap transition-transform duration-300 ease-out group-hover:translate-x-2">
+                  {q}
+                </p>
+              </div>
             ))}
-          </ul>
-          <p className="mt-8 text-xl font-semibold text-foreground">
+          </div>
+
+          <p className="mx-auto mt-14 md:mt-16 max-w-3xl text-center text-xl font-semibold text-foreground">
             Every article is written to help you make better business decisions—not just better
             marketing decisions.
           </p>
         </Reveal>
       </section>
 
+      {/* No spacer div here (removed) — this section's reduced bottom
+          padding above and "Explore by Topic"'s reduced top padding below
+          now supply a combined ~32/48/64px gap (mobile/tablet/desktop)
+          directly, without an extra empty element. */}
+
       {/* 3. Explore by Topic */}
       <Services eyebrow={null} title={<>Explore by Topic</>} items={topics} columns="lg:grid-cols-5" wide />
+
+      {/* Premium editorial spacer — White → Light Gray transition
+          (outgoing "Explore by Topic" section's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-background" />
 
       {/* 4. Featured Insights — Light Gray step of the locked background
           rhythm (already the correct color; only vertical spacing
@@ -159,7 +228,7 @@ export default function FaqPage() {
                 className="card-lift flex flex-col rounded-3xl border border-border bg-card p-8 md:p-10 shadow-card"
               >
                 <h3 className="text-xl font-semibold">{a.title}</h3>
-                <p className="mt-3 text-sm text-muted-foreground leading-relaxed flex-1">{a.desc}</p>
+                <p className="mt-3 text-base text-muted-foreground leading-relaxed flex-1">{a.desc}</p>
                 <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-accent">
                   Read Insight <ArrowRight className="size-4" />
                 </span>
@@ -168,6 +237,10 @@ export default function FaqPage() {
           </div>
         </div>
       </section>
+
+      {/* Premium editorial spacer — Light Gray → Black transition
+          (outgoing "Featured Insights" section's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-surface-gray" />
 
       {/* 5. Our Philosophy — "Why Insights Matter" step of the locked
           background rhythm: Deep Black, the page's signature keynote
@@ -187,7 +260,7 @@ export default function FaqPage() {
             <Reveal>
               <p className="eyebrow" style={{ color: "rgba(255,255,255,0.55)" }}>Our Philosophy</p>
               <p
-                className="mt-5 text-[1.75rem] md:text-[2.25rem] lg:text-[2.5rem] font-bold leading-[1.25] tracking-tight text-balance"
+                className="mt-5 text-[1.75rem] md:text-[2.25rem] lg:text-[2.5rem] font-bold leading-[1.05] tracking-tight text-balance"
                 style={{ color: "#FFFFFF" }}
               >
                 We publish because informed founders make better decisions.
@@ -210,8 +283,16 @@ export default function FaqPage() {
         </div>
       </section>
 
+      {/* Premium editorial spacer — Black → White transition (outgoing
+          "Our Philosophy" section's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-deep-black" />
+
       {/* 6. Final CTA — shared component, same on every page */}
       <HomeFinalCTA />
+
+      {/* Premium editorial spacer — White → Black transition before the
+          Footer. */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-background" />
 
       <Footer />
     </main>

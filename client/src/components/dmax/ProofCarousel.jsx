@@ -279,7 +279,13 @@ export function ProofCarousel({ images = DEFAULT_IMAGES }) {
     if (reduceMotion) return;
     let raf;
     let last = performance.now();
-    const SPEED = 34; // px/sec — slow, calm drift
+    // Bumped further: 34 → 46 → 70 → 140 px/sec (2× the previous value,
+    // per this request). Still a plain linear px/sec constant (no
+    // easing), still wraps seamlessly via the same modulo-offset logic
+    // below (no seam/flicker/jump at loop restart), still pauses only on
+    // hover/drag (existing interaction, not a "pause between loops").
+    // Spacing, card sizes, hover effects, and layout are untouched.
+    const SPEED = 140; // px/sec
 
     const tick = (now) => {
       const dt = (now - last) / 1000;

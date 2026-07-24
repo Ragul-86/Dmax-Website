@@ -1,6 +1,20 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Factory, GraduationCap, Building2, Briefcase, Rocket, Landmark } from "lucide-react";
+import {
+  ArrowRight,
+  Factory,
+  GraduationCap,
+  Building2,
+  Briefcase,
+  Rocket,
+  Landmark,
+  Target,
+  Award,
+  Lightbulb,
+  Users,
+  MessageCircle,
+  TrendingUp,
+} from "lucide-react";
 
 // variant="badges" only — one icon per business-type item, matched by
 // position (this variant is currently used exactly once, for About.jsx's
@@ -8,6 +22,14 @@ import { ArrowRight, Factory, GraduationCap, Building2, Briefcase, Rocket, Landm
 // B2B service companies, consultants, agencies, founders). Falls back to
 // Building2 for any item beyond this list.
 const BADGE_ICONS = [Factory, GraduationCap, Building2, Briefcase, Landmark, Rocket];
+
+// variant="chips" only — one icon per framework item, matched by position
+// (this variant is currently used exactly once, for Services.jsx's "One
+// Framework. Adapted to your business." section, in this fixed order:
+// Positioning, Authority, Thought Leadership, Strategic Relationships,
+// Meaningful Conversations, Sustainable Growth). Content/order is untouched;
+// this array only supplies each chip's icon.
+const CHIP_ICONS = [Target, Award, Lightbulb, Users, MessageCircle, TrendingUp];
 
 export function TrustedBrands({
   title = "Trusted by coaches, founders & training institutes",
@@ -103,32 +125,48 @@ export function TrustedBrands({
             </p>
           </div>
 
-          {/* Framework pills, enlarged: px-5/py-2.5 + text-sm (≈40px tall)
-              → px-7-8/py-3.5-4 + text-base (≈52-56px tall), a ~30-35%
-              size bump on both axes purely from bigger padding + a
-              slightly larger font (one Tailwind step, "slightly" per the
-              brief, not a full redesign). rounded-full, resting border/
-              background colors, and gap-based equal spacing between
-              pills are unchanged in kind — gap only nudged 12px→16px to
-              stay visually balanced against the larger pills. Hover/
-              focus is still the one "active/green" state (border-accent
-              + bg-accent/10 + text-accent, unchanged) — now layered with
-              a 3px lift, a soft green glow (color-mix off the same
-              --color-accent token so it tracks the theme instead of a
-              hardcoded hex), and a cursor-pointer affordance, all on a
-              300ms transition (was 200ms) — comfortably inside the
-              250-300ms ask. flex-wrap (unchanged) still lets pills wrap
-              to as many rows as each breakpoint needs. */}
-          <div className="mt-10 md:mt-12 flex flex-wrap items-center justify-center gap-4">
-            {items.map((b) => (
-              <span
-                key={b}
-                tabIndex={0}
-                className="inline-flex items-center justify-center rounded-full border border-border bg-secondary/40 px-7 py-3.5 md:px-8 md:py-4 text-base font-medium text-foreground cursor-pointer transition-all duration-300 ease-out hover:-translate-y-[3px] hover:border-accent hover:bg-accent/10 hover:text-accent hover:shadow-[0_10px_28px_-8px_color-mix(in_oklch,var(--color-accent)_55%,transparent)] focus-visible:outline-none focus-visible:-translate-y-[3px] focus-visible:border-accent focus-visible:bg-accent/10 focus-visible:text-accent focus-visible:shadow-[0_10px_28px_-8px_color-mix(in_oklch,var(--color-accent)_55%,transparent)]"
-              >
-                {b}
-              </span>
-            ))}
+          {/* Premium feature chips — full redesign of the plain outline
+              pills (content/order/heading/subheading/closing text all
+              untouched). Each chip: white glass background (bg-white/90 +
+              backdrop-blur), a barely-there DMAX-green border at rest, and
+              a soft green ambient glow, so it reads as a tangible object
+              instead of blending into the page. Padding bumped to 32-40px
+              horizontal / 18-22px vertical (a real ~20-25% size increase
+              over the previous px-7-8/py-3.5-4 pills), rounded-full kept.
+              A 36px solid-green circle with a small white Lucide icon
+              (18-20px) sits to the left of each label — one icon per
+              framework item, matched by position via CHIP_ICONS above.
+              Hover/focus: 6px lift, stronger green glow, border turns full
+              DMAX green (var(--color-accent), same token used everywhere
+              else rather than a hardcoded hex), background tints to
+              #F6FFF4, cursor-pointer, 300ms transition. Gap between chips
+              is 20px (gap-5); flex-wrap + justify-center (unchanged
+              mechanism) still lets desktop sit on one row when there's
+              room and lets tablet/mobile wrap into two rows or stack with
+              no extra breakpoint logic needed. Each chip fades in and
+              slides up on scroll with a small stagger (i * 0.08s),
+              matching the stagger pattern already used by the "badges"
+              variant above. Black/white/DMAX-green only — no gradients. */}
+          <div className="mt-10 md:mt-12 flex flex-wrap items-center justify-center gap-5">
+            {items.map((b, i) => {
+              const Icon = CHIP_ICONS[i % CHIP_ICONS.length];
+              return (
+                <motion.span
+                  key={b}
+                  tabIndex={0}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-10%" }}
+                  transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                  className="group inline-flex items-center gap-3 rounded-full border border-[rgba(57,230,0,0.15)] bg-white/90 backdrop-blur-sm px-8 py-[18px] md:px-10 md:py-[22px] text-base md:text-lg font-semibold text-foreground cursor-pointer shadow-[0_10px_30px_rgba(57,230,0,0.08)] transition-all duration-300 ease-out hover:-translate-y-[6px] hover:border-accent hover:bg-[#F6FFF4] hover:shadow-[0_18px_44px_rgba(57,230,0,0.2)] focus-visible:outline-none focus-visible:-translate-y-[6px] focus-visible:border-accent focus-visible:bg-[#F6FFF4] focus-visible:shadow-[0_18px_44px_rgba(57,230,0,0.2)]"
+                >
+                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-accent">
+                    <Icon className="size-[19px] text-white" strokeWidth={2.25} aria-hidden />
+                  </span>
+                  {b}
+                </motion.span>
+              );
+            })}
           </div>
 
           {closing && (

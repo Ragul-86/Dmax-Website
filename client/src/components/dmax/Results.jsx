@@ -126,7 +126,7 @@ export function Results({ eyebrow = "Results", title = <>Our Impact</>, metrics 
           className="max-w-xl mx-auto text-center"
         >
           {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-          <h2 className="mt-4 text-3xl md:text-4xl font-bold tracking-tight leading-[1.15] text-balance text-foreground">
+          <h2 className="mt-4 text-3xl md:text-4xl font-bold tracking-tight leading-[1.05] text-balance text-foreground">
             {title}
           </h2>
         </motion.div>

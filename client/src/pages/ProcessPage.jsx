@@ -149,7 +149,7 @@ export default function ProcessPage() {
               padding/auto-margin system still supplies the outer desktop
               gutter and large-screen breathing room — no change to that
               shared container needed. */}
-          <h1 className="mx-auto mt-5 max-w-[1150px] text-[2.25rem] md:text-[3rem] lg:text-[4.25rem] font-bold leading-[1.15] tracking-tight text-balance text-foreground">
+          <h1 className="mx-auto mt-5 max-w-[1150px] text-[2.25rem] md:text-[3rem] lg:text-[4.25rem] font-bold leading-[1.02] tracking-tight text-balance text-foreground">
             More Marketing Isn't the Answer. A Better{" "}
             <span className="text-accent">Growth System</span> Is.
           </h1>
@@ -171,6 +171,10 @@ export default function ProcessPage() {
           </div>
         </div>
       </header>
+
+      {/* Premium editorial spacer — Warm White → Light Gray transition
+          (outgoing header's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-surface-warm" />
 
       {/* Growth Bottlenecks step of the locked background rhythm: Very
           Light Gray (was Warm White) — separates it from the Warm White
@@ -252,6 +256,16 @@ export default function ProcessPage() {
           ))}
         </div>
       </section>
+
+      {/* Premium editorial spacer — White → Black transition (outgoing
+          expanded stage-detail cards section's own background; no
+          spacer was added right above between the "Growth Bottleneck"
+          heading and the Process timeline, or between the timeline and
+          these stage-detail cards — both pairs are explicitly documented
+          in this file as designed to read as one continuous flow, not
+          separate chapters, so they're treated the same way the site's
+          other intentionally-fused same-background bands are). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-background" />
 
       {/* "Every Stage Builds the Next" — LAYOUT REDESIGN per the latest
           brief: this is no longer a two-column (image | copy) row. It's
@@ -349,78 +363,113 @@ export default function ProcessPage() {
               }}
             />
 
-            {/* Text — width widened per the latest brief: was a flat
-                max-w-[760px], which read as narrow against this much
-                wider full-bleed image. Now w-[80%] (inside the requested
-                75-85%) so it scales with however wide the image itself
-                is at a given viewport, capped at max-w-[1000px] (inside
-                the requested 900-1100px readable-line-length ceiling) so
-                it never over-stretches on very large screens. mx-auto +
-                inset-x-0 still keep it centered with equal margins on
-                both sides — never edge-to-edge, since 80% always leaves
-                10% margin on each side by construction. Horizontal
-                padding trimmed (px-6/8/10, was the same p-8/11/14 as the
-                vertical) since the wider box no longer needs as much
-                inset before the (now much longer) paragraph and bullet
-                lines start; vertical padding (py-8/11/14) kept identical
-                so top/bottom breathing room — and every internal gap
-                between heading/paragraphs/bullets/final statement below —
-                is unchanged. Still position:absolute + z-10 above the
-                image (z-1) and gradient (z-2), still vertically centered
-                via top-1/2/-translate-y-1/2. */}
-            <Reveal className="mt-8 md:mt-0 md:absolute md:z-10 md:inset-x-0 md:mx-auto md:top-1/2 md:-translate-y-1/2 md:w-[80%] md:max-w-[1000px] md:text-center md:px-6 md:py-8 lg:px-8 lg:py-11 xl:px-10 xl:py-14">
-              <p className="eyebrow" style={{ color: "rgba(255,255,255,0.55)" }}>
+            {/* Text — rebuilt into a true editorial two-column layout per
+                the latest brief (no longer a single centered column).
+                Outer position/size unchanged: still position:absolute +
+                z-10 above the image (z-1) and gradient (z-2), still
+                vertically centered on the image via top-1/2/
+                -translate-y-1/2, still the same w-[80%] max-w-[1000px]
+                box sitting in the gradient's darkened middle — so the
+                background image, its size/position, and the overlay are
+                completely untouched; only what's rendered *inside* this
+                box changed. text-center removed in favor of explicit
+                text-left throughout, since every element is now left-
+                aligned within its column instead of centered. */}
+            <Reveal className="mt-8 md:mt-0 md:absolute md:z-10 md:inset-x-0 md:mx-auto md:top-1/2 md:-translate-y-1/2 md:w-[80%] md:max-w-[1000px] md:px-6 md:py-8 lg:px-8 lg:py-11 xl:px-10 xl:py-14">
+              <p className="eyebrow text-left" style={{ color: "rgba(255,255,255,0.55)" }}>
                 The DMAX Method™
               </p>
-              <h2 className="mt-4 h2-section text-balance" style={{ color: "#FFFFFF" }}>
+              <h2 className="mt-4 h2-section text-balance text-left" style={{ color: "#FFFFFF" }}>
                 Every stage builds the next.
               </h2>
-              <div className="mt-8 text-lg font-semibold" style={{ color: "#FFFFFF" }}>
-                Market Position → Market Visibility → Market Trust → Qualified Conversations → Predictable Revenue
+
+              {/* Two-column body. items-center vertically centers the
+                  left/right column blocks against each other (per spec)
+                  even though they're different heights. Gap: gap-x-12
+                  (48px) at the md/tablet tier — "reduce spacing while
+                  maintaining two columns" — stepping up to gap-x-20/24
+                  (80/96px) at lg/xl, inside the requested 80-120px
+                  desktop range. Below md, grid-cols-1 (default) stacks
+                  the right column under the left one in source order,
+                  with gap-y-10 between them. */}
+              <div className="mt-10 md:mt-12 grid md:grid-cols-2 gap-y-10 md:gap-x-12 lg:gap-x-20 xl:gap-x-24 md:items-center">
+                {/* LEFT COLUMN — rebuilt per the latest brief: the
+                    framework line was one long wrapping sentence, which
+                    read as cramped/unbalanced next to the right column.
+                    Now each stage is its own line with a leading accent-
+                    colored arrow (the "stacked, arrow-led" option from
+                    the brief — cleaner than a horizontal chain at this
+                    column width), space-y-3 between stages (was none,
+                    since it used to be one run-on line), and font-bold
+                    (was font-semibold — "increase font weight slightly").
+                    Supporting sentence sits 40px below the flow (mt-10).
+                    Text/copy, color, and the section's single Reveal
+                    fade-up (no new per-line animation added) are
+                    unchanged; only this column's internal markup. */}
+                <div className="text-left">
+                  <div className="space-y-3">
+                    {[
+                      "Market Position",
+                      "Market Visibility",
+                      "Market Trust",
+                      "Qualified Conversations",
+                      "Predictable Revenue",
+                    ].map((stage, i) => (
+                      <div key={stage} className="text-lg font-bold" style={{ color: "#FFFFFF" }}>
+                        {i > 0 && (
+                          <span aria-hidden style={{ color: "var(--color-accent)" }}>
+                            →{" "}
+                          </span>
+                        )}
+                        {stage}
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-10 text-lg leading-relaxed" style={{ color: "#D8D8D8" }}>
+                    Most businesses try to jump straight to lead generation.
+                  </p>
+                </div>
+
+                {/* RIGHT COLUMN — "We don't." as this column's own heading,
+                    then the four accent-marked statements directly under
+                    it, all left-aligned so the bullet rows sit flush
+                    under the heading (each row's own marker+gap-3 gives
+                    the bullet text its natural, expected slight indent). */}
+                <div className="text-left">
+                  <p className="text-lg font-semibold" style={{ color: "#FFFFFF" }}>
+                    We don't.
+                  </p>
+                  <div className="mt-6 space-y-5">
+                    {[
+                      "Because without positioning, visibility creates noise.",
+                      "Without visibility, trust never develops.",
+                      "Without trust, conversations rarely become business.",
+                      "Growth isn't built by chasing tactics.",
+                    ].map((line, i) => (
+                      <motion.div
+                        key={line}
+                        initial={{ opacity: 0, y: 16 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-10%" }}
+                        transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                        className="flex items-start gap-3"
+                      >
+                        <span aria-hidden className="mt-[2px] text-base leading-none" style={{ color: "var(--color-accent)" }}>
+                          ✦
+                        </span>
+                        <p className="text-lg leading-relaxed text-left" style={{ color: "#D8D8D8" }}>
+                          {line}
+                        </p>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
               </div>
 
-              {/* Lead-in — unchanged flowing-paragraph treatment. */}
-              <div className="mt-10 space-y-4 text-lg leading-relaxed" style={{ color: "#D8D8D8" }}>
-                <p>Most businesses try to jump straight to lead generation.</p>
-                <p className="font-semibold" style={{ color: "#FFFFFF" }}>We don't.</p>
-              </div>
-
-              {/* The four "Because..." lines — each its own row with a
-                  small accent mark, comfortable space-y-5 gap, and its
-                  own fade-up entrance staggered ~100ms apart. justify-center
-                  added (was left-implicit) so each marker+text pair sits
-                  centered as a unit within the now-centered column,
-                  matching the section's new composition. */}
-              <div className="mt-8 space-y-5">
-                {[
-                  "Because without positioning, visibility creates noise.",
-                  "Without visibility, trust never develops.",
-                  "Without trust, conversations rarely become business.",
-                  "Growth isn't built by chasing tactics.",
-                ].map((line, i) => (
-                  <motion.div
-                    key={line}
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-10%" }}
-                    transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                    className="flex items-start justify-center gap-3"
-                  >
-                    <span aria-hidden className="mt-[2px] text-base leading-none" style={{ color: "var(--color-accent)" }}>
-                      ✦
-                    </span>
-                    <p className="text-lg leading-relaxed text-left" style={{ color: "#D8D8D8" }}>
-                      {line}
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Final statement — the section's conclusion: font-bold
-                  with a subtle green accent line, now centered as a unit
-                  (flex justify-center) so the accent bar hugs the text
-                  itself instead of the full column's left edge. */}
-              <div className="mt-10 flex justify-center">
+              {/* BOTTOM — closing statement, centered below both columns
+                  (this one element stays centered per the brief; the rest
+                  of the section is left-aligned). */}
+              <div className="mt-10 md:mt-12 flex justify-center">
                 <div className="relative pl-5">
                   <span aria-hidden className="absolute left-0 top-0.5 bottom-0.5 w-[3px] rounded-full bg-accent" />
                   <p className="text-lg font-bold leading-relaxed text-left" style={{ color: "#FFFFFF" }}>
@@ -432,6 +481,10 @@ export default function ProcessPage() {
           </div>
         </div>
       </section>
+
+      {/* Premium editorial spacer — Black → White transition (outgoing
+          "Every stage builds the next" section's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-deep-black" />
 
       {/* DMAX Workflow step of the locked background rhythm: Pure White.
           This component's own default (banded=true) would otherwise
@@ -454,6 +507,11 @@ export default function ProcessPage() {
 
       {/* Final CTA — shared component, same on every page */}
       <HomeFinalCTA />
+
+      {/* Premium editorial spacer — White → Black transition before the
+          Footer. */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-background" />
+
       <Footer />
     </main>
   );

@@ -59,11 +59,16 @@
   --font-display: "SF Pro Display", "Inter", "Helvetica Neue", system-ui, sans-serif;
   --font-sans: "SF Pro Display", "Inter", "Helvetica Neue", system-ui, sans-serif;
 
-  /* A touch more open than Tailwind's default 1.625 — every paragraph
-     sitewide already opts into `leading-relaxed`, so nudging the token
-     itself improves reading rhythm everywhere at once without touching
-     any component markup. */
-  --leading-relaxed: 1.75;
+  /* Sitewide body-text line-height standardization: every paragraph,
+     description, list item, and supporting-text element already opts
+     into `leading-relaxed` (the established sitewide pattern), so
+     tightening this one token to 1.45 — down from 1.75 (and superseding
+     an earlier, now-reversed 1.6 target below) — applies the requested
+     "premium editorial" 1.45 line-height everywhere at once without
+     touching any component markup. 1.45 also satisfies the "long-form
+     content: 1.5 maximum" allowance, since it's already under that
+     ceiling. */
+  --leading-relaxed: 1.45;
 
   /* ============================================================
      Sitewide typography-scale audit — one central bump instead of
@@ -89,17 +94,37 @@
   --text-sm: 1rem;               /* 14px -> 16px  — captions, footer text, stat labels */
   --text-sm--line-height: 1.5rem;
   --text-base: 1.125rem;         /* 16px -> 18px  — base running text */
-  --text-base--line-height: 1.75rem;
-  --text-lg: 1.3125rem;          /* 18px -> 21px  — body paragraphs / section descriptions */
-  --text-lg--line-height: 2rem;
-  --text-xl: 1.4375rem;          /* 20px -> 23px  — CTA text / card titles */
-  --text-xl--line-height: 2rem;
+  /* Paired line-height tightened 1.75rem(ratio 1.556) -> 1.625rem(ratio
+     1.444): global body-text line-height pass — this is the fallback
+     ratio for any plain text-base element that doesn't already carry its
+     own explicit leading-* utility. */
+  --text-base--line-height: 1.625rem;
+  /* Global body-text line-height pass supersedes the earlier "24px/1.6"
+     supporting-text standard below: 1.6 (38.4px) is now too loose per the
+     new "1.45 everywhere, 1.5 long-form max" directive, so this paired
+     line-height is retuned to a 1.45 ratio (24 × 1.45 = 34.8px) — the
+     same target every leading-relaxed element sitewide now uses. Font
+     size/weight for text-lg are untouched. */
+  --text-lg: 1.5rem;             /* 21px -> 24px  — body paragraphs / section descriptions (reference size) */
+  --text-lg--line-height: 2.175rem; /* 1.45 ratio */
+  /* Nudged up 23px -> 25px, just enough to stay above the new 24px
+     --text-lg — otherwise "CTA text / card titles" would render smaller
+     than the paragraph text next to them on cards that use both (e.g.
+     Services.jsx solution cards), inverting the intended hierarchy. Not
+     a deliberate CTA/title redesign, purely keeping the scale ordered. */
+  --text-xl: 1.5625rem;          /* 23px -> 25px  — CTA text / card titles */
+  --text-xl--line-height: 2.125rem;
   --text-2xl: 1.6875rem;         /* 24px -> 27px  — card titles / small headings */
-  --text-2xl--line-height: 2.25rem;
+  /* Line-height tightened 2.25rem(ratio 1.33) -> 1.875rem(ratio ~1.11):
+     sitewide multi-line-heading compaction pass. Only affects elements
+     that don't already set their own explicit leading-* class (which
+     always wins over this token pairing), so any heading/quote that was
+     individually tuned elsewhere this session is unaffected. */
+  --text-2xl--line-height: 1.875rem;
   --text-3xl: 2.0625rem;         /* 30px -> 33px  — section headings, one step up */
-  --text-3xl--line-height: 2.5rem;
+  --text-3xl--line-height: 2.1875rem; /* ratio ~1.06, was 1.212 */
   --text-4xl: 2.4375rem;         /* 36px -> 39px  — larger section headings, one step up */
-  --text-4xl--line-height: 2.75rem;
+  --text-4xl--line-height: 2.5625rem; /* ratio ~1.05, was 1.128 */
 }
 
 :root {
@@ -302,6 +327,52 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
     .card-service, .card-metric, .card-process { padding: 32px; }
   }
 
+  /* Richer, darker hover overlay for the actual solution cards only
+     (Home.jsx's solution-path teaser cards + Services.jsx's "Choose Your
+     Path" cards — the only two live call sites that use bare
+     .card-service without the -image suffix; the "Explore by Topic"
+     image cards use the separate .card-service-image rule below and are
+     explicitly excluded via :not() so this never touches them). Card
+     size, content, typography, icons, animations, border-radius, hover
+     scale/lift (-6px, unchanged), and layout are all untouched — only
+     the hover tint/border/shadow got darker and deeper:
+     - position: relative (invisible on its own) gives the ::before
+       overlay a positioning container.
+     - ::before is a full-bleed emerald gradient wash, 0% opacity at
+       rest, fading in to 1 on hover (350ms) — a genuinely richer, darker
+       green (Tailwind green-600 → green-700 at 30-40% opacity) instead
+       of a bare border color change. Explicit z-index: -1 keeps it
+       painted behind the card's normal-flow text/icon content (same
+       stacking-order fix used elsewhere on this site for absolutely-
+       positioned layers), so nothing needed to change on the content
+       side to stay fully readable/high-contrast.
+     - Hover border is the richer #22C55E green (was var(--color-accent)).
+     - Hover box-shadow keeps the existing elevation shadow and adds a
+       soft outer green glow plus a subtle inset shadow for depth. */
+  .card-service:not(.card-service-image) {
+    position: relative;
+  }
+  .card-service:not(.card-service-image)::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: linear-gradient(180deg, rgba(22,163,74,0.30) 0%, rgba(21,128,61,0.40) 100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .card-service:hover:not(.card-service-image)::before {
+    opacity: 1;
+  }
+  .card-service:hover:not(.card-service-image) {
+    border-color: #22C55E;
+    box-shadow:
+      var(--shadow-card-hover),
+      0 20px 50px rgba(22,163,74,0.20),
+      inset 0 1px 32px rgba(21,128,61,0.12);
+  }
   .card-service:hover {
     transform: translateY(-6px);
     box-shadow: var(--shadow-card-hover);
@@ -480,10 +551,14 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
      Nudged one step per the audit ("Section Headings: keep the same or
      increase one step only") — top of the fluid range 3.5rem(56px) ->
      3.75rem(60px), floor 2rem(32px) -> 2.125rem(34px), same clamp
-     shape/weight/tracking otherwise. */
+     shape/weight/tracking otherwise. Line-height tightened 1.08 -> 1.05
+     (sitewide multi-line-heading compaction pass) so every heading built
+     from this one shared class — used across most of the site's section
+     titles — gets a more compact wrapped-line gap without touching
+     size/weight/color/letter-spacing. */
   .h2-section {
     font-size: clamp(2.125rem, 4.1vw, 3.75rem);
-    line-height: 1.08;
+    line-height: 1.05;
     font-weight: 700;
     letter-spacing: -0.02em;
   }
@@ -578,22 +653,37 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
     border: 1px solid rgba(255,255,255,0.08);
   }
 
-  /* Global container — one master grid every section aligns to.
-     1320px content width, 20/32/48px gutters at mobile/tablet/desktop.
-     Used by the Navbar and the Hero — left untouched everywhere so both
-     keep their exact current width. */
-  .container-x { max-width: 1320px; margin-inline: auto; padding-inline: 20px; }
-  @media (min-width: 768px)  { .container-x { padding-inline: 32px; } }
-  @media (min-width: 1024px) { .container-x { padding-inline: 48px; } }
-
-  /* Narrower editorial container — same gutter scale as .container-x, but
-     a tighter 1240px cap for the premium, centered Apple/Stripe/Linear-
-     style content sections below the Hero. Deliberately a separate class
-     (not a change to .container-x) so the Navbar and Hero are completely
-     unaffected. */
-  .container-narrow { max-width: 1240px; margin-inline: auto; padding-inline: 20px; }
-  @media (min-width: 768px)  { .container-narrow { padding-inline: 32px; } }
-  @media (min-width: 1024px) { .container-narrow { padding-inline: 48px; } }
+  /* Global outer container — sitewide standardization pass: .container-x,
+     .container-narrow, and .container-nav (the Navbar's own container)
+     now all share one width/max-width/padding spec — 95% of the
+     viewport, capped at 1650px, 24px gutter up to 32px at desktop —
+     matching the Navbar exactly so every section's OUTER left/right edge
+     lines up with the header everywhere on the site. This intentionally
+     only changes the OUTER wrapper: every page's own INNER content
+     max-widths (body-copy columns, editorial text columns, specific card
+     widths like the 1080px WhyChooseDMAX card or the 1350px Contact
+     splits, FAQ/blog reading widths, etc.) are separate, dedicated
+     max-w-* classes already nested inside these containers and are
+     completely untouched here — so paragraphs, cards, and every other
+     already-tuned proportion keep their exact current width and
+     readability; only the section backgrounds/bands now extend as wide
+     as the header instead of stopping at the old 1240-1320px caps. */
+  :root {
+    --container-width: 95%;
+    --container-max-width: 1650px;
+    --container-padding: 24px;
+  }
+  @media (min-width: 1024px) {
+    :root { --container-padding: 32px; }
+  }
+  .container-x,
+  .container-narrow,
+  .container-nav {
+    width: var(--container-width);
+    max-width: var(--container-max-width);
+    margin-inline: auto;
+    padding-inline: var(--container-padding);
+  }
 
   /* Hero scene — light, airy daylight atmosphere by default */
   .scene {

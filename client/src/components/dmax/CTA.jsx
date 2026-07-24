@@ -33,10 +33,10 @@ export function CTA({
                 </Link>
                 {showEmail && (
                   <a
-                    href="mailto:manoj@dmaxnow.com"
+                    href="mailto:manoj@dmax.company"
                     className="inline-flex items-center gap-2 rounded-full border border-white/20 dark:border-black/15 px-7 py-4 text-sm font-semibold transition-all duration-300 hover:bg-white/5 dark:hover:bg-black/5 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-white dark:text-graphite"
                   >
-                    manoj@dmaxnow.com
+                    manoj@dmax.company
                   </a>
                 )}
               </div>

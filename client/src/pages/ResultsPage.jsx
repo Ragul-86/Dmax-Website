@@ -38,6 +38,14 @@ export default function ResultsPage() {
         metrics={impactMetrics}
       />
       <CTA />
+
+      {/* Premium editorial spacer — White → Black transition before the
+          Footer (the header/Results/CTA sections above are all part of
+          the site's "White" band — bg-background/bg-surface-warm are
+          visually near-identical — so no spacer was needed between
+          them). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-background" />
+
       <Footer />
     </main>
   );

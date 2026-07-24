@@ -22,7 +22,7 @@ export async function sendContactNotification(enquiry) {
     return false;
   }
 
-  const to = process.env.MAIL_TO?.trim() || "dmaxworldwide@gmail.com";
+  const to = process.env.MAIL_TO?.trim() || "manoj@dmax.company";
   // Resend only allows sending from an address on a domain you've verified
   // in the Resend dashboard. Until a real domain is verified there,
   // "onboarding@resend.dev" is Resend's built-in sandbox sender and works

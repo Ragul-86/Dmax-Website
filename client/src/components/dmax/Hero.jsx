@@ -3,9 +3,6 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import astronaut from "@/assets/hero-astronaut.png";
 
-// One-word step names from "Our Method" — "Discover / Position / Build / Scale."
-const services = ["Discover.", "Position.", "Build.", "Scale."];
-
 // Verbatim headline, split across two lines: "Become the First Choice" / "in Your Market."
 const headline = ["Become the First Choice", "in Your Market."];
 
@@ -57,20 +54,30 @@ export function Hero() {
       };
 
   return (
-    // Desktop (lg+): min-h-screen (a floor, not a hard cap) so the Hero
-    // fills one full viewport and centers content when it fits, but can
-    // never clip anything — the previous pass used a fixed lg:h-screen
-    // combined with overflow-hidden on both this section and the grid
-    // below, which hard-capped the box at exactly 100vh and silently
-    // clipped the last two stacked items (the stats row and the
-    // Discover/Position/Build/Scale list) whenever the real content was
-    // taller than one viewport at a given screen height. Dropping the
-    // fixed height/overflow-hidden on the grid restores the flex item's
-    // default "min-height: auto" sizing, so it grows to fit its content
-    // first and is only ever centered within *extra* space, never
-    // clipped. No typography, colors, spacing-between-elements, or
-    // animations were changed anywhere below.
-    <section className="relative overflow-hidden bg-surface-warm pt-36 pb-20 lg:min-h-screen lg:pt-0 lg:pb-0 lg:flex lg:flex-col">
+    // Anti-clipping pass — reverses the previous hard
+    // height:calc(100vh-96px) + overflow-hidden combination: on any
+    // resolution where the real rendered content (line-wrap, font
+    // metrics, button height) came out even slightly taller than that
+    // fixed budget, overflow-hidden silently clipped text/buttons/stats
+    // instead of showing them. Now min-h-screen is a FLOOR only —
+    // height stays auto (Tailwind's default, nothing declared), so the
+    // section can never be forced shorter than its own content and
+    // nothing is ever cut off; overflow-hidden is removed from the
+    // section entirely (the astronaut's own absolute wrapper below is
+    // already inset-y-0/right-0/w-[48%], fully contained within the
+    // section box on its own, so it never relied on this for
+    // containment; the small ±8px mouse-parallax drift is nowhere near
+    // enough to escape that margin). The per-line
+    // <span className="block overflow-hidden"> further down is a
+    // separate, self-contained text-reveal-mask technique (clips only
+    // the entrance animation of one line within its own line-height
+    // box) — unrelated to this bug and left untouched. The tightened
+    // lg: gaps between elements (heading/paragraph/CTA/stats) from the
+    // previous pass stay in place since they're good practice
+    // regardless; only the hard height ceiling and overflow-hidden are
+    // reverted. Mobile/tablet (below lg) keep their exact original
+    // pt-36/pb-20 flow, untouched.
+    <section className="relative bg-surface-warm pt-36 pb-20 lg:min-h-screen lg:pt-0 lg:pb-0 lg:flex lg:flex-col">
       {/* Navbar-clearance spacer (desktop only) — Navbar is fixed/overlaid
           (h-20 md:h-24, not in document flow), so the centered content
           below needs a fixed gap matching its real height reserved above
@@ -92,10 +99,15 @@ export function Hero() {
           top regardless of DOM/stacking-context edge cases (the exact
           bug class hit earlier on the Method page's image overlay).
           Sized to ~48% of the section width (inside the requested
-          45-50%) and up to 92% of the section's own height (capped at
-          88vh) so it's dramatically larger/more present than the old
-          content-height-matched sizing — "fills the right half of the
-          Hero." Below lg, this is hidden entirely; the original stacked
+          45-50%) and, per the viewport-fit pass, capped at 78% of the
+          section's own real height (inside the requested 75-80% range;
+          was 92%/88vh) — since the wrapper below is `inset-y-0` against
+          the section, which now has a hard calc(100vh-96px)-based height
+          instead of an open-ended min-h-screen, this percentage now maps
+          onto a real, fixed pixel budget instead of an unbounded one, so
+          the image can never push the section taller than the viewport.
+          object-contain (unchanged) still guarantees the astronaut is
+          never cropped. Below lg, this is hidden entirely; the original stacked
           astronaut image further down (unchanged) covers "mobile: place
           the astronaut behind or below the content" exactly as it did
           before this redesign — same asset, same mouse-parallax values,
@@ -116,7 +128,7 @@ export function Hero() {
             loading="eager"
             width={1024}
             height={1536}
-            className="h-[92%] max-h-[88vh] w-auto object-contain"
+            className="h-[78%] w-auto object-contain"
             style={{
               WebkitMaskImage: "linear-gradient(to left, black 60%, transparent 100%)",
               maskImage: "linear-gradient(to left, black 60%, transparent 100%)",
@@ -146,7 +158,19 @@ export function Hero() {
             The Decision-Maker Acquisition System™
           </motion.div>
 
-          <h1 className="mt-8 font-display font-bold tracking-tight text-balance text-foreground text-[clamp(2.5rem,5.6vw,5.25rem)] leading-[1.05]">
+          {/* Line-to-line gap tightened via leading only (1.05 → 0.95) —
+              the two lines are plain stacked block elements with no
+              margin between them, so line-height is the only lever that
+              controls the visual gap; font-size, weight, color, the
+              two-line break, and the reveal animation are all untouched.
+              0.95 is a deliberately conservative floor for a clamp(2.5rem,
+              5.25rem) display size — tight enough to read as compact/
+              premium without risking line 1's descenders touching line
+              2's ascenders. */}
+          {/* Eyebrow→heading gap tightened at lg: only (mt-8/32px →
+              24px), part of the viewport-fit spacing pass — mobile/
+              tablet keep the original mt-8. */}
+          <h1 className="mt-8 lg:mt-6 font-display font-bold tracking-tight text-balance text-foreground text-[clamp(2.5rem,5.6vw,5.25rem)] leading-[0.95]">
             {headline.map((line, li) => (
               <span key={li} className="block overflow-hidden">
                 <motion.span
@@ -165,18 +189,20 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.6 }}
-            className="mt-7 max-w-[36rem] text-lg text-muted-foreground leading-relaxed"
+            className="mt-7 lg:mt-5 max-w-[36rem] text-lg text-muted-foreground leading-relaxed"
           >
             Build a predictable client acquisition system that creates trust before the first
             sales conversation. For founders, business coaches, manufacturers, exporters, and B2B
             service businesses.
           </motion.p>
 
+          {/* Paragraph→CTA gap tightened at lg: (mt-10/40px → mt-6/24px,
+              matching the spec's 24px target) — mobile/tablet unchanged. */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.7 }}
-            className="mt-10 flex flex-wrap items-center gap-4"
+            className="mt-10 lg:mt-6 flex flex-wrap items-center gap-4"
           >
             <Link to="/contact" className="group btn-primary">
               Book a Strategy Call
@@ -193,33 +219,40 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 1 }}
-            className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-5 border-t border-border pt-8"
+            // CTA→Statistics gap tightened at lg: — the margin+padding
+            // combined (mt-10+pt-8=72px) is now mt-4+pt-4=32px, landing
+            // at the top of the spec's 24-32px target; mobile/tablet
+            // keep the original mt-10/pt-8.
+            // Layout fix: flex-wrap could let the three stats wrap onto a
+            // second row whenever the left column got narrow. Switched to
+            // an explicit 3-column grid (grid-cols-1 below md, always
+            // md:grid-cols-3 from 768px up — matching the requested
+            // "only stack <768px" rule) so all three sit in one row on
+            // every desktop/tablet width, never wrapping, each column an
+            // equal 1fr width. items-start top-aligns every number/label
+            // pair to the same baseline. Font size, text, and colors are
+            // unchanged.
+            className="mt-10 lg:mt-4 grid grid-cols-1 md:grid-cols-3 items-start gap-y-5 md:gap-x-8 border-t border-border pt-8 lg:pt-4"
           >
             {trustStats.map((s, i) => (
-              <div key={s.label} className="flex items-center gap-8">
-                <div>
-                  <div className="text-2xl font-bold tracking-tight text-foreground">{s.value}</div>
-                  <div className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">
-                    {s.label}
-                  </div>
+              // Divider: was a fixed h-8 w-px span living between flex
+              // siblings; a grid can't slot a divider element between
+              // cells the same way, so it's now a md:border-l on every
+              // column after the first (border height matches the cell's
+              // own content instead of a fixed 32px, otherwise the same
+              // visual vertical rule between each stat). No divider is
+              // needed below md, where the stats stack full-width.
+              <div
+                key={s.label}
+                className={i > 0 ? "md:border-l md:border-border md:pl-8" : ""}
+              >
+                <div className="text-2xl font-bold tracking-tight text-foreground">{s.value}</div>
+                <div className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">
+                  {s.label}
                 </div>
-                {i < trustStats.length - 1 && <span className="h-8 w-px bg-border" aria-hidden />}
               </div>
             ))}
           </motion.div>
-
-          <motion.ul
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.1 }}
-            className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground"
-          >
-            {services.map((s) => (
-              <li key={s} className="inline-flex items-center gap-2">
-                <span className="size-1 rounded-full bg-accent" /> {s}
-              </li>
-            ))}
-          </motion.ul>
         </div>
 
         {/* ===== Right — the astronaut, mobile/tablet ONLY now (lg:hidden).

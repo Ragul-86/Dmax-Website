@@ -169,7 +169,7 @@ function Step({ s, i, start, end, progress, dark }) {
         {s.t}
       </div>
       <p
-        className={`mt-3 text-sm leading-relaxed ${dark ? "" : "text-muted-foreground"}`}
+        className={`mt-3 text-base leading-relaxed ${dark ? "" : "text-muted-foreground"}`}
         style={dark ? { color: "rgba(255,255,255,0.68)" } : undefined}
       >
         {s.d}

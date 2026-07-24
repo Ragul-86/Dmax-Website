@@ -84,7 +84,7 @@ export default function Services() {
       <header className="bg-surface-warm pb-4">
         <div className="container-narrow pt-28 md:pt-32 lg:pt-36 text-center">
           <p className="eyebrow">Services</p>
-          <h1 className="mx-auto mt-5 max-w-[1150px] text-[2.25rem] md:text-[3rem] lg:text-[4.25rem] font-bold leading-[1.15] tracking-tight text-balance text-foreground">
+          <h1 className="mx-auto mt-5 max-w-[1150px] text-[2.25rem] md:text-[3rem] lg:text-[4.25rem] font-bold leading-[1.02] tracking-tight text-balance text-foreground">
             One System. <span className="text-accent">Three Ways to Grow.</span>
           </h1>
           <div className="mx-auto mt-8 max-w-[950px] space-y-4 text-lg text-muted-foreground leading-relaxed">
@@ -101,6 +101,10 @@ export default function Services() {
           </div>
         </div>
       </header>
+
+      {/* Premium editorial spacer — Warm White → Light Gray transition
+          (outgoing header's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-surface-warm" />
 
       {/* 2–4. Expand into Global Markets / Grow Your Coaching Practice / Build a Predictable Revenue Pipeline
           — three equal-width, equal-height product cards in a clean grid.
@@ -129,31 +133,50 @@ export default function Services() {
                 <div className="card-icon inline-flex size-12 items-center justify-center rounded-2xl bg-foreground text-background transition-all duration-300 group-hover:bg-accent group-hover:text-accent-foreground group-hover:scale-110 group-hover:-rotate-3">
                   <s.icon className="size-5" />
                 </div>
-                {/* Typography-only readability pass on these cards: every
-                    text element bumped up the Tailwind scale (which
-                    carries its paired line-height along with it, since
-                    leading-snug/leading-relaxed are relative multipliers
-                    that grow with font-size automatically — satisfies
-                    "increase line-height proportionally" with no extra
-                    classes needed). Card width/height, colors, icons,
-                    the bullet dot, margins between blocks (mt-6/mt-3/
-                    mt-2.5/mt-2/mt-8), and all animations are untouched.
-                    Equal card heights across a row are already handled
-                    by the parent grid's `items-stretch` (grid rows
-                    auto-equalize to the tallest cell), so no explicit
-                    height/min-height was needed even though these cards
-                    now run taller. */}
-                <div className="mt-6 text-base font-semibold uppercase tracking-widest text-accent">{s.audience}</div>
-                <h3 className="mt-2.5 text-2xl font-semibold leading-snug">{s.title}</h3>
-                <p className="mt-3 text-xl text-muted-foreground leading-relaxed">{s.intro}</p>
+                {/* Line-height-only tightening pass on these cards (font
+                    family/size, content, card width/height, padding,
+                    margins, icons, colors, borders, and layout are all
+                    untouched — the mt-6/mt-3/mt-2.5/mt-2/mt-8 spacing
+                    between blocks is exactly what it was before). Every
+                    text element now sets an explicit arbitrary
+                    leading-[…] instead of relying on Tailwind's relative
+                    leading-snug/leading-relaxed utilities, since those
+                    were producing 1.8-2.0-ish body-line spacing that read
+                    as too airy: category label (audience) and both
+                    uppercase sub-labels ("Built for" / "What You'll
+                    Achieve") → 1.2, the card title → 1.15, the main body
+                    paragraph (intro) → 1.45, and the two list-style blocks
+                    ("Built for"'s own sentence + the achieve bullets) →
+                    1.35 — tighter, cleaner, closer to Apple/Linear/Stripe
+                    doc typography. Equal card heights across a row are
+                    still handled by the parent grid's `items-stretch`. */}
+                <div className="mt-6 text-base font-semibold uppercase tracking-widest text-accent leading-[1.2]">{s.audience}</div>
+                <h3 className="mt-2.5 text-2xl font-semibold leading-[1.15]">{s.title}</h3>
+                <p className="mt-3 text-xl text-muted-foreground leading-[1.45]">{s.intro}</p>
 
-                <div className="mt-6 text-sm font-semibold uppercase tracking-widest text-muted-foreground">Built for</div>
-                <p className="mt-2 text-lg text-muted-foreground leading-relaxed">{s.builtFor}</p>
+                {/* "Built for" / "What You'll Achieve" made into proper
+                    bold section headings instead of the same light
+                    muted-foreground label style as before: font-bold
+                    (700), text-[18px], tracking-[0.08em] (was the looser
+                    default tracking-widest ~0.1em), text-foreground (the
+                    page's existing dark heading color) instead of
+                    text-muted-foreground, leading-[1.2] kept. Each label
+                    gets an explicit mb-[14px] (with the immediately-
+                    following paragraph/list's own top margin zeroed out so
+                    the two don't stack) to land the label-to-content gap
+                    at exactly 14px — every other block-to-block gap on
+                    the card (mt-6 before each label, mt-2.5/mt-3 elsewhere)
+                    is untouched. The lists themselves are bumped from
+                    text-lg to text-[17px] font-medium for readability, per
+                    spec — content, layout, card size, colors, and icons
+                    are unchanged. */}
+                <div className="mt-6 mb-[14px] text-[18px] font-bold uppercase tracking-[0.08em] text-foreground leading-[1.2]">Built for</div>
+                <p className="mt-0 text-[17px] font-medium text-muted-foreground leading-[1.45]">{s.builtFor}</p>
 
-                <div className="mt-6 text-sm font-semibold uppercase tracking-widest text-muted-foreground">What You'll Achieve</div>
-                <ul className="mt-3 space-y-2 flex-1">
+                <div className="mt-6 mb-[14px] text-[18px] font-bold uppercase tracking-[0.08em] text-foreground leading-[1.2]">What You'll Achieve</div>
+                <ul className="mt-0 space-y-2 flex-1">
                   {s.achieve.map((a) => (
-                    <li key={a} className="text-lg text-muted-foreground leading-relaxed flex items-start gap-2">
+                    <li key={a} className="text-[17px] font-medium text-muted-foreground leading-[1.45] flex items-start gap-2">
                       <span className="mt-2 size-1 rounded-full bg-accent shrink-0" />
                       {a}
                     </li>
@@ -172,6 +195,10 @@ export default function Services() {
           </div>
         </div>
       </section>
+
+      {/* Premium editorial spacer — Light Gray → Black transition
+          (outgoing solution-cards section's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-surface-gray" />
 
       {/* 5. Trust Comes Before Business — Deep Black step of the locked
           background rhythm. This is the page's emotional/cinematic
@@ -221,6 +248,10 @@ export default function Services() {
         </Reveal>
       </section>
 
+      {/* Premium editorial spacer — Black → White transition (outgoing
+          "Trust comes before business" section's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-deep-black" />
+
       {/* 6. One Framework */}
       <TrustedBrands
         variant="chips"
@@ -238,6 +269,12 @@ export default function Services() {
 
       {/* 7. Final CTA — shared component, same on every page */}
       <HomeFinalCTA />
+
+      {/* Premium editorial spacer — White → Black transition before the
+          Footer (HomeFinalCTA's section background is transparent,
+          inheriting <main>'s bg-background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-background" />
+
       <Footer />
     </main>
   );

@@ -41,7 +41,7 @@ export function Navbar() {
             : "bg-transparent"
         }`}
       >
-        <nav className="container-x flex h-20 md:h-24 items-center justify-between">
+        <nav className="container-nav flex h-20 md:h-24 items-center justify-between">
           <Link to="/" aria-label="DMAX home" onClick={() => setOpen(false)} className="inline-flex items-center pr-4">
             <img src={logo} alt="DMAX" className="h-7 md:h-8 w-auto block dark:hidden" />
             <img src={logoDark} alt="DMAX" className="h-7 md:h-8 w-auto hidden dark:block" />

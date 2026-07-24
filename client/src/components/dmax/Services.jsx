@@ -180,7 +180,19 @@ export function Services({
   return (
     <section
       id="services"
-      className={editorial ? "pt-14 md:pt-20 lg:pt-24 pb-20 md:pb-28 lg:pb-36" : "py-20 md:py-28 lg:py-36"}
+      // Non-editorial branch's top padding cut ~75-80% (py-20/28/36 →
+      // pt-4/6/8, bottom kept at the original pb-20/28/36): this is the
+      // only branch FaqPage.jsx's live "Explore by Topic" call uses
+      // (ServicesPage.jsx, the only other caller, passes `editorial` and
+      // is a dead/unrouted page anyway), so this pairs with that
+      // section's own reduced bottom padding for a combined 32/48/64px
+      // gap (mobile/tablet/desktop) instead of the ~390px dead zone that
+      // was there before. The `editorial` branch is completely untouched.
+      className={
+        editorial
+          ? "pt-14 md:pt-20 lg:pt-24 pb-20 md:pb-28 lg:pb-36"
+          : "pt-4 md:pt-6 lg:pt-8 pb-20 md:pb-28 lg:pb-36"
+      }
     >
       {/* wide: max-w-[1760px] (inside the requested 1700-1800px range,
           ~95% of a 1920px viewport) with a slightly wider desktop gutter
@@ -197,7 +209,7 @@ export function Services({
           <h2
             className={
               editorial
-                ? "mt-5 text-[2rem] md:text-[2.5rem] lg:text-[2.75rem] font-semibold tracking-tight leading-[1.15] text-balance text-foreground"
+                ? "mt-5 text-[2rem] md:text-[2.5rem] lg:text-[2.75rem] font-semibold tracking-tight leading-[1.05] text-balance text-foreground"
                 : "mt-4 h2-section text-balance"
             }
           >

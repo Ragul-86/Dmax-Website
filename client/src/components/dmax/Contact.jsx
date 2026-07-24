@@ -80,8 +80,8 @@ export function Contact() {
               </li>
               <li className="flex items-start gap-3">
                 <Mail className="size-4 mt-0.5 text-accent" />
-                <a href="mailto:manoj@dmaxnow.com" className="hover:text-accent">
-                  manoj@dmaxnow.com
+                <a href="mailto:manoj@dmax.company" className="hover:text-accent">
+                  manoj@dmax.company
                 </a>
               </li>
               <li className="flex items-start gap-3">

@@ -271,7 +271,7 @@ export default function About() {
       <header className="bg-surface-warm pb-4">
         <div className="container-narrow pt-28 md:pt-32 lg:pt-36 text-center">
           <p className="eyebrow">About DMAX</p>
-          <h1 className="mx-auto mt-5 max-w-[1150px] text-[2.25rem] md:text-[3rem] lg:text-[4.25rem] font-bold leading-[1.15] tracking-tight text-balance text-foreground">
+          <h1 className="mx-auto mt-5 max-w-[1150px] text-[2.25rem] md:text-[3rem] lg:text-[4.25rem] font-bold leading-[1.02] tracking-tight text-balance text-foreground">
             We Didn't Start DMAX to Build Another{" "}
             <span className="text-accent">Marketing Agency.</span>
           </h1>
@@ -286,6 +286,10 @@ export default function About() {
           </div>
         </div>
       </header>
+
+      {/* Premium editorial spacer — Warm White → Light Gray transition
+          (outgoing header's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-surface-warm" />
 
       {/* 1b. Founder — new standalone section, separate from the hero above.
           Desktop: large framed portrait card left (42%), story right (58%),
@@ -362,6 +366,10 @@ export default function About() {
           </Reveal>
         </div>
       </section>
+
+      {/* Premium editorial spacer — Light Gray → White transition
+          (outgoing Founder section's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-surface-gray" />
 
       {/* 2. The Observation — premium editorial split (55%/45%) instead of
           a long stacked paragraph next to a small metrics card. Left:
@@ -442,6 +450,12 @@ export default function About() {
         </div>
       </section>
 
+      {/* Premium editorial spacer — White → Black transition (outgoing
+          "The Problem" section's own background; no spacer was needed
+          between "The Observation" and "The Problem" just above — both
+          are the same transparent White band with no color change). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-background" />
+
       {/* 4. Our Belief — Deep Black step of the locked background
           rhythm: the page's emotional storytelling / philosophy moment
           ("this belief shapes everything we do"). Same 50/50 editorial
@@ -494,6 +508,10 @@ export default function About() {
         </div>
       </section>
 
+      {/* Premium editorial spacer — Black → White transition (outgoing
+          "Our Belief" section's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-deep-black" />
+
       {/* 5. The DMAX Method™ */}
       <Process
         eyebrow={null}
@@ -506,6 +524,10 @@ export default function About() {
           This isn't a campaign. It's a growth system.
         </p>
       </Reveal>
+
+      {/* Premium editorial spacer — White → Light Gray transition
+          (outgoing Method/closing-line block's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-background" />
 
       {/* 6. Proof — deliberately NOT another centered text section: small
           eyebrow → heading → short intro → a modular proof grid, so this
@@ -544,7 +566,7 @@ export default function About() {
               >
                 <div>
                   <h3 className="text-lg font-semibold text-foreground">{c.title}</h3>
-                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{c.q}</p>
+                  <p className="mt-3 text-base text-muted-foreground leading-relaxed">{c.q}</p>
                 </div>
                 <div className="mt-6 flex items-center justify-between border-t border-border pt-5">
                   <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
@@ -570,6 +592,10 @@ export default function About() {
         </div>
       </section>
 
+      {/* Premium editorial spacer — Light Gray → White transition
+          (outgoing Proof section's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-surface-gray" />
+
       {/* 7. Who We Work With */}
       <TrustedBrands
         variant="badges"
@@ -584,6 +610,10 @@ export default function About() {
         ]}
         closing="If your business depends on credibility before commitment, you're the kind of business we built DMAX to help."
       />
+
+      {/* Premium editorial spacer — White → Light Gray transition
+          (outgoing "Who We Work With" section's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-background" />
 
       {/* 8. Why Now? — "Our Commitment" step of the locked background
           rhythm: Very Light Gray, a soft transition before the Final
@@ -603,7 +633,7 @@ export default function About() {
           <div className="lg:sticky lg:top-32">
             <Reveal>
               <p className="eyebrow">Why Now?</p>
-              <p className="mt-6 text-4xl md:text-5xl lg:text-[3.25rem] font-extrabold leading-[1.1] tracking-tight text-balance text-foreground">
+              <p className="mt-6 text-4xl md:text-5xl lg:text-[3.25rem] font-extrabold leading-[1.05] tracking-tight text-balance text-foreground">
                 Because your
                 <br />
                 competitors
@@ -619,8 +649,17 @@ export default function About() {
         </div>
       </section>
 
+      {/* Premium editorial spacer — Light Gray → White transition
+          (outgoing "Why Now?" section's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-surface-gray" />
+
       {/* 9. Final CTA — shared component, same on every page */}
       <HomeFinalCTA />
+
+      {/* Premium editorial spacer — White → Black transition before the
+          Footer. */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-background" />
+
       <Footer />
     </main>
   );

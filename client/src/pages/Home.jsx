@@ -128,6 +128,12 @@ export default function Home() {
       {/* 1. Hero — headline, supporting text, primary + secondary CTA */}
       <Hero />
 
+      {/* Premium editorial spacer — Warm White → Light Gray transition.
+          Matches the OUTGOING (Hero) section's own background per the
+          sitewide spacing system; empty, no content/border/decoration.
+          100px desktop / 80px tablet / 56px mobile. */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-surface-warm" />
+
       {/* 2. The Reality — premium editorial two-column composition: a
           60/40 split with the headline/copy on the left (natural
           left-to-right reading flow) and the existing black statement
@@ -146,7 +152,19 @@ export default function Home() {
           read as one continuous band. Spacing-only change. */}
       <section className="pt-20 md:pt-28 lg:pt-36 pb-10 md:pb-14 lg:pb-16 bg-surface-gray">
         <div className="container-narrow">
-          <div className="grid grid-cols-1 lg:grid-cols-[60%_40%] items-center gap-y-12 lg:gap-x-20 xl:gap-x-24">
+          {/* Root cause of the black card overflowing past the viewport:
+              percentage grid tracks (60%/40%) plus a gap-x-20/24 on top
+              sum to MORE than 100% of the container (percentages don't
+              shrink to make room for the gap), so the right column — and
+              therefore the card filling it — was pushed past the
+              container's right edge. Switched to fr units (60fr/40fr),
+              which size columns off the space AFTER the gap is
+              subtracted, so 60/40 + gap now correctly totals exactly
+              100%. Same visual ratio, same gap values, same items-center,
+              same responsive breakpoints — only the track unit changed,
+              which is the same fr-vs-percent fix already used elsewhere
+              on this site (Hero.jsx, ProcessPage.jsx) for this exact bug. */}
+          <div className="grid grid-cols-1 lg:grid-cols-[60fr_40fr] items-center gap-y-12 lg:gap-x-20 xl:gap-x-24">
             <Reveal>
               <h2 className="h2-section text-balance">Decision-Makers Have Changed.</h2>
               <div className="mt-8 max-w-xl space-y-3 text-lg text-muted-foreground leading-relaxed">
@@ -159,8 +177,30 @@ export default function Home() {
             </Reveal>
 
             <Reveal delay={0.1}>
-              <div className="rounded-3xl bg-foreground p-10 md:p-12 shadow-elevation">
-                <p className="text-2xl md:text-[1.75rem] font-bold leading-[1.25] tracking-tight text-balance text-background">
+              {/* Overflow fix: the previous pass used a fixed lg:w-[600px],
+                  which ignores how wide the grid column actually is at
+                  narrower "lg" viewports and can spill past the column
+                  and the viewport's own right edge. Content, typography,
+                  colors, shadow, radius, and the 60/40 two-column layout
+                  are all unchanged — this only swaps the fixed width for
+                  a fluid one. Reveal's own wrapper div
+                  (no className passed at this call site) already stretches
+                  to the full grid-column width by CSS Grid's default
+                  item-stretch behavior, so w-full here means "never wider
+                  than the column," max-w-[620px] caps it at this card's
+                  intended size on wide viewports, and ml-auto flushes it
+                  to the column's right edge (same right edge as the rest
+                  of the container) instead of a fixed px value that could
+                  exceed the column and spill past the viewport. No
+                  negative margins, translateX, or absolute positioning
+                  were ever used here — box-sizing is the default
+                  border-box for all Tailwind elements, so padding is
+                  already included inside this width. */}
+              <div
+                className="flex items-center rounded-[32px] bg-foreground p-12 md:p-14 w-full lg:max-w-[620px] lg:ml-auto lg:min-h-[280px]"
+                style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.18)" }}
+              >
+                <p className="text-2xl md:text-[1.75rem] font-bold leading-[1.05] tracking-tight text-balance text-background">
                   If you're invisible during that process, you're{" "}
                   <span style={{ color: "var(--accent)" }}>already losing opportunities.</span>
                 </p>
@@ -281,19 +321,26 @@ export default function Home() {
                     <p.icon className="size-5" />
                   </div>
 
+                  {/* Same line-height tightening applied to Services.jsx's
+                      full solution cards, mirrored here since these are
+                      that page's own "solution path" teaser cards
+                      (audience/title/desc/cta): category label → 1.2,
+                      title → 1.15, body paragraph → 1.45. Font, size,
+                      content, card padding/size, colors, and layout are
+                      unchanged. */}
                   <div
-                    className={`mt-6 text-xs uppercase tracking-widest ${
+                    className={`mt-6 text-xs uppercase tracking-widest leading-[1.2] ${
                       emphasized ? "" : "text-accent"
                     }`}
                     style={emphasized ? { color: "var(--accent)" } : undefined}
                   >
                     {p.audience}
                   </div>
-                  <h3 className="mt-2.5 text-2xl md:text-[28px] font-bold tracking-tight leading-tight">
+                  <h3 className="mt-2.5 text-2xl md:text-[28px] font-bold tracking-tight leading-[1.15]">
                     {p.title}
                   </h3>
                   <p
-                    className={`mt-4 text-base leading-relaxed flex-1 ${
+                    className={`mt-4 text-base leading-[1.45] flex-1 ${
                       emphasized ? "opacity-80" : "text-muted-foreground"
                     }`}
                   >
@@ -316,6 +363,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Premium editorial spacer — White → Black transition (outgoing
+          "Choose Your Path" section's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-background" />
 
       {/* 6. Why It Works — full-bleed cinematic editorial section
           (Tony Robbins-inspired). No card, no bordered container behind
@@ -420,6 +471,20 @@ export default function Home() {
         </motion.div>
       </section>
 
+      {/* Premium editorial spacer — "Why It Works" (the meeting-image
+          section) → "Our Method" transition. Explicitly overridden to a
+          plain white (#FFFFFF) spacer per direct request, rather than
+          matching the outgoing dark photo section like every other
+          spacer sitewide — the intent here is a deliberate "visual
+          reset" beat between these two specific chapters, not a
+          continuation of the dark tone. Scoped to only this one seam;
+          every other spacer on the site (including the very next one,
+          right after the "Our Method" section below) still follows the
+          normal "match the outgoing section" rule and is untouched. Same
+          56/80/100px responsive height as every other spacer, completely
+          empty — no text/icons/dividers/gradients/shadows. */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-white" />
+
       {/* 8. Our Method — Deep Black step of the locked background rhythm
           (Apple-keynote feel). `dark` is scoped to this call site only —
           About.jsx's and ProcessPage.jsx's <Process /> usages are
@@ -431,6 +496,10 @@ export default function Home() {
         steps={methodSteps}
         dark
       />
+
+      {/* Premium editorial spacer — Black → Warm White transition
+          (outgoing "Our Method" section's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-deep-black" />
 
       {/* 9. The Numbers */}
       <Results
@@ -488,11 +557,32 @@ export default function Home() {
         ]}
       />
 
+      {/* Premium editorial spacer — White → Light Gray transition
+          (outgoing "Why DMAX" section's own background). Note: no spacer
+          was added between "Proof Behind Every Number" and "Why DMAX"
+          just above — bg-surface-warm and bg-background are both part of
+          the site's "White" band (visually near-identical, #FCFCFA vs
+          #FFFFFF) and that pair was already deliberately fused earlier
+          this session, so it's treated the same way real Light-Gray/
+          Black same-background bands are: no internal spacer. */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-background" />
+
       {/* 11. Insights */}
       <TrustedBrands title="Insights" items={insightArticles} linkTo="/faq#featured-insights" />
 
+      {/* Premium editorial spacer — Light Gray → White transition
+          (outgoing "Insights" section's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-surface-gray" />
+
       {/* 12. Final CTA — shared component, same on every page */}
       <HomeFinalCTA />
+
+      {/* Premium editorial spacer — White → Black transition before the
+          Footer (HomeFinalCTA's own section background is transparent,
+          inheriting <main>'s bg-background; the visual dark "scene card"
+          inside it is an inset rounded panel, not the section's own
+          background, so the page-level background here is still White). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-background" />
 
       <Footer />
     </main>

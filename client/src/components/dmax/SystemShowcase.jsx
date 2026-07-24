@@ -131,12 +131,12 @@ export function SystemShowcase({ eyebrow, title, subtitle, items = [], closing }
                 >
                   {`Mission ${String(i + 1).padStart(2, "0")}`}
                 </p>
-                <h3 className="mt-3 text-[27px] sm:text-[29px] lg:text-[32px] font-extrabold tracking-tight leading-[1.15] text-white text-balance">
+                <h3 className="mt-3 text-[27px] sm:text-[29px] lg:text-[32px] font-extrabold tracking-tight leading-[1.05] text-white text-balance">
                   {s.title}
                 </h3>
                 {s.desc && (
                   <p
-                    className="mt-3 max-w-[94%] text-[17px] font-normal leading-relaxed"
+                    className="mt-3 max-w-[94%] text-[19px] font-normal leading-relaxed"
                     style={{ color: "rgba(255,255,255,0.85)" }}
                   >
                     {s.desc}

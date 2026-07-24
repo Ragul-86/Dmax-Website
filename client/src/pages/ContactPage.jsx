@@ -208,6 +208,10 @@ export default function ContactPage() {
         </div>
       </header>
 
+      {/* Premium editorial spacer — Warm White → Light Gray transition
+          (outgoing header's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-surface-warm" />
+
       {/* What You'll Leave With — "Why Contact DMAX" step of the locked
           background rhythm: Very Light Gray (was Warm White, so it no
           longer repeats the Hero's color). Premium editorial timeline
@@ -225,7 +229,7 @@ export default function ContactPage() {
           <div className="mx-auto max-w-[950px]">
             <Reveal className="text-center">
               <p className="eyebrow">What You'll Leave With</p>
-              <h2 className="mt-5 text-4xl font-bold leading-[1.1] tracking-tight text-balance text-foreground md:text-5xl lg:text-[3.25rem]">
+              <h2 className="mt-5 text-4xl font-bold leading-[1.05] tracking-tight text-balance text-foreground md:text-5xl lg:text-[3.25rem]">
                 Not another marketing presentation.
               </h2>
             </Reveal>
@@ -247,6 +251,10 @@ export default function ContactPage() {
           </Reveal>
         </div>
       </section>
+
+      {/* Premium editorial spacer — Light Gray → White transition
+          (outgoing "What You'll Leave With" section's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-surface-gray" />
 
       {/* Is This Strategy Session Right for You? — White step */}
       <section className="py-20 md:py-28 lg:py-36">
@@ -271,6 +279,11 @@ export default function ContactPage() {
         </Reveal>
       </section>
 
+      {/* Premium editorial spacer — White → Light Gray transition
+          (outgoing "Is This Strategy Session Right for You?" section's
+          own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-background" />
+
       {/* What Happens During the Session? — Gray step */}
       <section className="py-20 md:py-28 lg:py-36 bg-surface-gray border-y border-border">
         <div className="container-narrow">
@@ -289,24 +302,39 @@ export default function ContactPage() {
               >
                 <div className="text-xs font-semibold text-accent">0{i + 1}</div>
                 <h3 className="mt-3 text-lg font-semibold">{s.t}</h3>
-                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.d}</p>
+                <p className="mt-3 text-base text-muted-foreground leading-relaxed">{s.d}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Premium editorial spacer — Light Gray → White transition
+          (outgoing "What Happens During the Session?" section's own
+          background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-surface-gray" />
+
       {/* Why Business Leaders Book This Session — White step. Wide
-          editorial split (max-w-[1350px], own gutter, not container-
-          narrow) instead of a narrow centered column: left (40%) heading
-          + intro line, right (60%) the five questions as a plain
+          editorial split (max-w-[1450px], own gutter, not container-
+          narrow) instead of a narrow centered column: left (32%) heading
+          + intro line, right (68%) the five questions as a plain
           divided list — no bullets, no cards, no heavy borders, just
           thin full-width dividers and a subtle hover color shift. Closing
           statement spans the full wide container, centered, above a thin
-          divider, with more weight/spacing for emphasis. */}
+          divider, with more weight/spacing for emphasis.
+          One-line-on-desktop fix: container widened 1350px→1450px (inside
+          the requested 1400-1500px range) and the column split moved from
+          40/60 to 32/68 in the right column's favor — switched from
+          percentage tracks (40%/60%) to fr tracks (32fr/68fr) since
+          percentage columns plus a gap can silently overflow/clip (the
+          gap doesn't shrink the percentages to compensate), the same fix
+          already used elsewhere on this site for multi-column splits.
+          Left column content, section spacing, font family, and colors
+          are all untouched — see the question <motion.p> below for the
+          actual nowrap treatment. */}
       <section className="py-20 md:py-28 lg:py-36">
-        <div className="mx-auto max-w-[1350px] px-6 md:px-10 lg:px-16">
-          <div className="grid lg:grid-cols-[40%_60%] gap-x-14 xl:gap-x-20 gap-y-12 items-center">
+        <div className="mx-auto max-w-[1450px] px-6 md:px-10 lg:px-16">
+          <div className="grid lg:grid-cols-[32fr_68fr] gap-x-14 xl:gap-x-20 gap-y-12 items-center">
             <Reveal>
               <h2 className="h2-section text-balance">Why Business Leaders Book This Session</h2>
               <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
@@ -319,12 +347,22 @@ export default function ContactPage() {
                 <TimelineDivider delay={0} />
                 {whyBookQuestions.map((q, i) => (
                   <div key={q}>
+                    {/* lg:whitespace-nowrap forces a single line at
+                        desktop (matches the same lg: threshold already
+                        used by this file's "You'll leave with clarity…"
+                        line); lg:overflow-hidden + lg:text-ellipsis are a
+                        pure safety net for the longest question strings
+                        and only visually truncate if the wider container/
+                        column above still isn't quite enough — text,
+                        font-family, colors, and row spacing (py-6) are
+                        unchanged. Below lg (tablet/mobile) none of these
+                        three apply, so wrapping stays natural there. */}
                     <motion.p
                       initial={{ opacity: 0, y: 16 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: "-10%" }}
                       transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                      className="py-6 text-lg font-medium text-foreground transition-colors duration-300 ease-out hover:text-accent md:text-xl"
+                      className="py-6 text-lg font-medium text-foreground transition-colors duration-300 ease-out hover:text-accent md:text-xl lg:whitespace-nowrap lg:overflow-hidden lg:text-ellipsis"
                     >
                       {q}
                     </motion.p>
@@ -343,6 +381,11 @@ export default function ContactPage() {
           </Reveal>
         </div>
       </section>
+
+      {/* Premium editorial spacer — White → Light Gray transition
+          (outgoing "Why Business Leaders Book This Session" section's
+          own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-background" />
 
       {/* Who We Work With — Gray step. Wide editorial split (max-w-[1350px],
           own gutter, not container-narrow) instead of a centered bulleted
@@ -404,6 +447,10 @@ export default function ContactPage() {
         </div>
       </section>
 
+      {/* Premium editorial spacer — Light Gray → Black transition
+          (outgoing "Who We Work With" section's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-surface-gray" />
+
       {/* Before You Book — "Ready to Scale Your Business?" step of the
           locked background rhythm: Deep Black, the page's emotional
           conversion moment right before the actual booking action below.
@@ -432,7 +479,16 @@ export default function ContactPage() {
         </Reveal>
       </section>
 
+      {/* Premium editorial spacer — Black → White transition (outgoing
+          "Before You Book" section's own background). */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-deep-black" />
+
       <Contact />
+
+      {/* Premium editorial spacer — White → Black transition before the
+          Footer. */}
+      <div aria-hidden="true" className="h-14 md:h-20 lg:h-[100px] bg-background" />
+
       <Footer />
     </main>
   );

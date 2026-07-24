@@ -22,8 +22,8 @@ export function FAQ() {
           <h2 className="mt-4 h2-section text-balance">FAQs</h2>
           <p className="mt-5 text-muted-foreground">
             Still curious? Email{" "}
-            <a className="text-foreground underline underline-offset-4" href="mailto:manoj@dmaxnow.com">
-              manoj@dmaxnow.com
+            <a className="text-foreground underline underline-offset-4" href="mailto:manoj@dmax.company">
+              manoj@dmax.company
             </a>
             .
           </p>
