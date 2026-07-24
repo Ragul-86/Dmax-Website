@@ -613,6 +613,7 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
     box-shadow: 0 10px 22px -10px rgba(0,0,0,0.5);
   }
   .btn-secondary:active { transform: translateY(0) scale(0.98); box-shadow: none; }
+  .btn-secondary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
 
   /* Accent pill CTA — brand green, reserved for the dark CTA banner */
   .btn-accent {
@@ -634,6 +635,7 @@ body { transition: background-color 0.4s ease, color 0.4s ease; }
     box-shadow: 0 14px 28px -10px rgba(56,224,0,0.45);
   }
   .btn-accent:active { transform: translateY(0) scale(0.98); box-shadow: none; }
+  .btn-accent:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
 
   /* Soft accent-green breathing glow on primary CTAs */
   .pulse-glow {

@@ -337,7 +337,8 @@ export default function About() {
               >
                 <img
                   src={founderPortrait}
-                  alt="Manoj, Founder of DMAX"
+                  alt="Manoj Rajappan, Founder of DMAX"
+                  loading="lazy"
                   className="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-105"
                   style={{
                     objectPosition: "bottom center",
@@ -357,7 +358,7 @@ export default function About() {
                   semibold; role keeps its established DMAX-green color,
                   now with 2px letter-spacing. */}
               <div className="mt-7 text-center">
-                <p className="text-2xl font-semibold text-background">Manoj</p>
+                <p className="text-2xl font-semibold text-background">Manoj Rajappan</p>
                 <p
                   className="mt-2 text-xs font-semibold uppercase"
                   style={{ color: "#39E600", letterSpacing: "2px" }}

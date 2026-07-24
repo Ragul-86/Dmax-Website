@@ -339,6 +339,7 @@ export default function ProcessPage() {
               <img
                 src={methodGrowthJourney}
                 alt="An astronaut walking beside a rising line of glowing growth milestones"
+                loading="lazy"
                 className="w-full h-auto rounded-3xl md:h-full md:w-full md:object-cover"
                 style={{ filter: "brightness(1.05) contrast(1.05)" }}
               />

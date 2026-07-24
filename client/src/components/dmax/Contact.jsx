@@ -70,7 +70,7 @@ export function Contact() {
             className="mt-10 rounded-3xl glass p-8 shadow-card"
           >
             <div className="text-xs uppercase tracking-widest text-muted-foreground">Founder & CEO</div>
-            <div className="mt-1 text-2xl font-bold">Manoj</div>
+            <div className="mt-1 text-2xl font-bold">Manoj Rajappan</div>
             <ul className="mt-6 space-y-4 text-sm">
               <li className="flex items-start gap-3">
                 <Phone className="size-4 mt-0.5 text-accent" />
